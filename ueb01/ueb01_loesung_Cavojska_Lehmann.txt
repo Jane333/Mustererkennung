@@ -1,0 +1,39 @@
+% Passagier ID, Klasse {1,2,3}, Geschlecht {0=m, 1=w}, Alter, Ticketkosten, Überlebt {0=nein, 1=ja}  
+
+% AUFGABE 1:
+A = load('titanic.csv')
+
+ueberlebt = A(A(:,6)==1,:) % Die Tabelle ueberlebt enthaelt diejenigen Zeilen von Matrix A, bei denen die 6. Spalte in Matrix A den Wert 1 (ueberlebt) hat 
+nicht_ueberlebt = A(A(:,6)==0,:)
+
+% Klasse, Geschlecht, Alter, Ticketkosten:
+
+histogram(ueberlebt(:, 2),3); xlabel('Klasse'); ylabel('Anzahl Ueberlebender')
+histogram(ueberlebt(:, 3),2); xlabel('Geschlecht'); ylabel('Anzahl Ueberlebender')
+histogram(ueberlebt(:, 4)); xlabel('Alter'); ylabel('Anzahl Ueberlebender')
+histogram(ueberlebt(:, 5)); xlabel('Ticketkosten'); ylabel('Anzahl Ueberlebender')
+
+histogram(nicht_ueberlebt(:, 2),3); xlabel('Klasse'); ylabel('Anzahl nicht Ueberlebender')
+histogram(nicht_ueberlebt(:, 3),2); xlabel('Geschlecht'); ylabel('Anzahl nicht Ueberlebender')
+histogram(nicht_ueberlebt(:, 4)); xlabel('Alter'); ylabel('Anzahl nicht Ueberlebender')
+histogram(nicht_ueberlebt(:, 5)); xlabel('Ticketkosten'); ylabel('Anzahl nicht Ueberlebender')
+
+
+% AUFGABE 2:
+
+% a. Berechnen Sie die a­-priori-­Wahrscheinlichkeit P(U), dass ein Passagier die Reise mit der Titanic überlebt hat.
+% P(U)  = Anzahl der Zeilen von ueberlebt / Anzahl der Zeilen von A:
+P_U = size(ueberlebt, 1) / size(A, 1) % P_U =  0.40616
+
+% b. Berechnen Sie die likelihood P(m|U), dass ein Passagier männlich ist unter der Bedingung, dass er die Reise überlebt hat.
+ueberlebt_maennlich = ueberlebt(ueberlebt(:,3)==0,:)
+% P(m|U) = Anzahl der Zeilen von ueberlebt_maennlich / Anzahl der Zeilen von Ueberlebt:
+P_m_U = size(ueberlebt_maennlich, 1) / size(ueberlebt, 1) % P(m|U) =  0.32069
+
+% c. Berechnen sie die evidence P(m), dass ein Passagier männlich ist.
+maennlich = A(A(:, 3)==0,:)
+% P(m)  = Anzahl der Zeilen von maennlich / Anzahl der Zeilen von A:
+P_m = size(maennlich, 1) / size(A, 1) % P(m) =  453 / 714 = 0.63445
+
+% d. Berechnen Sie ​unter Verwendung des Satzes von Bayes​ die a­-posteriori­-Wahrscheinlichkeit P(U|m), dass ein männlicher Passagier die Reise überlebt hat. Geben Sie den Rechenweg mit an.
+P(U|m) = P(m|U) * P(U) / P(m) = P_m_U * P_U / P_m = 0.20530
