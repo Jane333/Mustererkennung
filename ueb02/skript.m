@@ -43,7 +43,7 @@ while (k < A_n)
 end
 
 % Testausgabe der neuen (bereinigten) Matrix:
-A_Training_clean;
+A_Training_clean; % <-- Ausgabe hier! (disabled with ;)
 
 
 % 3. Problem: Mit K-NN-Algorithmus die Testdaten (B) mit Hilfe der Trainingsdaten klassifizieren
@@ -57,7 +57,7 @@ A_m = A_dim(1,2);
 
 % 3.1 Teilproblem: K = 1
 
-C = []
+C1 = [];
 
 b = 1;
 while (b < B_n +1)
@@ -73,22 +73,75 @@ while (b < B_n +1)
       else
         tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
       end
-      C = vertcat(C,tmpVector);
+      C1 = vertcat(C,tmpVector);
       a = A_n +1;
     end
   end
   b = b+1;
 end
 
-% Aufgabe der Ergebnismatrix
+% Ausgabe der Ergebnismatrix
 % 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C
+C1; % <-- Ausgabe hier! (disabled with ;)
+
 
 % 3.2 Teilproblem: K = 3
 
+C3 = [];
+
+b = 1;
+while (b < B_n +1)
+  a = 1;
+  while (a < A_n +1)
+    if (a == A_n)
+      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
+    elseif (B_Testing(b,1) > A_Training_clean(a,1))
+      a = a+1;
+    else
+      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
+      else
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
+      end
+      C3 = vertcat(C,tmpVector);
+      a = A_n +1;
+    end
+  end
+  b = b+1;
+end
+
+% Ausgabe der Ergebnismatrix
+% 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
+C3 % <-- Ausgabe hier! (disable with ;)
 
 % 3.3 Teilproblem: K = 5
 
+C5 = [];
+
+b = 1;
+while (b < B_n +1)
+  a = 1;
+  while (a < A_n +1)
+    if (a == A_n)
+      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
+    elseif (B_Testing(b,1) > A_Training_clean(a,1))
+      a = a+1;
+    else
+      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
+      else
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
+      end
+      C5 = vertcat(C,tmpVector);
+      a = A_n +1;
+    end
+  end
+  b = b+1;
+end
+
+% Ausgabe der Ergebnismatrix
+% 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
+C5 % <-- Ausgabe hier! (disable with ;)
 
 
 % 4. Problem: Erstellen der Konfusionsmatrix
@@ -97,5 +150,6 @@ C
 
 % 5. Problem: Klassifikationsgüte berechnen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
