@@ -110,6 +110,10 @@ end % end of for k in 1, 3, 5
 
 disp('Aufgabe 2')
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Teilaufgabe a)                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 FM0_matrix = A_Training(A_Training(:,2)==0,1);
 FM1_matrix = A_Training(A_Training(:,2)==1,1);
 FM2_matrix = A_Training(A_Training(:,2)==2,1);
@@ -142,6 +146,8 @@ FM4_std = std(FM4_matrix);
 FM5_std = std(FM5_matrix);
 
 
+%%%%% Ergebnisse zu Teilaufgabe a) %%%%%
+
 % A Priori Wahrscheinlickeit berechnen
 FM0_apriori = length(FM0_matrix) / length(A_Training);
 FM1_apriori = length(FM1_matrix) / length(A_Training);
@@ -158,10 +164,25 @@ FM3_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM3_std);
 FM4_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM4_std);
 FM5_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM5_std);
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Teilaufgabe b)                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+FM0_aposteriori = FM0_pdf * FM0_apriori;
+FM1_aposteriori = FM1_pdf * FM1_apriori;
+FM2_aposteriori = FM2_pdf * FM2_apriori;
+FM3_aposteriori = FM3_pdf * FM3_apriori;
+FM4_aposteriori = FM4_pdf * FM4_apriori;
+FM5_aposteriori = FM5_pdf * FM5_apriori;
+
+% Jetzt alle 6 in einem Diagramm plotten <-- TODO
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Teilaufgabe c)                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 % PDFs plotten (geht noch nicht... :-( )
 plot(min(FM0_matrix),(max(FM0_matrix)-min(FM0_matrix))/100,max(FM0_matrix),FM0_pdf);
-plot(min(FM1_matrix),(max(FM1_matrix)-min(FM1_matrix))/100,max(FM1_matrix),FM0_pdf);
-plot(min(FM2_matrix),(max(FM2_matrix)-min(FM2_matrix))/100,max(FM2_matrix),FM0_pdf);
-plot(min(FM3_matrix),(max(FM3_matrix)-min(FM3_matrix))/100,max(FM3_matrix),FM0_pdf);
-plot(min(FM4_matrix),(max(FM4_matrix)-min(FM4_matrix))/100,max(FM4_matrix),FM0_pdf);
-plot(min(FM5_matrix),(max(FM5_matrix)-min(FM5_matrix))/100,max(FM5_matrix),FM0_pdf);
