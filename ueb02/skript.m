@@ -106,6 +106,7 @@ while (b < B_n +1)
     S_knn = S(1:k,2)
     S_knn = mode(S_knn)
     tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn]
+    C3 = vertcat(C3,tmpVector)
     a = a+1;
   end
   b = b+1;
