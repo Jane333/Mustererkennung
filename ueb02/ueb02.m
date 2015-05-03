@@ -55,11 +55,11 @@ function y = classifier() % h ist das zu klassifizierende Huhn
     elseif trefferZeile > zeilen - k + 1
       offset = zeilen - k + 1 - trefferZeile; % 10-3+1-10 = -2
     end
-    dists = U(trefferZeile-(k-1)+offset:trefferZeile+(k-1)+offset, :) % aus U ein Fenster der Laenge 2*k-1 um 'treffer' herum ausschneiden
-    dists = [abs((dists(:,1)) - h), dists(:,2)] % Gewichte ersetzen durch Distanzen der Gewichte zu h.
-    dists = sortrows(dists,1) % nach Gewicht-Distanzen sortieren
-    k_neighbors_classes = dists(1:k, 2) % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
-    most_frequent_neighbor_class = mode(k_neighbors_classes) % findet die haeufigste Klasse in k_neighbors_classes
-    y = most_frequent_neighbor_class
+    dists = U(trefferZeile-(k-1)+offset:trefferZeile+(k-1)+offset, :); % aus U ein Fenster der Laenge 2*k-1 um 'treffer' herum ausschneiden
+    dists = [abs((dists(:,1)) - h), dists(:,2)]; % Gewichte ersetzen durch Distanzen der Gewichte zu h.
+    dists = sortrows(dists,1); % nach Gewicht-Distanzen sortieren
+    k_neighbors_classes = dists(1:k, 2); % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
+    most_frequent_neighbor_class = mode(k_neighbors_classes); % findet die haeufigste Klasse in k_neighbors_classes
+    y = most_frequent_neighbor_class;
   end
 end
