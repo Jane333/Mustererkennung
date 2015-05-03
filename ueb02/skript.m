@@ -88,14 +88,25 @@ C1; % <-- Ausgabe hier! (disabled with ;)
 
 % 3.2 Teilproblem: K = 3
 
-C3 = [0,0,0];
+C3 = [];
 k = 3;
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    schranke_unten = a-k+1;
-    schranke_oben = a+k-1;
+    if (a == A_n)
+      schranke_unten = a-k+1;
+      schranke_oben = A_n;
+    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
+      schranke_unten = 1;
+      schranke_oben = a+k-1
+    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
+      a = a+1;
+    else
+      schranke_unten = a-k+1;
+      schranke_oben = a+k-1;
+    end
+
     if (schranke_unten <= 0)
       S = A_Training_unique_entries(1:schranke_oben,:);
     elseif (schranke_oben > A_n)
@@ -103,9 +114,9 @@ while (b < B_n +1)
     else
       S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
+
     S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
     S = sortrows(S,1);
-
     S_knn_dim = size(S_knn);
     S_knn_n = S_knn_dim(1,1);
     if (S_knn_n < k)
@@ -121,18 +132,52 @@ while (b < B_n +1)
   b = b+1;
 end
 
+
 % Ausgabe der Ergebnismatrix
 % 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C3 % <-- Ausgabe hier! (disable with ;)
+C3; % <-- Ausgabe hier! (disabled with ;)
 
 % 3.3 Teilproblem: K = 5
 
-C5 = [0,0,0];
-
+C5 = [];
+k = 5;
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
+    if (a == A_n)
+      schranke_unten = a-k+1;
+      schranke_oben = A_n;
+    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
+      schranke_unten = 1;
+      schranke_oben = a+k-1
+    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
+      a = a+1;
+    else
+      schranke_unten = a-k+1;
+      schranke_oben = a+k-1;
+    end
+
+    if (schranke_unten <= 0)
+      S = A_Training_unique_entries(1:schranke_oben,:);
+    elseif (schranke_oben > A_n)
+      S = A_Training_unique_entries(schranke_unten:A_n);
+    else
+      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
+    end
+
+    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
+    S = sortrows(S,1);
+    S_knn_dim = size(S_knn);
+    S_knn_n = S_knn_dim(1,1);
+    if (S_knn_n < k)
+      S_knn = S(1:S_knn_n,2);
+    else
+      S_knn = S(1:k,2);
+    end
+    S_knn = mode(S_knn);
+    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
+    C3 = vertcat(C3,tmpVector);
     a = a+1;
   end
   b = b+1;
