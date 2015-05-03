@@ -66,6 +66,10 @@ while (b < B_n +1)
     if (a == A_n)
       tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
     elseif (B_Testing(b,1) > A_Training_clean(a,1))
+      if (a == A_n)
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
+        C = vertcat(C,tmpVector);
+      end
       a = a+1;
     else
       if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
@@ -97,20 +101,5 @@ for z = 1:alle
   end
 end
 Klassifikationsguete = korrekt_vorhergesagt / alle
-
-
-% 3.2 Teilproblem: K = 3
-
-
-% 3.3 Teilproblem: K = 5
-
-
-
-% 4. Problem: Erstellen der Konfusionsmatrix
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-% 5. Problem: Klassifikationsgüte berechnen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
