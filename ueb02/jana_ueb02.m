@@ -10,21 +10,14 @@ function y = classifier() % h ist das zu klassifizierende Huhn
 	B = load('chickwts_testing.csv');
 	B_Testing = B(:,2:3);
 	
-	for i = 1:3
-		if i == 1
-			k = 1 % dies ist *das* k, as in, k-nearest neighbor
-		elseif i == 2
-			k = 3
-		elseif i == 3
-			k = 5
-		end
-	
+  	alle_k = [1 3 5];
+	for k=alle_k
+		fprintf('k = %i\n',k)
 		dists = zeros(2*k - 1, 2); %	(2*k-1)x2-Matrix mit den 5 Kandidat-Nachbarn um unser Eingabehuhn h herum. 3 von diesen 5 Nachbarn sind die 3 nearest neighbors unseres Huhns. 1. Spalte enthaelt die Distanzen, 2. Spalte enthaelt die Klassen dieser Nachbarn.
-		dists = dists - 1; % weil ich eine -1 als Initialwert schoener finde als ne 0
 		
 		C = []; % Ergebnismatrix
-		for zeilenindex_testdaten = 1:size(A_Training,1)
-			h = A_Training(zeilenindex_testdaten, 1); % unser Testhuhn
+		for zeilenindex_testdaten = 1:size(B_Testing,1)
+			h = B_Testing(zeilenindex_testdaten, 1); % unser Testhuhn
 			% Huhn 'treffer' finden, das unserem Huhn h am naechsten ist:
 			treffer = -1;
 			trefferZeile = -1; % Zeile, in welcher wir das 'treffer'-Huhn gefunden haben
@@ -72,9 +65,11 @@ function y = classifier() % h ist das zu klassifizierende Huhn
 				k_neighbors_classes = dists(1:k, 2); % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
 				most_frequent_neighbor_class = mode(k_neighbors_classes); % findet die haeufigste Klasse in k_neighbors_classes
 			end
+			
 			% Ergebnismatrix C: 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-			tmpVector = [A_Training(zeilenindex_testdaten, 1), A_Training(zeilenindex_testdaten, 2), most_frequent_neighbor_class];
+			tmpVector = [B_Testing(zeilenindex_testdaten, 1), B_Testing(zeilenindex_testdaten, 2), most_frequent_neighbor_class];
 		    C = vertcat(C,tmpVector);
+		    
 		end % end of for each test chicken
 		
 		% Konfusionsmatrix
@@ -103,42 +98,40 @@ end
 %  
 %  confusionMatrix =
 %  
-%      50     0     0     0     0     0
-%      12    48     0     0     0     0
-%      13     7    50     0     0     0
-%       3     3    12    42     0     0
-%       6     3     8     9    29     0
-%       4     5     6    12     5    28
+%       3     3     1     0     3     0
+%       5     6     1     0     0     0
+%       2     2     4     3     3     0
+%       0     1     1     6     2     2
+%       3     1     1     4     1     1
+%       0     3     3     3     0     3
 %  
-%  Klassifikationsguete = 0.6958
 %  
+%  Klassifikationsguete = 0.3239
 %  
 %  
 %  k = 3
 %  
 %  confusionMatrix =
 %  
-%      44     1     4     0     1     0
-%      25    30     4     0     1     0
-%      17    16    33     2     2     0
-%       6     7    10    28     1     8
-%       9     7     8    14    15     2
-%       8     9     8    11     1    23
+%       7     0     2     0     1     0
+%       6     4     0     0     2     0
+%       3     0     6     2     3     0
+%       1     1     2     7     0     1
+%       4     1     1     4     1     0
+%       0     3     3     3     0     3
 %  
-%  Klassifikationsguete =
-%  
-%      0.4873
+%  Klassifikationsguete = 0.3944
 %  
 %  
 %  k = 5
 %  
 %  confusionMatrix =
 %  
-%      36     5     5     1     1     2
-%      21    21     9     5     0     4
-%       9    11    42     4     3     1
-%       2     5     9    30     4    10
-%       5     4    16     7    17     6
-%       2     3     7    15     5    28
+%       7     0     2     0     1     0
+%       6     3     0     1     2     0
+%       2     1     7     1     3     0
+%       0     0     3     7     1     1
+%       2     2     1     5     1     0
+%       0     1     3     3     0     5
 %  
-%  Klassifikationsguete = 0.4901
+%  Klassifikationsguete = 0.4225
