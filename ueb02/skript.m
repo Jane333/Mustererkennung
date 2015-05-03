@@ -58,28 +58,70 @@ B_m = B_dim(1,2);
 % 3.1 Teilproblem: K = 1
 
 C1 = [];
+k = 1;
 
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
     if (a == A_n)
-      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(A_n,2)];
-      C1 = vertcat(C,tmpVector);
+      schranke_unten = a-k+1;
+      schranke_oben = A_n;
+    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
+      schranke_unten = 1;
+      schranke_oben = a+k-1
     elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
       a = a+1;
     else
-      if ( B_Testing(b,1) - A_Training_unique_entries(a-1,1) < B_Testing(b,1) - A_Training_unique_entries(a,1) )
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a-1,2)];
-      else
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a,2)];
-      end
-      C1 = vertcat(C,tmpVector);
-      a = A_n +1;
+      schranke_unten = a-k+1;
+      schranke_oben = a+k-1;
     end
+
+    if (schranke_unten <= 0)
+      S = A_Training_unique_entries(1:schranke_oben,:);
+    elseif (schranke_oben > A_n)
+      S = A_Training_unique_entries(schranke_unten:A_n);
+    else
+      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
+    end
+
+    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
+    S = sortrows(S,1);
+    S_knn_dim = size(S_knn);
+    S_knn_n = S_knn_dim(1,1);
+    if (S_knn_n < k)
+      S_knn = S(1:S_knn_n,2);
+    else
+      S_knn = S(1:k,2);
+    end
+    S_knn = mode(S_knn);
+    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
+    C1 = vertcat(C1,tmpVector);
+    a = a+1;
   end
   b = b+1;
 end
+%b = 1;
+%while (b < B_n +1)
+%  a = 1;
+%  while (a < A_n +1)
+%    if (a == A_n)
+%      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(A_n,2)];
+%      C1 = vertcat(C,tmpVector);
+%    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
+%      a = a+1;
+%    else
+%      if ( B_Testing(b,1) - A_Training_unique_entries(a-1,1) < B_Testing(b,1) - A_Training_unique_entries(a,1) )
+%        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a-1,2)];
+%      else
+%        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a,2)];
+%      end
+%      C1 = vertcat(C,tmpVector);
+%      a = A_n +1;
+%    end
+%  end
+%  b = b+1;
+%end
 
 % Ausgabe der Ergebnismatrix
 % 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
@@ -177,7 +219,7 @@ while (b < B_n +1)
     end
     S_knn = mode(S_knn);
     tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
-    C3 = vertcat(C3,tmpVector);
+    C5 = vertcat(C5,tmpVector);
     a = a+1;
   end
   b = b+1;
