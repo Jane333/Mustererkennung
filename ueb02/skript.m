@@ -89,12 +89,24 @@ C1; % <-- Ausgabe hier! (disabled with ;)
 % 3.2 Teilproblem: K = 3
 
 C3 = [0,0,0];
-
+k = 3;
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    a = a +1;
+    if (a-k+1 < 0)
+      S = A_Training_unique_entries(1:a+k-1,:)
+    elseif (a+k-1 > A_n)
+      S = A_Training_unique_entries(a-k+1:A_n)
+    else
+      S = A_Training_unique_entries(a-k+1:a+k-1,:)
+    end
+    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)]
+    S = sortrows(S,1)
+    S_knn = S(1:k,2)
+    S_knn = mode(S_knn)
+    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn]
+    a = a+1;
   end
   b = b+1;
 end
