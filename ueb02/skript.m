@@ -133,6 +133,15 @@ FM3_var = var(FM3_matrix);
 FM4_var = var(FM4_matrix);
 FM5_var = var(FM5_matrix);
 
+% Standardabweichungen
+FM0_std = std(FM0_matrix);
+FM1_std = std(FM1_matrix);
+FM2_std = std(FM2_matrix);
+FM3_std = std(FM3_matrix);
+FM4_std = std(FM4_matrix);
+FM5_std = std(FM5_matrix);
+
+
 % A Priori Wahrscheinlickeit berechnen
 FM0_apriori = length(FM0_matrix) / length(A_Training)
 FM1_apriori = length(FM1_matrix) / length(A_Training)
@@ -142,12 +151,12 @@ FM4_apriori = length(FM4_matrix) / length(A_Training)
 FM5_apriori = length(FM5_matrix) / length(A_Training)
 
 % PDF berechnen
-FM0_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM0_var);
-FM1_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM1_var);
-FM2_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM2_var);
-FM3_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM3_var);
-FM4_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM4_var);
-FM5_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM5_var);
+FM0_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM0_std);
+FM1_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM1_std);
+FM2_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM2_std);
+FM3_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM3_std);
+FM4_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM4_std);
+FM5_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM5_std);
 
 % PDFs plotten (geht noch nicht... :-( )
 plot(min(FM0_matrix),(max(FM0_matrix)-min(FM0_matrix))/100,max(FM0_matrix),FM0_pdf);
