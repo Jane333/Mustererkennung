@@ -1,13 +1,13 @@
 % AUFGABE 1
 
 function y = classifier() % h ist das zu klassifizierende Huhn
-  h = 130;
+  h = 447;
   
   k = 3; % dies ist *das* k, as in, k-nearest neighbor
   A = load('chickwts_training.csv'); % Spalte 1 = Huhn-ID, Spalte 2 = Gewicht, Spalte 3 = Futterklasse
   A_Sorted = sortrows(A,2); % nach Gewichten sortieren
   A_Training = A(:,2:3);
-  U = unique(A_Training,'rows')
+  U = unique(A_Training,'rows');
   
   
   zeilen = size(U,1);
@@ -55,11 +55,11 @@ function y = classifier() % h ist das zu klassifizierende Huhn
     elseif trefferZeile > zeilen - k + 1
       offset = zeilen - k + 1 - trefferZeile; % 10-3+1-10 = -2
     end
-    dists = U(trefferZeile-2+offset:trefferZeile+2+offset, :); % 1-2+2 = 1
-    dists = [abs((dists(:,1)) - h), dists(:,2)] % Gewichte ersetzen durch Distanzen der Gewichte zu h. TODO: ich versuche hier, jeden Eintrag der 1. Spalte von dists zu ersetzen mit abs(Eintrag - h), aber keine Ahnung, ob dies die richtige Syntax ist.
-    dists = sortrows(dists,1) % nach Gewicht-Distanzen sortieren
-    k_neighbors_classes = dists(1:k, 2) % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
-    most_frequent_neighbor_class = mode(k_neighbors_classes) % findet die haeufigste Klasse in k_neighbors_classes
-    y = most_frequent_neighbor_class
+    dists = U(trefferZeile-(k-1)+offset:trefferZeile+(k-1)+offset, :); % aus U ein Fenster der Laenge 2*k-1 um 'treffer' herum ausschneiden
+    dists = [abs((dists(:,1)) - h), dists(:,2)]; % Gewichte ersetzen durch Distanzen der Gewichte zu h.
+    dists = sortrows(dists,1); % nach Gewicht-Distanzen sortieren
+    k_neighbors_classes = dists(1:k, 2); % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
+    most_frequent_neighbor_class = mode(k_neighbors_classes); % findet die haeufigste Klasse in k_neighbors_classes
+    y = most_frequent_neighbor_class;
   end
 end
