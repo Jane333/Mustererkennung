@@ -143,12 +143,12 @@ FM5_std = std(FM5_matrix);
 
 
 % A Priori Wahrscheinlickeit berechnen
-FM0_apriori = length(FM0_matrix) / length(A_Training)
-FM1_apriori = length(FM1_matrix) / length(A_Training)
-FM2_apriori = length(FM2_matrix) / length(A_Training)
-FM3_apriori = length(FM3_matrix) / length(A_Training)
-FM4_apriori = length(FM4_matrix) / length(A_Training)
-FM5_apriori = length(FM5_matrix) / length(A_Training)
+FM0_apriori = length(FM0_matrix) / length(A_Training);
+FM1_apriori = length(FM1_matrix) / length(A_Training);
+FM2_apriori = length(FM2_matrix) / length(A_Training);
+FM3_apriori = length(FM3_matrix) / length(A_Training);
+FM4_apriori = length(FM4_matrix) / length(A_Training);
+FM5_apriori = length(FM5_matrix) / length(A_Training);
 
 % PDF berechnen
 FM0_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM0_std);
