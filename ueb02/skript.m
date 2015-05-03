@@ -63,11 +63,19 @@ b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    if (B_Testing(b,1) == A_Training_clean(a,1))
-      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
+    if (a == A_n)
+      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
+    elseif (B_Testing(b,1) > A_Training_clean(a,1))
+      a = a+1;
+    else
+      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
+      else
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
+      end
       C = vertcat(C,tmpVector);
+      a = A_n +1;
     end
-    a = a+1;
   end
   b = b+1;
 end
