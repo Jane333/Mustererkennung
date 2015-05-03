@@ -64,6 +64,11 @@ b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
+
+   % Workaround
+   schranke_unten = 1;
+   schranke_oben = A_n;
+
     if (a == A_n)
       schranke_unten = a-k+1;
       schranke_oben = A_n;
@@ -86,10 +91,14 @@ while (b < B_n +1)
       S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
 
-    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
-    S = sortrows(S,1);
-    S_knn_dim = size(S_knn);
+    S_L2 = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
+    S_L2_sorted = sortrows(S_L2,1);
+    S_knn_dim = size(S_L2_sorted);
     S_knn_n = S_knn_dim(1,1);
+    
+    % Workaround
+    S_knn = [];
+
     if (S_knn_n < k)
       S_knn = S(1:S_knn_n,2);
     else
