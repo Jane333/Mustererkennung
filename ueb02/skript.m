@@ -94,19 +94,28 @@ b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    if (a-k+1 < 0)
-      S = A_Training_unique_entries(1:a+k-1,:)
-    elseif (a+k-1 > A_n)
-      S = A_Training_unique_entries(a-k+1:A_n)
+    schranke_unten = a-k+1;
+    schranke_oben = a+k-1;
+    if (schranke_unten <= 0)
+      S = A_Training_unique_entries(1:schranke_oben,:);
+    elseif (schranke_oben > A_n)
+      S = A_Training_unique_entries(schranke_unten:A_n);
     else
-      S = A_Training_unique_entries(a-k+1:a+k-1,:)
+      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
-    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)]
-    S = sortrows(S,1)
-    S_knn = S(1:k,2)
-    S_knn = mode(S_knn)
-    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn]
-    C3 = vertcat(C3,tmpVector)
+    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
+    S = sortrows(S,1);
+
+    S_knn_dim = size(S_knn);
+    S_knn_n = S_knn_dim(1,1);
+    if (S_knn_n < k)
+      S_knn = S(1:S_knn_n,2);
+    else
+      S_knn = S(1:k,2);
+    end
+    S_knn = mode(S_knn);
+    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
+    C3 = vertcat(C3,tmpVector);
     a = a+1;
   end
   b = b+1;
