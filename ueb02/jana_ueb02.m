@@ -1,4 +1,4 @@
-% AUFGABE 1
+% AUFGABE 1 - Code. Loesung siehe unten.
 
 function y = classifier() % h ist das zu klassifizierende Huhn
 	
@@ -93,3 +93,52 @@ function y = classifier() % h ist das zu klassifizierende Huhn
 		Klassifikationsguete = korrekt_vorhergesagt / alle
 	end % end of for k in 1, 3, 5
 end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  
+% AUFGABE 1 - Loesung
+%  
+%  k = 1
+%  
+%  confusionMatrix =
+%  
+%      50     0     0     0     0     0
+%      12    48     0     0     0     0
+%      13     7    50     0     0     0
+%       3     3    12    42     0     0
+%       6     3     8     9    29     0
+%       4     5     6    12     5    28
+%  
+%  Klassifikationsguete = 0.6958
+%  
+%  
+%  
+%  k = 3
+%  
+%  confusionMatrix =
+%  
+%      44     1     4     0     1     0
+%      25    30     4     0     1     0
+%      17    16    33     2     2     0
+%       6     7    10    28     1     8
+%       9     7     8    14    15     2
+%       8     9     8    11     1    23
+%  
+%  Klassifikationsguete =
+%  
+%      0.4873
+%  
+%  
+%  k = 5
+%  
+%  confusionMatrix =
+%  
+%      36     5     5     1     1     2
+%      21    21     9     5     0     4
+%       9    11    42     4     3     1
+%       2     5     9    30     4    10
+%       5     4    16     7    17     6
+%       2     3     7    15     5    28
+%  
+%  Klassifikationsguete = 0.4901
