@@ -31,28 +31,28 @@ B_m = B_dim(1,2);
 % Wir entfernen alle Einträge von Hühnern mit dem gleichen Gewicht.
 % Falls es mehr als ein Huhn gibt, nehmen wir das letzte Huhn.
   
-A_Training_clean = A_Training_unique_entries(1,:);
-k = 2
-while (k < A_n)
-  if (A_Training_unique_entries(k,1) == A_Training_unique_entries(k-1,1))
-    k = k+1;
-  else
-    A_Training_clean = vertcat(A_Training_clean,A_Training_unique_entries(k,:));
-    k = k+1
-  end
-end
+%A_Training_clean = A_Training_unique_entries(1,:);
+%k = 2
+%while (k < A_n)
+%  if (A_Training_unique_entries(k,1) == A_Training_unique_entries(k-1,1))
+%    k = k+1;
+%  else
+%    A_Training_clean = vertcat(A_Training_clean,A_Training_unique_entries(k,:));
+%    k = k+1
+%  end
+%end
 
 % Testausgabe der neuen (bereinigten) Matrix:
-A_Training_clean; % <-- Ausgabe hier! (disabled with ;)
+%A_Training_clean; % <-- Ausgabe hier! (disabled with ;)
 
 
 % 3. Problem: Mit K-NN-Algorithmus die Testdaten (B) mit Hilfe der Trainingsdaten klassifizieren
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Vorbereitung:
-A_dim = size(A_Training_clean);
-A_n = A_dim(1,1);
-A_m = A_dim(1,2);
+%A_dim = size(A_Training_clean);
+%A_n = A_dim(1,1);
+%A_m = A_dim(1,2);
 
 
 % 3.1 Teilproblem: K = 1
@@ -64,14 +64,15 @@ while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
     if (a == A_n)
-      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
-    elseif (B_Testing(b,1) > A_Training_clean(a,1))
+      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(A_n,2)];
+      C1 = vertcat(C,tmpVector);
+    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
       a = a+1;
     else
-      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
+      if ( B_Testing(b,1) - A_Training_unique_entries(a-1,1) < B_Testing(b,1) - A_Training_unique_entries(a,1) )
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a-1,2)];
       else
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
+        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a,2)];
       end
       C1 = vertcat(C,tmpVector);
       a = A_n +1;
@@ -87,25 +88,13 @@ C1; % <-- Ausgabe hier! (disabled with ;)
 
 % 3.2 Teilproblem: K = 3
 
-C3 = [];
+C3 = [0,0,0];
 
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    if (a == A_n)
-      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
-    elseif (B_Testing(b,1) > A_Training_clean(a,1))
-      a = a+1;
-    else
-      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
-      else
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
-      end
-      C3 = vertcat(C,tmpVector);
-      a = A_n +1;
-    end
+    a = a +1;
   end
   b = b+1;
 end
@@ -116,40 +105,55 @@ C3 % <-- Ausgabe hier! (disable with ;)
 
 % 3.3 Teilproblem: K = 5
 
-C5 = [];
+C5 = [0,0,0];
 
 b = 1;
 while (b < B_n +1)
   a = 1;
   while (a < A_n +1)
-    if (a == A_n)
-      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(A_n,2)];
-    elseif (B_Testing(b,1) > A_Training_clean(a,1))
-      a = a+1;
-    else
-      if ( B_Testing(b,1) - A_Training_clean(a-1,1) < B_Testing(b,1) - A_Training_clean(a,1) )
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a-1,2)];
-      else
-        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_clean(a,2)];
-      end
-      C5 = vertcat(C,tmpVector);
-      a = A_n +1;
-    end
+    a = a+1;
   end
   b = b+1;
 end
 
 % Ausgabe der Ergebnismatrix
 % 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C5 % <-- Ausgabe hier! (disable with ;)
+C5; % <-- Ausgabe hier! (disabled with ;)
 
 
-% 4. Problem: Erstellen der Konfusionsmatrix
+% 4. Problem: Erstellen der Konfusionsmatrizen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C1_bekannt = C1(:,2);
+C1_vorhergesagt = C1(:,3);
+Konfusionsmatrix_K1 = confusionmat(C1_bekannt,C1_vorhergesagt)
+
+C3_bekannt = C3(:,2);
+C3_vorhergesagt = C3(:,3);
+Konfusionsmatrix_K3 = confusionmat(C3_bekannt,C3_vorhergesagt)
+
+C5_bekannt = C5(:,2);
+C5_vorhergesagt = C5(:,3);
+Konfusionsmatrix_K5 = confusionmat(C5_bekannt,C5_vorhergesagt)
 
 
 % 5. Problem: Klassifikationsgüte berechnen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% K=1
+C1_korrekt = C1(C1(:,2)==C1(:,3),:);
+correct = size(C1_korrekt);
+all = size(C1);
+Klassifikationsgute_K1 = correct(1,1) / all(1,1)
 
+% K=3
+C3_korrekt = C3(C3(:,2)==C3(:,3),:);
+correct = size(C3_korrekt);
+all = size(C3);
+Klassifikationsgute_K3 = correct(1,1) / all(1,1)
+
+% K=5
+C5_korrekt = C5(C5(:,2)==C5(:,3),:);
+correct = size(C5_korrekt);
+all = size(C5);
+Klassifikationsgute_K5 = correct(1,1) / all(1,1)
 
