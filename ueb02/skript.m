@@ -1,280 +1,146 @@
-% Trainingsdaten (A) und Testdaten (B) laden
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AUFGABE 1
 
+% Spalte 1 = Huhn-ID, Spalte 2 = Gewicht, Spalte 3 = Futterklasse
 A = load('chickwts_training.csv');
-B = load('chickwts_testing.csv');
-
-
-% 1. Problem: Daten vorbereiten
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Aus den Daten nur Spalte 2 und 3 betrachten und neu erzeugte Matrix sortieren:
+A_Sorted = sortrows(A,2); % nach Gewichten sortieren
 A_Training = A(:,2:3);
-A_Training = sortrows(A_Training,1);
+U = unique(A_Training,'rows');
+zeilen = size(U,1);
+
+% Spalte 1 = Huhn-ID, Spalte 2 = Gewicht, Spalte 3 = Futterklasse
+B = load('chickwts_testing.csv');
 B_Testing = B(:,2:3);
-B_Testing = sortrows(B_Testing,1);
 
-% alle doppelten Einträge aus der Matrix A entfernen
-A_Training_unique_entries = unique(A_Training,'rows');
+for k = [1,3,5]
 
-% Für ein besseres Handling: die Dimensionen der Matrizen 
-A_dim = size(A_Training_unique_entries);
-B_dim = size(B_Testing);
-A_n = A_dim(1,1);
-A_m = A_dim(1,2);
-B_n = B_dim(1,1);
-B_m = B_dim(1,2);
-
-
-% 2. Problem: Trainingsdaten aufbereiten
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Wir entfernen alle Einträge von Hühnern mit dem gleichen Gewicht.
-% Falls es mehr als ein Huhn gibt, nehmen wir das letzte Huhn.
-  
-%A_Training_clean = A_Training_unique_entries(1,:);
-%k = 2
-%while (k < A_n)
-%  if (A_Training_unique_entries(k,1) == A_Training_unique_entries(k-1,1))
-%    k = k+1;
-%  else
-%    A_Training_clean = vertcat(A_Training_clean,A_Training_unique_entries(k,:));
-%    k = k+1
-%  end
-%end
-
-% Testausgabe der neuen (bereinigten) Matrix:
-%A_Training_clean; % <-- Ausgabe hier! (disabled with ;)
-
-
-% 3. Problem: Mit K-NN-Algorithmus die Testdaten (B) mit Hilfe der Trainingsdaten klassifizieren
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Vorbereitung:
-%A_dim = size(A_Training_clean);
-%A_n = A_dim(1,1);
-%A_m = A_dim(1,2);
-
-
-% 3.1 Teilproblem: K = 1
-
-C1 = [];
-k = 1;
-
-b = 1;
-while (b < B_n +1)
-  a = 1;
-  while (a < A_n +1)
-
-   % Workaround
-   schranke_unten = 1;
-   schranke_oben = A_n;
-
-    if (a == A_n)
-      schranke_unten = a-k+1;
-      schranke_oben = A_n;
-    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
-      schranke_unten = 1;
-      schranke_oben = a+k-1;
-    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
-      a = a+1;
-      continue;
+  dists = zeros(2*k - 1, 2);
+  % (2*k-1)x2-Matrix mit den 5 Kandidat-Nachbarn um unser Eingabehuhn h herum.
+  % 3 von diesen 5 Nachbarn sind die 3 nearest neighbors unseres Huhns.
+  % 1. Spalte enthaelt die Distanzen, 2. Spalte enthaelt die Klassen dieser Nachbarn.
+  dists = dists - 1; % weil ich eine -1 als Initialwert schoener finde als ne 0
+		
+  C = []; % Ergebnismatrix
+ 
+  for zeilenindex_testdaten = 1:size(A_Training,1)
+    h = A_Training(zeilenindex_testdaten, 1); % unser Testhuhn
+    % Huhn 'treffer' finden, das unserem Huhn h am naechsten ist:
+    treffer = -1;
+    trefferZeile = -1; % Zeile, in welcher wir das 'treffer'-Huhn gefunden haben
+    if h < U(1,1)
+      treffer = U(1,2);
+      trefferZeile = 1;
+    elseif h > U(zeilen,1)
+      treffer = U(zeilen,2);
+      trefferZeile = zeilen;
     else
-      schranke_unten = a-k+1;
-      schranke_oben = a+k-1;
+      for z = 1:zeilen
+        if h == U(z, 1)
+          treffer = U(z, 2);
+          trefferZeile = z;
+          break
+        elseif h < U(z,1)
+          dist1 = abs(U(z-1, 1) - h);
+          dist2 = abs(U(z, 1) - h);
+          if dist1 <= dist2
+            treffer = U(z-1,2);
+            trefferZeile = z;
+            break
+          else
+            treffer = U(z,2);
+            trefferZeile = z;
+            break
+          end
+        end
+      end	
     end
-
-    if (schranke_unten <= 0)
-      S = A_Training_unique_entries(1:schranke_oben,:);
-    elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n,:);
-    else
-      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
-    end
-
-    S_L2 = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
-    S_L2_sorted = sortrows(S_L2,1);
-    S_knn_dim = size(S_L2_sorted);
-    S_knn_n = S_knn_dim(1,1);
     
-    % Workaround
-    S_knn = [];
-
-    if (S_knn_n < k)
-      S_knn = S(1:S_knn_n,2);
-    else
-      S_knn = S(1:k,2);
+    if k == 1
+      most_frequent_neighbor_class = treffer;
+    elseif k > 1
+      offset = 0;
+      if trefferZeile < k
+        offset = k - trefferZeile; % 3-1 = 2
+      elseif trefferZeile > zeilen - k + 1
+        offset = zeilen - k + 1 - trefferZeile; % 10-3+1-10 = -2
+      end
+      % aus U ein Fenster der Laenge 2*k-1 um 'treffer' herum ausschneiden
+      dists = U(trefferZeile-(k-1)+offset:trefferZeile+(k-1)+offset, :);
+      % Gewichte ersetzen durch Distanzen der Gewichte zu h.
+      dists = [abs((dists(:,1)) - h), dists(:,2)]; 
+      % nach Gewicht-Distanzen sortieren
+      dists = sortrows(dists,1);
+      % die Klassen der k Nachbarn mit den kleinsten Gewicht-Distanzen holen
+      k_neighbors_classes = dists(1:k, 2);
+      % findet die haeufigste Klasse in k_neighbors_classes
+      most_frequent_neighbor_class = mode(k_neighbors_classes);
     end
-    S_knn = mode(S_knn);
-    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
-    C1 = vertcat(C1,tmpVector);
-    a = a+1;
+    % Ergebnismatrix C: 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
+    tmpVector = [A_Training(zeilenindex_testdaten, 1), A_Training(zeilenindex_testdaten, 2), most_frequent_neighbor_class];
+    C = vertcat(C,tmpVector);
+  end % end of for each test chicken
+		
+  % Konfusionsmatrix
+  knownClass = C(:, 2);
+  predictedClass = C(:, 3);
+  confusionMatrix = confusionmat(knownClass, predictedClass)
+
+  % Klassifikationsguete
+  alle = size(C, 1);
+  korrekt_vorhergesagt = 0;
+  for z = 1:alle
+    if C(z, 2) == C(z, 3)
+      korrekt_vorhergesagt = korrekt_vorhergesagt + 1;
+    end
   end
-  b = b+1;
-end
-%b = 1;
-%while (b < B_n +1)
-%  a = 1;
-%  while (a < A_n +1)
-%    if (a == A_n)
-%      tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(A_n,2)];
-%      C1 = vertcat(C,tmpVector);
-%    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
-%      a = a+1;
-%    else
-%      if ( B_Testing(b,1) - A_Training_unique_entries(a-1,1) < B_Testing(b,1) - A_Training_unique_entries(a,1) )
-%        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a-1,2)];
-%      else
-%        tmpVector = [B_Testing(b,1),B_Testing(b,2),A_Training_unique_entries(a,2)];
-%      end
-%      C1 = vertcat(C,tmpVector);
-%      a = A_n +1;
-%    end
-%  end
-%  b = b+1;
-%end
 
-% Ausgabe der Ergebnismatrix
-% 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C1; % <-- Ausgabe hier! (disabled with ;)
+  Klassifikationsguete = korrekt_vorhergesagt / alle
+end % end of for k in 1, 3, 5
 
-
-% 3.2 Teilproblem: K = 3
-
-C3 = [];
-k = 3;
-b = 1;
-while (b < B_n +1)
-  a = 1;
-  while (a < A_n +1)
-    if (a == A_n)
-      schranke_unten = a-k+1;
-      schranke_oben = A_n;
-    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
-      schranke_unten = 1;
-      schranke_oben = a+k-1;
-    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
-      a = a+1;
-      continue;
-    else
-      schranke_unten = a-k+1;
-      schranke_oben = a+k-1;
-    end
-
-    if (schranke_unten <= 0)
-      S = A_Training_unique_entries(1:schranke_oben,:);
-    elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n,:);
-    else
-      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
-    end
-
-    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
-    S = sortrows(S,1);
-    S_knn_dim = size(S_knn);
-    S_knn_n = S_knn_dim(1,1);
-    if (S_knn_n < k)
-      S_knn = S(1:S_knn_n,2);
-    else
-      S_knn = S(1:k,2);
-    end
-    S_knn = mode(S_knn);
-    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
-    C3 = vertcat(C3,tmpVector);
-    a = a+1;
-  end
-  b = b+1;
-end
-
-
-% Ausgabe der Ergebnismatrix
-% 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C3; % <-- Ausgabe hier! (disabled with ;)
-
-% 3.3 Teilproblem: K = 5
-
-C5 = [];
-k = 5;
-b = 1;
-while (b < B_n +1)
-  a = 1;
-  while (a < A_n +1)
-    if (a == A_n)
-      schranke_unten = a-k+1;
-      schranke_oben = A_n;
-    elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
-      schranke_unten = 1;
-      schranke_oben = a+k-1;
-    elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
-      a = a+1;
-      continue;
-    else
-      schranke_unten = a-k+1;
-      schranke_oben = a+k-1;
-    end
-
-    if (schranke_unten <= 0)
-      S = A_Training_unique_entries(1:schranke_oben,:);
-    elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n,:);
-    else
-      S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
-    end
-
-    S = [abs(S(:,1)-B_Testing(b,1)),S(:,2)];
-    S = sortrows(S,1);
-    S_knn_dim = size(S_knn);
-    S_knn_n = S_knn_dim(1,1);
-    if (S_knn_n < k)
-      S_knn = S(1:S_knn_n,2);
-    else
-      S_knn = S(1:k,2);
-    end
-    S_knn = mode(S_knn);
-    tmpVector = [B_Testing(b,1),B_Testing(b,2),S_knn];
-    C5 = vertcat(C5,tmpVector);
-    a = a+1;
-  end
-  b = b+1;
-end
-
-% Ausgabe der Ergebnismatrix
-% 1. Spalte: Gewicht, 2. Spalte: Futterklasse (Testdaten), 3. Spalte: Futterklasse (Trainingsdaten)
-C5; % <-- Ausgabe hier! (disabled with ;)
-
-
-% 4. Problem: Erstellen der Konfusionsmatrizen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-C1_bekannt = C1(:,2);
-C1_vorhergesagt = C1(:,3);
-Konfusionsmatrix_K1 = confusionmat(C1_bekannt,C1_vorhergesagt)
-
-C3_bekannt = C3(:,2);
-C3_vorhergesagt = C3(:,3);
-Konfusionsmatrix_K3 = confusionmat(C3_bekannt,C3_vorhergesagt)
-
-C5_bekannt = C5(:,2);
-C5_vorhergesagt = C5(:,3);
-Konfusionsmatrix_K5 = confusionmat(C5_bekannt,C5_vorhergesagt)
-
-
-% 5. Problem: Klassifikationsgüte berechnen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% K=1
-C1_korrekt = C1(C1(:,2)==C1(:,3),:);
-correct = size(C1_korrekt);
-all = size(C1);
-Klassifikationsgute_K1 = correct(1,1) / all(1,1)
-
-% K=3
-C3_korrekt = C3(C3(:,2)==C3(:,3),:);
-correct = size(C3_korrekt);
-all = size(C3);
-Klassifikationsgute_K3 = correct(1,1) / all(1,1)
-
-% K=5
-C5_korrekt = C5(C5(:,2)==C5(:,3),:);
-correct = size(C5_korrekt);
-all = size(C5);
-Klassifikationsgute_K5 = correct(1,1) / all(1,1)
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  
+% AUFGABE 1 - Loesung
+%  
+%  k = 1
+%  
+%  confusionMatrix =
+%  
+%      50     0     0     0     0     0
+%      12    48     0     0     0     0
+%      13     7    50     0     0     0
+%       3     3    12    42     0     0
+%       6     3     8     9    29     0
+%       4     5     6    12     5    28
+%  
+%  Klassifikationsguete = 0.6958
+%  
+%  
+%  
+%  k = 3
+%  
+%  confusionMatrix =
+%  
+%      44     1     4     0     1     0
+%      25    30     4     0     1     0
+%      17    16    33     2     2     0
+%       6     7    10    28     1     8
+%       9     7     8    14    15     2
+%       8     9     8    11     1    23
+%  
+%  Klassifikationsguete =
+%  
+%      0.4873
+%  
+%  
+%  k = 5
+%  
+%  confusionMatrix =
+%  
+%      36     5     5     1     1     2
+%      21    21     9     5     0     4
+%       9    11    42     4     3     1
+%       2     5     9    30     4    10
+%       5     4    16     7    17     6
+%       2     3     7    15     5    28
+%  
+%  Klassifikationsguete = 0.4901
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
