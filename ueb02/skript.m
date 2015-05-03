@@ -1,4 +1,11 @@
+coder.extrinsic('disp')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % AUFGABE 1
+
+disp('Aufgabe 1')
 
 % Spalte 1 = Huhn-ID, Spalte 2 = Gewicht, Spalte 3 = Futterklasse
 A = load('chickwts_training.csv');
@@ -96,51 +103,56 @@ for k = [1,3,5]
   Klassifikationsguete = korrekt_vorhergesagt / alle
 end % end of for k in 1, 3, 5
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  
-% AUFGABE 1 - Loesung
-%  
-%  k = 1
-%  
-%  confusionMatrix =
-%  
-%      50     0     0     0     0     0
-%      12    48     0     0     0     0
-%      13     7    50     0     0     0
-%       3     3    12    42     0     0
-%       6     3     8     9    29     0
-%       4     5     6    12     5    28
-%  
-%  Klassifikationsguete = 0.6958
-%  
-%  
-%  
-%  k = 3
-%  
-%  confusionMatrix =
-%  
-%      44     1     4     0     1     0
-%      25    30     4     0     1     0
-%      17    16    33     2     2     0
-%       6     7    10    28     1     8
-%       9     7     8    14    15     2
-%       8     9     8    11     1    23
-%  
-%  Klassifikationsguete =
-%  
-%      0.4873
-%  
-%  
-%  k = 5
-%  
-%  confusionMatrix =
-%  
-%      36     5     5     1     1     2
-%      21    21     9     5     0     4
-%       9    11    42     4     3     1
-%       2     5     9    30     4    10
-%       5     4    16     7    17     6
-%       2     3     7    15     5    28
-%  
-%  Klassifikationsguete = 0.4901
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Aufgabe 2
+
+disp('Aufgabe 2')
+
+FM0_matrix = A_Training(A_Training(:,2)==0,1);
+FM1_matrix = A_Training(A_Training(:,2)==1,1);
+FM2_matrix = A_Training(A_Training(:,2)==2,1);
+FM3_matrix = A_Training(A_Training(:,2)==3,1);
+FM4_matrix = A_Training(A_Training(:,2)==4,1);
+FM5_matrix = A_Training(A_Training(:,2)==5,1);
+
+% Erwartungswert/Mittelwert berechnen
+FM0_mean = mean(FM0_matrix);
+FM1_mean = mean(FM1_matrix);
+FM2_mean = mean(FM2_matrix);
+FM3_mean = mean(FM3_matrix);
+FM4_mean = mean(FM4_matrix);
+FM5_mean = mean(FM5_matrix);
+
+% Varianzen berechnen
+FM0_var = var(FM0_matrix);
+FM1_var = var(FM1_matrix);
+FM2_var = var(FM2_matrix);
+FM3_var = var(FM3_matrix);
+FM4_var = var(FM4_matrix);
+FM5_var = var(FM5_matrix);
+
+% A Priori Wahrscheinlickeit berechnen
+FM0_apriori = length(FM0_matrix) / length(A_Training)
+FM1_apriori = length(FM1_matrix) / length(A_Training)
+FM2_apriori = length(FM2_matrix) / length(A_Training)
+FM3_apriori = length(FM3_matrix) / length(A_Training)
+FM4_apriori = length(FM4_matrix) / length(A_Training)
+FM5_apriori = length(FM5_matrix) / length(A_Training)
+
+% PDF berechnen
+FM0_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM0_var);
+FM1_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM1_var);
+FM2_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM2_var);
+FM3_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM3_var);
+FM4_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM4_var);
+FM5_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM5_var);
+
+% PDFs plotten (geht noch nicht... :-( )
+plot(min(FM0_matrix),(max(FM0_matrix)-min(FM0_matrix))/100,max(FM0_matrix),FM0_pdf);
+plot(min(FM1_matrix),(max(FM1_matrix)-min(FM1_matrix))/100,max(FM1_matrix),FM0_pdf);
+plot(min(FM2_matrix),(max(FM2_matrix)-min(FM2_matrix))/100,max(FM2_matrix),FM0_pdf);
+plot(min(FM3_matrix),(max(FM3_matrix)-min(FM3_matrix))/100,max(FM3_matrix),FM0_pdf);
+plot(min(FM4_matrix),(max(FM4_matrix)-min(FM4_matrix))/100,max(FM4_matrix),FM0_pdf);
+plot(min(FM5_matrix),(max(FM5_matrix)-min(FM5_matrix))/100,max(FM5_matrix),FM0_pdf);
