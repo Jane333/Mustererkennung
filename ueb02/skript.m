@@ -69,9 +69,10 @@ while (b < B_n +1)
       schranke_oben = A_n;
     elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
       schranke_unten = 1;
-      schranke_oben = a+k-1
+      schranke_oben = a+k-1;
     elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
       a = a+1;
+      continue;
     else
       schranke_unten = a-k+1;
       schranke_oben = a+k-1;
@@ -141,9 +142,10 @@ while (b < B_n +1)
       schranke_oben = A_n;
     elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
       schranke_unten = 1;
-      schranke_oben = a+k-1
+      schranke_oben = a+k-1;
     elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
       a = a+1;
+      continue;
     else
       schranke_unten = a-k+1;
       schranke_oben = a+k-1;
@@ -152,7 +154,7 @@ while (b < B_n +1)
     if (schranke_unten <= 0)
       S = A_Training_unique_entries(1:schranke_oben,:);
     elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n);
+      S = A_Training_unique_entries(schranke_unten:A_n,:);
     else
       S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
@@ -192,9 +194,10 @@ while (b < B_n +1)
       schranke_oben = A_n;
     elseif (B_Testing(b,1) < A_Training_unique_entries(1,1))
       schranke_unten = 1;
-      schranke_oben = a+k-1
+      schranke_oben = a+k-1;
     elseif (B_Testing(b,1) > A_Training_unique_entries(a,1))
       a = a+1;
+      continue;
     else
       schranke_unten = a-k+1;
       schranke_oben = a+k-1;
@@ -203,7 +206,7 @@ while (b < B_n +1)
     if (schranke_unten <= 0)
       S = A_Training_unique_entries(1:schranke_oben,:);
     elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n);
+      S = A_Training_unique_entries(schranke_unten:A_n,:);
     else
       S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
