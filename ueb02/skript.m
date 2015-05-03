@@ -80,7 +80,7 @@ while (b < B_n +1)
     if (schranke_unten <= 0)
       S = A_Training_unique_entries(1:schranke_oben,:);
     elseif (schranke_oben > A_n)
-      S = A_Training_unique_entries(schranke_unten:A_n);
+      S = A_Training_unique_entries(schranke_unten:A_n,:);
     else
       S = A_Training_unique_entries(schranke_unten:schranke_oben,:);
     end
