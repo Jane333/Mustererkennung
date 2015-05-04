@@ -124,7 +124,7 @@ FM1_mean = mean(FM1_matrix);
 FM2_mean = mean(FM2_matrix);
 FM3_mean = mean(FM3_matrix);
 FM4_mean = mean(FM4_matrix);
-FM5_mean = mean(FM5_matrix)
+FM5_mean = mean(FM5_matrix);
 
 % Standardabweichungen
 FM0_std = std(FM0_matrix);
@@ -145,16 +145,16 @@ FM4_apriori = length(FM4_matrix) / length(A_Training);
 FM5_apriori = length(FM5_matrix) / length(A_Training);
 
 % PDFs berechnen
-FM0_pdf = pdf('Normal',x,FM0_mean, FM0_std);
-FM1_pdf = pdf('Normal',x,FM1_mean, FM1_std);
-FM2_pdf = pdf('Normal',x,FM2_mean, FM2_std);
-FM3_pdf = pdf('Normal',x,FM3_mean, FM3_std);
-FM4_pdf = pdf('Normal',x,FM4_mean, FM4_std);
-FM5_pdf = pdf('Normal',x,FM5_mean, FM5_std);
+FM0_pdf = pdf('Normal',FM0_mean, FM0_std);
+FM1_pdf = pdf('Normal',FM1_mean, FM1_std);
+FM2_pdf = pdf('Normal',FM2_mean, FM2_std);
+FM3_pdf = pdf('Normal',FM3_mean, FM3_std);
+FM4_pdf = pdf('Normal',FM4_mean, FM4_std);
+FM5_pdf = pdf('Normal',FM5_mean, FM5_std);
 
 % PDFs plotten (in einer Grafik)
 X = A_Training(:,1);
-x = min(X):0.001:max(X);
+x = min(X):0.01:max(X);
 %P1 = plot(x,FM0_pdf,x,FM1_pdf,x,FM2_pdf,x,FM3_pdf,x,FM4_pdf,x,FM5_pdf);
 
 
@@ -171,11 +171,19 @@ FM5_aposteriori = FM5_pdf * FM5_apriori;
 
 % PDFs plotten (in einer Grafik)
 
-P2 = plot(x,FM0_aposteriori,x,FM1_aposteriori,x,FM2_aposteriori,x,FM3_aposteriori,x,FM4_aposteriori,x,FM5_aposteriori) 
+%P2 = plot(x,FM0_aposteriori,x,FM1_aposteriori,x,FM2_aposteriori,x,FM3_aposteriori,x,FM4_aposteriori,x,FM5_aposteriori);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Teilaufgabe c)                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Idee:
+% Für jedes Huhn aus B_Testing multipliziere sein Gewicht mit FMX_aposteriori.
+% Wenn FMX_aposeriori > FMY_aposteriori, dann wähle FMY als Vorhersage.
 
+% Auf geht's:
+fm0 = makedist('Normal',FM0_mean,FM0_std);
 
+for h = B_Testing(:,1)
+  fm0pre = pdf(fm0,h) % <-- Hiervon das Maximum?
+end
