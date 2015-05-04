@@ -3,7 +3,7 @@ coder.extrinsic('disp')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% AUFGABE 1
+% AUFGABE 1 - Code. Loesung siehe weiter unten
 
 disp('Aufgabe 1')
 
@@ -98,6 +98,52 @@ for k=alle_k
   Klassifikationsguete = korrekt_vorhergesagt / alle
 end % end of for k in 1, 3, 5
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  
+% AUFGABE 1 - Loesung
+%  
+%  k = 1
+%  
+%  confusionMatrix =
+%  
+%       3     3     1     0     3     0
+%       5     6     1     0     0     0
+%       2     2     4     3     3     0
+%       0     1     1     6     2     2
+%       3     1     1     4     1     1
+%       0     3     3     3     0     3
+%  
+%  
+%  Klassifikationsguete = 0.3239
+%  
+%  
+%  k = 3
+%  
+%  confusionMatrix =
+%  
+%       7     0     2     0     1     0
+%       6     4     0     0     2     0
+%       3     0     6     2     3     0
+%       1     1     2     7     0     1
+%       4     1     1     4     1     0
+%       0     3     3     3     0     3
+%  
+%  Klassifikationsguete = 0.3944
+%  
+%  
+%  k = 5
+%  
+%  confusionMatrix =
+%  
+%       7     0     2     0     1     0
+%       6     3     0     1     2     0
+%       2     1     7     1     3     0
+%       0     0     3     7     1     1
+%       2     2     1     5     1     0
+%       0     1     3     3     0     5
+%  
+%  Klassifikationsguete = 0.4225
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
