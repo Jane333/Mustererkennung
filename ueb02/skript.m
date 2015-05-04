@@ -124,15 +124,7 @@ FM1_mean = mean(FM1_matrix);
 FM2_mean = mean(FM2_matrix);
 FM3_mean = mean(FM3_matrix);
 FM4_mean = mean(FM4_matrix);
-FM5_mean = mean(FM5_matrix);
-
-% Varianzen berechnen
-FM0_var = var(FM0_matrix);
-FM1_var = var(FM1_matrix);
-FM2_var = var(FM2_matrix);
-FM3_var = var(FM3_matrix);
-FM4_var = var(FM4_matrix);
-FM5_var = var(FM5_matrix);
+FM5_mean = mean(FM5_matrix)
 
 % Standardabweichungen
 FM0_std = std(FM0_matrix);
@@ -141,7 +133,6 @@ FM2_std = std(FM2_matrix);
 FM3_std = std(FM3_matrix);
 FM4_std = std(FM4_matrix);
 FM5_std = std(FM5_matrix);
-
 
 %%%%% Ergebnisse zu Teilaufgabe a) %%%%%
 
@@ -153,13 +144,18 @@ FM3_apriori = length(FM3_matrix) / length(A_Training);
 FM4_apriori = length(FM4_matrix) / length(A_Training);
 FM5_apriori = length(FM5_matrix) / length(A_Training);
 
-% PDF berechnen
-FM0_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM0_std);
-FM1_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM1_std);
-FM2_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM2_std);
-FM3_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM3_std);
-FM4_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM4_std);
-FM5_pdf = pdf('Normal',A_Training(:,1), FM0_mean,FM5_std);
+% PDFs berechnen
+FM0_pdf = pdf('Normal',x,FM0_mean, FM0_std);
+FM1_pdf = pdf('Normal',x,FM1_mean, FM1_std);
+FM2_pdf = pdf('Normal',x,FM2_mean, FM2_std);
+FM3_pdf = pdf('Normal',x,FM3_mean, FM3_std);
+FM4_pdf = pdf('Normal',x,FM4_mean, FM4_std);
+FM5_pdf = pdf('Normal',x,FM5_mean, FM5_std);
+
+% PDFs plotten (in einer Grafik)
+X = A_Training(:,1);
+x = min(X):0.001:max(X);
+%P1 = plot(x,FM0_pdf,x,FM1_pdf,x,FM2_pdf,x,FM3_pdf,x,FM4_pdf,x,FM5_pdf);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,7 +169,9 @@ FM3_aposteriori = FM3_pdf * FM3_apriori;
 FM4_aposteriori = FM4_pdf * FM4_apriori;
 FM5_aposteriori = FM5_pdf * FM5_apriori;
 
-% Jetzt alle 6 in einem Diagramm plotten <-- TODO
+% PDFs plotten (in einer Grafik)
+
+P2 = plot(x,FM0_aposteriori,x,FM1_aposteriori,x,FM2_aposteriori,x,FM3_aposteriori,x,FM4_aposteriori,x,FM5_aposteriori) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Teilaufgabe c)                                %
@@ -181,5 +179,3 @@ FM5_aposteriori = FM5_pdf * FM5_apriori;
 
 
 
-% PDFs plotten (geht noch nicht... :-( )
-plot(min(FM0_matrix),(max(FM0_matrix)-min(FM0_matrix))/100,max(FM0_matrix),FM0_pdf);
