@@ -183,26 +183,34 @@ FM5_std = std(FM5_matrix);
 %%%%% Ergebnisse zu Teilaufgabe a) %%%%%
 
 % A Priori Wahrscheinlickeit berechnen
-FM0_apriori = length(FM0_matrix) / length(A_Training);
-FM1_apriori = length(FM1_matrix) / length(A_Training);
-FM2_apriori = length(FM2_matrix) / length(A_Training);
-FM3_apriori = length(FM3_matrix) / length(A_Training);
-FM4_apriori = length(FM4_matrix) / length(A_Training);
-FM5_apriori = length(FM5_matrix) / length(A_Training);
+FM0_apriori = length(FM0_matrix) / length(A_Training)
+FM1_apriori = length(FM1_matrix) / length(A_Training)
+FM2_apriori = length(FM2_matrix) / length(A_Training)
+FM3_apriori = length(FM3_matrix) / length(A_Training)
+FM4_apriori = length(FM4_matrix) / length(A_Training)
+FM5_apriori = length(FM5_matrix) / length(A_Training)
 
-% PDFs berechnen
-FM0_pdf = pdf('Normal',FM0_mean, FM0_std);
-FM1_pdf = pdf('Normal',FM1_mean, FM1_std);
-FM2_pdf = pdf('Normal',FM2_mean, FM2_std);
-FM3_pdf = pdf('Normal',FM3_mean, FM3_std);
-FM4_pdf = pdf('Normal',FM4_mean, FM4_std);
-FM5_pdf = pdf('Normal',FM5_mean, FM5_std);
+% FM0_apriori = 0.1408
+% FM1_apriori = 0.1690
+% FM2_apriori = 0.1972
+% FM3_apriori = 0.1690
+% FM4_apriori = 0.1549
+% FM5_apriori = 0.1690
 
 % PDFs plotten (in einer Grafik)
 X = A_Training(:,1);
-x = min(X):0.01:max(X);
-%P1 = plot(x,FM0_pdf,x,FM1_pdf,x,FM2_pdf,x,FM3_pdf,x,FM4_pdf,x,FM5_pdf);
+x = min(X):max(X); % Abschnitt auf der x-Achse, der geplottet werden soll
 
+% PDFs berechnen
+FM0_pdf = pdf('Normal',x,FM0_mean, FM0_std); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+FM1_pdf = pdf('Normal',x,FM1_mean, FM1_std);
+FM2_pdf = pdf('Normal',x,FM2_mean, FM2_std);
+FM3_pdf = pdf('Normal',x,FM3_mean, FM3_std);
+FM4_pdf = pdf('Normal',x,FM4_mean, FM4_std);
+FM5_pdf = pdf('Normal',x,FM5_mean, FM5_std);
+
+
+%P1 = plot(x,FM0_pdf,x,FM1_pdf,x,FM2_pdf,x,FM3_pdf,x,FM4_pdf,x,FM5_pdf);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Teilaufgabe b)                                %
@@ -217,7 +225,7 @@ FM5_aposteriori = FM5_pdf * FM5_apriori;
 
 % PDFs plotten (in einer Grafik)
 
-%P2 = plot(x,FM0_aposteriori,x,FM1_aposteriori,x,FM2_aposteriori,x,FM3_aposteriori,x,FM4_aposteriori,x,FM5_aposteriori);
+P2 = plot(x,FM0_aposteriori,x,FM1_aposteriori,x,FM2_aposteriori,x,FM3_aposteriori,x,FM4_aposteriori,x,FM5_aposteriori);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Teilaufgabe c)                                %
@@ -226,10 +234,61 @@ FM5_aposteriori = FM5_pdf * FM5_apriori;
 % Idee:
 % Für jedes Huhn aus B_Testing multipliziere sein Gewicht mit FMX_aposteriori.
 % Wenn FMX_aposeriori > FMY_aposteriori, dann wähle FMY als Vorhersage.
+D = [];
+for huhnIndex = 1:size(B_Testing,1)
+  h = B_Testing(huhnIndex, 1);
+  fm0pre = pdf('Normal', h, FM0_mean, FM0_std) * FM0_apriori;
+  fm1pre = pdf('Normal', h, FM1_mean, FM0_std) * FM1_apriori;
+  fm2pre = pdf('Normal', h, FM2_mean, FM0_std) * FM2_apriori;
+  fm3pre = pdf('Normal', h, FM3_mean, FM0_std) * FM3_apriori;
+  fm4pre = pdf('Normal', h, FM4_mean, FM0_std) * FM4_apriori;
+  fm5pre = pdf('Normal', h, FM5_mean, FM0_std) * FM5_apriori;
+  
+  [maxValue, indexAtMaxValue] = max([fm0pre,fm1pre,fm2pre,fm3pre,fm4pre,fm5pre]);
+  
+  if (maxValue == fm0pre)
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),0];
+    D = vertcat(D,tmpVector);
+  elseif (maxValue == fm1pre)
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),1];
+    D = vertcat(D,tmpVector);
+  elseif (maxValue == fm2pre)
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),2];
+    D = vertcat(D,tmpVector);  
+  elseif (maxValue == fm3pre)
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),3];
+    D = vertcat(D,tmpVector);
+  elseif (maxValue == fm4pre)
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),4];
+    D = vertcat(D,tmpVector);
+  else
+    tmpVector = [B_Testing(huhnIndex,1),B_Testing(huhnIndex,2),5];
+    D = vertcat(D,tmpVector);
+  end
+end % end of for each h
 
-% Auf geht's:
-fm0 = makedist('Normal',FM0_mean,FM0_std);
+% Konfusionsmatrix
+  knownClass = D(:, 2);
+  predictedClass = D(:, 3);
+  confusionMatrix = confusionmat(knownClass, predictedClass)
 
-for h = B_Testing(:,1)
-  fm0pre = pdf(fm0,h) % <-- Hiervon das Maximum?
-end
+  % Klassifikationsguete
+  alle = size(D, 1);
+  korrekt_vorhergesagt = 0;
+  for z = 1:alle
+    if D(z, 2) == D(z, 3)
+      korrekt_vorhergesagt = korrekt_vorhergesagt + 1;
+    end
+  end
+  Klassifikationsguete = korrekt_vorhergesagt / alle
+  
+% confusionMatrix =
+%
+%     8     1     1     0     0     0
+%     4     2     5     1     0     0
+%     2     2     7     1     0     2
+%     0     0     1     3     2     6
+%     1     1     4     3     0     2
+%     0     1     2     1     1     7
+%
+% Klassifikationsguete = 0.3803
