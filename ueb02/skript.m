@@ -172,6 +172,14 @@ FM3_mean = mean(FM3_matrix);
 FM4_mean = mean(FM4_matrix);
 FM5_mean = mean(FM5_matrix);
 
+% Varianz
+FM0_var = var(FM0_matrix);
+FM1_var = var(FM1_matrix);
+FM2_var = var(FM2_matrix);
+FM3_var = var(FM3_matrix);
+FM4_var = var(FM4_matrix);
+FM5_var = var(FM5_matrix);
+
 % Standardabweichungen
 FM0_std = std(FM0_matrix);
 FM1_std = std(FM1_matrix);
@@ -179,8 +187,6 @@ FM2_std = std(FM2_matrix);
 FM3_std = std(FM3_matrix);
 FM4_std = std(FM4_matrix);
 FM5_std = std(FM5_matrix);
-
-%%%%% Ergebnisse zu Teilaufgabe a) %%%%%
 
 % A Priori Wahrscheinlickeit berechnen
 FM0_apriori = length(FM0_matrix) / length(A_Training)
@@ -190,6 +196,29 @@ FM3_apriori = length(FM3_matrix) / length(A_Training)
 FM4_apriori = length(FM4_matrix) / length(A_Training)
 FM5_apriori = length(FM5_matrix) / length(A_Training)
 
+%%%%% Ergebnisse zu Teilaufgabe a) %%%%%
+% 
+% FM0_mean = 165.7200
+% FM1_mean = 217.9167
+% FM2_mean = 244.6429
+% FM3_mean = 325.6000
+% FM4_mean = 281.8182
+% FM5_mean = 326.9333
+% 
+% FM0_var = 2.0801e+03
+% FM1_var = 3.8649e+03
+% FM2_var = 3.6319e+03
+% FM3_var = 3.2483e+03
+% FM4_var = 5.3364e+03
+% FM5_var = 4.8296e+03
+% 
+% FM0_std = 45.6079
+% FM1_std = 62.1682
+% FM2_std = 60.2656
+% FM3_std = 56.9937
+% FM4_std = 73.0505
+% FM5_std = 69.4952
+% 
 % FM0_apriori = 0.1408
 % FM1_apriori = 0.1690
 % FM2_apriori = 0.1972
