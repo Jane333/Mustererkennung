@@ -4,7 +4,7 @@
 %
 % J. Cavojska, N. Lehmann
 
-% Trainingsdaten und Testdaten laden
+% Trainingsdaten, Testdaten und Clusterdaten laden
 A = load('pendigits-training.txt');
 B = load('pendigits-testing.txt');
 C = load('clusters.txt');
