@@ -7,6 +7,7 @@
 % Trainingsdaten und Testdaten laden
 A = load('pendigits-training.txt');
 B = load('pendigits-testing.txt');
+C = load('clusters.txt');
 
 % Aufgabe 1 (3 Punkte)
 
