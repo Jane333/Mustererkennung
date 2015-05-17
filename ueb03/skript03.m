@@ -91,19 +91,73 @@ A_8_aposteriori = A_8_mvpdf * A_x_apriori;
 A_9_aposteriori = A_9_mvpdf * A_x_apriori;
 
 % Und wie klassifiziert man jetzt einen 1x16 dimensionalen Vektor?
+% L2-Norm ? norm(...) ?
+M_classify = [];
+for index = 1:size(B,1)
+    trainData = B(:,1:B_n -1);
+    A_0_aposteriori_predict = mvnpdf(trainData, E_A_0, CVM_A_0);
+    A_1_aposteriori_predict = mvnpdf(trainData, E_A_1, CVM_A_1);
+    A_2_aposteriori_predict = mvnpdf(trainData, E_A_2, CVM_A_2);
+    A_3_aposteriori_predict = mvnpdf(trainData, E_A_3, CVM_A_3);
+    A_4_aposteriori_predict = mvnpdf(trainData, E_A_4, CVM_A_4);
+    A_5_aposteriori_predict = mvnpdf(trainData, E_A_5, CVM_A_5);
+    A_6_aposteriori_predict = mvnpdf(trainData, E_A_6, CVM_A_6);
+    A_7_aposteriori_predict = mvnpdf(trainData, E_A_7, CVM_A_7);
+    A_8_aposteriori_predict = mvnpdf(trainData, E_A_8, CVM_A_8);
+    A_9_aposteriori_predict = mvnpdf(trainData, E_A_9, CVM_A_9);
+    
+    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)]);
+    
+    if (maxValue == norm(A_0_aposteriori))     % train 0 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),0];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_1_aposteriori)) % train 1 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),1];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_2_aposteriori)) % train 2 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),2];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_3_aposteriori)) % train 3 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),3];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_4_aposteriori)) % train 4 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),4];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_5_aposteriori)) % train 5 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),5];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_6_aposteriori)) % train 6 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),6];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_7_aposteriori)) % train 7 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),7];
+        vertcat(M_classify,tmpVector);
+    elseif (maxValue == norm(A_8_aposteriori)) % train 8 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),8];
+        vertcat(M_classify,tmpVector);
+    else                                       % train 9 predicted
+        tmpVector = [B(index,1:B_n -1),B(index,B_n),9];
+        vertcat(M_classify,tmpVector);
+    end % end-if
+end % end-for_each
+
+M_classify % Es wird kein tmpVector vetikal konkateniert! Warum?
 %cp = classperf(B,c)
-% Konfusionsmatrix  
+
+% Konfusionsmatrix
+%  knownClass = M_classify(:, B_n);
+%  predictedClass = M_classify(:, B_n +1);
 %  confusionmat(knownClass, predictedClass)
 
 % Klassifikationsguete
-%  alle = size(D, 1);
-%  korrekt_vorhergesagt = 0;
-%  for z = 1:alle
-%    if D(z, 2) == D(z, 3)
-%      korrekt_vorhergesagt = korrekt_vorhergesagt + 1;
-%    end
+%  M_m = size(M_classify, 1);
+%  corret_predicted = 0;
+%  for index = 1:M_m
+%      if M_classify(index, B_n) == M_classify(index, B_n +1)
+%          corret_predicted = corret_predicted + 1;
+%      end
 %  end
-%  Klassifikationsguete = korrekt_vorhergesagt / alle
+%  classification_quality = corret_predicted / M_m
 
 % Aufgabe 2 (4 Punkte)
 
@@ -118,16 +172,41 @@ M_pca_fst = M_pca(:,1); % ?
 
 % Aufgabe 3 (3 Punkte)
 
-% Link: http://www-home.fh-konstanz.de/~mfranz/muk_files/kmeans.m
-
 % A 3.1: k-means auf die Daten clusters.txt anwenden,
 %        k-means soll selbst implementiert werden!
 
-% 1. Phase: Clusterzentren waehlen
+% k-means iteration step
 
-% 2. Phase: Expectation mit p(x)
+% an old set of cluster means m_old (means are the rows of m_old)
 
-% 3. Phase: Maximization mit Erwartungswert und Kovarianzmatrix
+% m_old = ? <-- TO DO HERE !!!
+m_old = C; % This is wrong! We have to find the correct m_old !
+
+k = size(m_old, 1); % number of means
+n = size(C, 1);     % number of data points
+
+% assignment step
+r = zeros(n, k);  % alloc responsibility matrix
+for i=1:n % for each data point
+    % find minimum distance to means
+    d = zeros(k, 1); % set distances to 0
+    for j=1:k
+        d(j) = norm(C(i,:) - m_old(j,:))^2; % distance of C_i to m_j
+    end
+    [minval, k_i] = min(d); % get index of minimum distance mean
+    r(i, k_i) = 1; % update responsibility matrix
+end
+
+% update step
+m = zeros(size(m_old)); % alloc new means
+n_memb = sum(r, 1); % get number of cluster members as sum over columns in r
+m = (r'*C); % sum over all vectors in cluster
+for j=1:k % divide by number of cluster members
+    if n_memb(j) > 0
+        m(j,:) = m(j,:)/n_memb(j);
+    end
+end
+m % print result
 
 % A 3.2: Clusterzentren und Zuordnungen der Punkte
 %        der ersten 5 Iterationsschritte mit k=3
