@@ -81,8 +81,7 @@ A_9_mvpdf = mvnpdf(A_9(:,1:A_n -1), E_A_9, CVM_A_9);
 A_x_apriori = 1 / length(unique(A(:,A_n)));
 
 % A-Posteriori-Wahrscheinlichkeit fuer jeden Zug (0 bis 9)
-% P(Futterklasse | gewicht) = P(gewicht | Futterklasse) * P(Futterklasse)
-% P(Zuglinie | Position) = P(Position | Zuglinie) P(Zuglinie)
+% P(Zuglinie | Position) = P(Position | Zuglinie) * P(Zuglinie)
 A_0_aposteriori = A_0_mvpdf * A_x_apriori;
 A_1_aposteriori = A_1_mvpdf * A_x_apriori;
 A_2_aposteriori = A_2_mvpdf * A_x_apriori;
@@ -97,7 +96,7 @@ A_9_aposteriori = A_9_mvpdf * A_x_apriori;
 % Wir klassifizieren mit der L2-Norm.
 M_classify = [];
 for index = 1:size(B,1)
-    trainData = B(:,1:B_n -1);
+    trainData = B(index,1:B_n -1);
     A_0_aposteriori_predict = mvnpdf(trainData, E_A_0, CVM_A_0);
     A_1_aposteriori_predict = mvnpdf(trainData, E_A_1, CVM_A_1);
     A_2_aposteriori_predict = mvnpdf(trainData, E_A_2, CVM_A_2);
@@ -109,7 +108,7 @@ for index = 1:size(B,1)
     A_8_aposteriori_predict = mvnpdf(trainData, E_A_8, CVM_A_8);
     A_9_aposteriori_predict = mvnpdf(trainData, E_A_9, CVM_A_9);
     
-    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)])
+    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)]);
     
     if (maxValue == norm(A_0_aposteriori_predict))     % train 0 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),0];
@@ -148,21 +147,22 @@ M_classify;
 %cp = classperf(B,c)
 
 % Konfusionsmatrix
-%  knownClass = M_classify(:, B_n);
-%  predictedClass = M_classify(:, B_n +1);
-%  confusionmat(knownClass, predictedClass)
+knownClass = M_classify(:, B_n);
+predictedClass = M_classify(:, B_n +1);
+confusionmat(knownClass, predictedClass)
 
 % Klassifikationsguete
-%  M_m = size(M_classify, 1);
-%  corret_predicted = 0;
-%  for index = 1:M_m
-%      if M_classify(index, B_n) == M_classify(index, B_n +1)
-%          corret_predicted = corret_predicted + 1;
-%      end
-%  end
-%  classification_quality = corret_predicted / M_m
+M_m = size(M_classify, 1);
+corret_predicted = 0;
+for index = 1:M_m
+    if M_classify(index, B_n) == M_classify(index, B_n +1)
+        corret_predicted = corret_predicted + 1;
+    end
+end
+classification_quality = corret_predicted / M_m
 
-% Aufgabe 2 (4 Punkte)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Aufgabe 2 (4 Punkte)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % A 2.1: Erste Hauptkomponente der Trainingsdaten angeben
 M_pca = princomp(zscore(B(:,1:B_n -1))); % pca with standardized variables
