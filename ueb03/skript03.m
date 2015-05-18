@@ -23,7 +23,7 @@ A_6 = A((A(:,17)==6),:);
 A_7 = A((A(:,17)==7),:);
 A_8 = A((A(:,17)==8),:);
 A_9 = A((A(:,17)==9),:);
-X = A(:,1:A_n -1);
+X = A(:,1:A_n -1); % alle Daten ausser der Zuglinie
 x = min(X):max(X);
 B_n   = size(B,2);
 B_m   = size(B,1);
@@ -58,6 +58,8 @@ CVM_A_8 = cov(A_8(:,1:A_n -1));
 CVM_A_9 = cov(A_9(:,1:A_n -1));
 
 % Multivariante PDF generieren fuer jeden Zug (0 bis 9)
+% wir geben hier kein Intervall an, weil die pdf hochdimensional ist 
+% und nicht nur fuer einen bestimmten Bereich berechnet werden soll
 A_0_mvpdf = mvnpdf(A_0(:,1:A_n -1), E_A_0, CVM_A_0);
 A_1_mvpdf = mvnpdf(A_1(:,1:A_n -1), E_A_1, CVM_A_1);
 A_2_mvpdf = mvnpdf(A_2(:,1:A_n -1), E_A_2, CVM_A_2);
@@ -79,6 +81,8 @@ A_9_mvpdf = mvnpdf(A_9(:,1:A_n -1), E_A_9, CVM_A_9);
 A_x_apriori = 1 / length(unique(A(:,A_n)));
 
 % A-Posteriori-Wahrscheinlichkeit fuer jeden Zug (0 bis 9)
+% P(Futterklasse | gewicht) = P(gewicht | Futterklasse) * P(Futterklasse)
+% P(Zuglinie | Position) = P(Position | Zuglinie) P(Zuglinie)
 A_0_aposteriori = A_0_mvpdf * A_x_apriori;
 A_1_aposteriori = A_1_mvpdf * A_x_apriori;
 A_2_aposteriori = A_2_mvpdf * A_x_apriori;
@@ -90,8 +94,7 @@ A_7_aposteriori = A_7_mvpdf * A_x_apriori;
 A_8_aposteriori = A_8_mvpdf * A_x_apriori;
 A_9_aposteriori = A_9_mvpdf * A_x_apriori;
 
-% Und wie klassifiziert man jetzt einen 1x16 dimensionalen Vektor?
-% L2-Norm ? norm(...) ?
+% Wir klassifizieren mit der L2-Norm.
 M_classify = [];
 for index = 1:size(B,1)
     trainData = B(:,1:B_n -1);
@@ -110,38 +113,38 @@ for index = 1:size(B,1)
     
     if (maxValue == norm(A_0_aposteriori))     % train 0 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),0];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_1_aposteriori)) % train 1 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),1];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_2_aposteriori)) % train 2 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),2];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_3_aposteriori)) % train 3 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),3];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_4_aposteriori)) % train 4 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),4];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_5_aposteriori)) % train 5 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),5];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_6_aposteriori)) % train 6 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),6];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_7_aposteriori)) % train 7 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),7];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     elseif (maxValue == norm(A_8_aposteriori)) % train 8 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),8];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     else                                       % train 9 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),9];
-        vertcat(M_classify,tmpVector);
+        M_classify = vertcat(M_classify,tmpVector);
     end % end-if
 end % end-for_each
 
-M_classify % Es wird kein tmpVector vetikal konkateniert! Warum?
+M_classify
 %cp = classperf(B,c)
 
 % Konfusionsmatrix
@@ -174,39 +177,6 @@ M_pca_fst = M_pca(:,1); % ?
 
 % A 3.1: k-means auf die Daten clusters.txt anwenden,
 %        k-means soll selbst implementiert werden!
-
-% k-means iteration step
-
-% an old set of cluster means m_old (means are the rows of m_old)
-
-% m_old = ? <-- TO DO HERE !!!
-m_old = C; % This is wrong! We have to find the correct m_old !
-
-k = size(m_old, 1); % number of means
-n = size(C, 1);     % number of data points
-
-% assignment step
-r = zeros(n, k);  % alloc responsibility matrix
-for i=1:n % for each data point
-    % find minimum distance to means
-    d = zeros(k, 1); % set distances to 0
-    for j=1:k
-        d(j) = norm(C(i,:) - m_old(j,:))^2; % distance of C_i to m_j
-    end
-    [minval, k_i] = min(d); % get index of minimum distance mean
-    r(i, k_i) = 1; % update responsibility matrix
-end
-
-% update step
-m = zeros(size(m_old)); % alloc new means
-n_memb = sum(r, 1); % get number of cluster members as sum over columns in r
-m = (r'*C); % sum over all vectors in cluster
-for j=1:k % divide by number of cluster members
-    if n_memb(j) > 0
-        m(j,:) = m(j,:)/n_memb(j);
-    end
-end
-m % print result
 
 % A 3.2: Clusterzentren und Zuordnungen der Punkte
 %        der ersten 5 Iterationsschritte mit k=3
