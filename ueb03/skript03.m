@@ -109,33 +109,33 @@ for index = 1:size(B,1)
     A_8_aposteriori_predict = mvnpdf(trainData, E_A_8, CVM_A_8);
     A_9_aposteriori_predict = mvnpdf(trainData, E_A_9, CVM_A_9);
     
-    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)]);
+    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)])
     
-    if (maxValue == norm(A_0_aposteriori))     % train 0 predicted
+    if (maxValue == norm(A_0_aposteriori_predict))     % train 0 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),0];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_1_aposteriori)) % train 1 predicted
+    elseif (maxValue == norm(A_1_aposteriori_predict)) % train 1 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),1];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_2_aposteriori)) % train 2 predicted
+    elseif (maxValue == norm(A_2_aposteriori_predict)) % train 2 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),2];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_3_aposteriori)) % train 3 predicted
+    elseif (maxValue == norm(A_3_aposteriori_predict)) % train 3 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),3];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_4_aposteriori)) % train 4 predicted
+    elseif (maxValue == norm(A_4_aposteriori_predict)) % train 4 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),4];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_5_aposteriori)) % train 5 predicted
+    elseif (maxValue == norm(A_5_aposteriori_predict)) % train 5 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),5];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_6_aposteriori)) % train 6 predicted
+    elseif (maxValue == norm(A_6_aposteriori_predict)) % train 6 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),6];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_7_aposteriori)) % train 7 predicted
+    elseif (maxValue == norm(A_7_aposteriori_predict)) % train 7 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),7];
         M_classify = vertcat(M_classify,tmpVector);
-    elseif (maxValue == norm(A_8_aposteriori)) % train 8 predicted
+    elseif (maxValue == norm(A_8_aposteriori_predict)) % train 8 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),8];
         M_classify = vertcat(M_classify,tmpVector);
     else                                       % train 9 predicted
@@ -144,7 +144,7 @@ for index = 1:size(B,1)
     end % end-if
 end % end-for_each
 
-M_classify
+M_classify;
 %cp = classperf(B,c)
 
 % Konfusionsmatrix
