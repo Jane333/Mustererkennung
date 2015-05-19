@@ -143,13 +143,21 @@ for index = 1:size(B,1)
     end % end-if
 end % end-for_each
 
-M_classify;
-%cp = classperf(B,c)
-
 % Konfusionsmatrix
 knownClass = M_classify(:, B_n);
 predictedClass = M_classify(:, B_n +1);
 confusionmat(knownClass, predictedClass)
+
+%   341     0     0     0     0     0     0     0    22     0
+%     0   350    12     0     1     0     0     0     1     0
+%     0     8   355     0     0     0     0     1     0     0
+%     0     9     0   320     0     1     0     1     0     5
+%     0     0     0     0   362     0     0     0     0     2
+%     0     0     0     1     0   323     0     0     2     9
+%     0     0     0     0     0     0   325     0    11     0
+%     0    28     0     0     0     0     0   314     5    17
+%     0     0     0     0     0     0     0     0   336     0
+%     0     5     0     0     0     0     0     1     1   329
 
 % Klassifikationsguete
 M_m = size(M_classify, 1);
@@ -161,6 +169,7 @@ for index = 1:M_m
 end
 classification_quality = corret_predicted / M_m
 
+%   0.9591
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  Aufgabe 2 (4 Punkte)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -180,20 +189,20 @@ M_pca_fst = M_pca(:,1); % ?
 %        k-means soll selbst implementiert werden!
 
 k = 3;
-numIterations = 5
+numIterations = 5;
 
-mean1 = C(1,:) % mean1, selected randomly
-mean2 = C(2,:) % mean2, selected randomly
-mean3 = C(3,:) % mean3, selected randomly
-mean1_elems = [] % elements belonging to mean1
-mean2_elems = [] % elements belonging to mean2
-mean3_elems = [] % elements belonging to mean3
-plotArray = []
+mean1 = C(1,:); % mean1, selected randomly
+mean2 = C(2,:); % mean2, selected randomly
+mean3 = C(3,:); % mean3, selected randomly
+mean1_elems = []; % elements belonging to mean1
+mean2_elems = []; % elements belonging to mean2
+mean3_elems = []; % elements belonging to mean3
+plotArray = [];
 
 for iter=1:numIterations
-    mean1_elems = []
-    mean2_elems = []
-    mean3_elems = []
+    mean1_elems = [];
+    mean2_elems = [];
+    mean3_elems = [];
     for elem=1:size(C,1) % iterate over all elements
         dist = sqrt(abs(C(elem,1) - mean1(:,1))^2  + abs(C(elem,2) - mean1(:,2))^2);
         closest = mean1;
@@ -218,12 +227,12 @@ for iter=1:numIterations
     mean1_elems;
     mean2_elems;
     mean3_elems;
-    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))]
-    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))]
-    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))]
+    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))];
+    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))];
+    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))];
     
     % Visualisierung der Clusterzentren
-    plotOfIteration = 5 % which iteration do we want to see a plot for?
+    plotOfIteration = 5; % which iteration do we want to see a plot for?
     if iter == plotOfIteration
         % x = min(mean1_elems):max(mean1_elems)
         mean1_elems_x = mean1_elems(:,1); % x coordinates of all elements belonging to mean1
