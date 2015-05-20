@@ -13,20 +13,32 @@ C = load('clusters.txt');
 A_n   = size(A,2);
 A_m   = size(A,1);
 A = sortrows(A,A_n);
+A_nl = A(:,1:A_n -1);
 A_0 = A((A(:,17)==0),:);
+A_0_nl = A_0(:,1:A_n -1);
 A_1 = A((A(:,17)==1),:);
+A_1_nl = A_1(:,1:A_n -1);
 A_2 = A((A(:,17)==2),:);
+A_2_nl = A_2(:,1:A_n -1);
 A_3 = A((A(:,17)==3),:);
+A_3_nl = A_3(:,1:A_n -1);
 A_4 = A((A(:,17)==4),:);
+A_4_nl = A_4(:,1:A_n -1);
 A_5 = A((A(:,17)==5),:);
+A_5_nl = A_5(:,1:A_n -1);
 A_6 = A((A(:,17)==6),:);
+A_6_nl = A_6(:,1:A_n -1);
 A_7 = A((A(:,17)==7),:);
+A_7_nl = A_7(:,1:A_n -1);
 A_8 = A((A(:,17)==8),:);
+A_8_nl = A_8(:,1:A_n -1);
 A_9 = A((A(:,17)==9),:);
+A_9_nl = A_9(:,1:A_n -1);
 X = A(:,1:A_n -1); % alle Daten ausser der Zuglinie
 x = min(X):max(X);
 B_n   = size(B,2);
 B_m   = size(B,1);
+B_nl = B(:,1:B_n -1);
 
 % Aufgabe 1 (3 Punkte)
 
@@ -34,42 +46,42 @@ B_m   = size(B,1);
 %        (Erwartungswert, Kovarianzmatrix) berechnen
 
 % Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9)
-E_A_0 = mean(A_0(:,1:A_n -1));
-E_A_1 = mean(A_1(:,1:A_n -1));
-E_A_2 = mean(A_2(:,1:A_n -1));
-E_A_3 = mean(A_3(:,1:A_n -1));
-E_A_4 = mean(A_4(:,1:A_n -1));
-E_A_5 = mean(A_5(:,1:A_n -1));
-E_A_6 = mean(A_6(:,1:A_n -1));
-E_A_7 = mean(A_7(:,1:A_n -1));
-E_A_8 = mean(A_8(:,1:A_n -1));
-E_A_9 = mean(A_9(:,1:A_n -1));
+E_A_0 = mean(A_0_nl);
+E_A_1 = mean(A_1_nl);
+E_A_2 = mean(A_2_nl);
+E_A_3 = mean(A_3_nl);
+E_A_4 = mean(A_4_nl);
+E_A_5 = mean(A_5_nl);
+E_A_6 = mean(A_6_nl);
+E_A_7 = mean(A_7_nl);
+E_A_8 = mean(A_8_nl);
+E_A_9 = mean(A_9_nl);
 
 % Kovarianzmatrix fuer jeden Zug (0 bis 9)
-CVM_A_0 = cov(A_0(:,1:A_n -1));
-CVM_A_1 = cov(A_1(:,1:A_n -1));
-CVM_A_2 = cov(A_2(:,1:A_n -1));
-CVM_A_3 = cov(A_3(:,1:A_n -1));
-CVM_A_4 = cov(A_4(:,1:A_n -1));
-CVM_A_5 = cov(A_5(:,1:A_n -1));
-CVM_A_6 = cov(A_6(:,1:A_n -1));
-CVM_A_7 = cov(A_7(:,1:A_n -1));
-CVM_A_8 = cov(A_8(:,1:A_n -1));
-CVM_A_9 = cov(A_9(:,1:A_n -1));
+CVM_A_0 = cov(A_0_nl);
+CVM_A_1 = cov(A_1_nl);
+CVM_A_2 = cov(A_2_nl);
+CVM_A_3 = cov(A_3_nl);
+CVM_A_4 = cov(A_4_nl);
+CVM_A_5 = cov(A_5_nl);
+CVM_A_6 = cov(A_6_nl);
+CVM_A_7 = cov(A_7_nl);
+CVM_A_8 = cov(A_8_nl);
+CVM_A_9 = cov(A_9_nl);
 
 % Multivariante PDF generieren fuer jeden Zug (0 bis 9)
 % wir geben hier kein Intervall an, weil die pdf hochdimensional ist 
 % und nicht nur fuer einen bestimmten Bereich berechnet werden soll
-A_0_mvpdf = mvnpdf(A_0(:,1:A_n -1), E_A_0, CVM_A_0);
-A_1_mvpdf = mvnpdf(A_1(:,1:A_n -1), E_A_1, CVM_A_1);
-A_2_mvpdf = mvnpdf(A_2(:,1:A_n -1), E_A_2, CVM_A_2);
-A_3_mvpdf = mvnpdf(A_3(:,1:A_n -1), E_A_3, CVM_A_3);
-A_4_mvpdf = mvnpdf(A_4(:,1:A_n -1), E_A_4, CVM_A_4);
-A_5_mvpdf = mvnpdf(A_5(:,1:A_n -1), E_A_5, CVM_A_5);
-A_6_mvpdf = mvnpdf(A_6(:,1:A_n -1), E_A_6, CVM_A_6);
-A_7_mvpdf = mvnpdf(A_7(:,1:A_n -1), E_A_7, CVM_A_7);
-A_8_mvpdf = mvnpdf(A_8(:,1:A_n -1), E_A_8, CVM_A_8);
-A_9_mvpdf = mvnpdf(A_9(:,1:A_n -1), E_A_9, CVM_A_9);
+A_0_mvpdf = mvnpdf(A_0_nl, E_A_0, CVM_A_0);
+A_1_mvpdf = mvnpdf(A_1_nl, E_A_1, CVM_A_1);
+A_2_mvpdf = mvnpdf(A_2_nl, E_A_2, CVM_A_2);
+A_3_mvpdf = mvnpdf(A_3_nl, E_A_3, CVM_A_3);
+A_4_mvpdf = mvnpdf(A_4_nl, E_A_4, CVM_A_4);
+A_5_mvpdf = mvnpdf(A_5_nl, E_A_5, CVM_A_5);
+A_6_mvpdf = mvnpdf(A_6_nl, E_A_6, CVM_A_6);
+A_7_mvpdf = mvnpdf(A_7_nl, E_A_7, CVM_A_7);
+A_8_mvpdf = mvnpdf(A_8_nl, E_A_8, CVM_A_8);
+A_9_mvpdf = mvnpdf(A_9_nl, E_A_9, CVM_A_9);
 
 
 % A 1.2: Testdaten anhand der A-Posteriori-PDF klassifizieren,
@@ -176,62 +188,485 @@ classification_quality = corret_predicted / M_m
 % A 2.1: Erste Hauptkomponente der Trainingsdaten angeben
 
 % Schritt 1: Subtraktion der Mittelwerte 
-M_alt = A(:,1:A_n -1);
-mu=mean(M_alt')';
-M_neu = repmat(mu,1,size(M_alt,2));
-M_minus_mean = M_alt - M_neu;
+%  M_alt = A(:,1:A_n -1);
+%  mu=mean(M_alt')';
+%  M_neu = repmat(mu,1,size(M_alt,2));
+%  M_minus_mean = M_alt - M_neu;
 
 % Schritt 2: Berechnung der Kovarianzmatrix
-CVM_A = cov(A(:,1:A_n -1));
+CVM_A = cov(A_nl);
+CVM_B = cov(B_nl);
 
 % Schritt 3: Eigenwerte und Eigenvektoren der Kovarianzmatrix
-e = eig(CVM_A); % gibt einen Spaltenvektor mit den Eigenwerten von CVM_A zurück
-[VB,DB] = eig(CVM_A); % V = Eigenwerte von CVM_A % D = Diagonalmatrix der Eigenwerte zu CVM_A
-% noch sortieren
-erste_hauptkomponente = VB(:,1) % ist das die erste Huptkomponente?
+[VB,DB] = eig(CVM_A);
+EigVec_CVM_A = VB; % Eigenvektoren von CVM_A
+EigVal_CVM_A = DB; % Diagonalmatrix der Eigenwerte zu CVM_A
 
-% geht vielleicht auch cooler???
-%M_pca = princomp(zscore(B(:,1:B_n -1))); % pca with standardized variables
-%M_pca_fst = M_pca(:,1) % ?
+[VB,DB] = eig(CVM_B);
+EigVec_CVM_B = VB; % Eigenvektoren von CVM_B
+EigVal_CVM_B = DB; % Diagonalmatrix der Eigenwerte zu CVM_B      
+
+erste_hauptkomponente = EigVec_CVM_A(:,1) % die erste Hauptkomponente von CVM_A
 
 % A 2.2: Dimensionsreduzierung mittels PCA,
 %        Testdaten klassifizieren mit Bayes Klassifikator
 %        (wie in Aufgabe 1)
 %        Klassifikationsguete fuer alle Dimensionen angeben
-pca_c1  = DB(:,1);  % Hauptkomponente 1
-pca_c2  = DB(:,1:2);  % Hauptkomponente 2
-pca_c3  = DB(:,1:3);  % Hauptkomponente 3
-pca_c4  = DB(:,1:4);  % Hauptkomponente 4
-pca_c5  = DB(:,1:5);  % Hauptkomponente 5
-pca_c6  = DB(:,1:6);  % Hauptkomponente 6
-pca_c7  = DB(:,1:7);  % Hauptkomponente 7
-pca_c8  = DB(:,1:8);  % Hauptkomponente 8
-pca_c9  = DB(:,1:9);  % Hauptkomponente 9
-pca_c10 = DB(:,1:10); % Hauptkomponente 10
-pca_c11 = DB(:,1:11); % Hauptkomponente 11
-pca_c12 = DB(:,1:12); % Hauptkomponente 12
-pca_c13 = DB(:,1:13); % Hauptkomponente 13
-pca_c14 = DB(:,1:14); % Hauptkomponente 14
-pca_c15 = DB(:,1:15); % Hauptkomponente 15
-pca_c16 = DB(:,1:16); % Hauptkomponente 16
-% wahrscheinlch ist hier ne umgebende FOR-Schleife besser...
 
-A_princomp1  = CVM_A * pca_c1;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp2  = CVM_A * pca_c2;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp3  = CVM_A * pca_c3;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp4  = CVM_A * pca_c4;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp5  = CVM_A * pca_c5;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp6  = CVM_A * pca_c6;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp7  = CVM_A * pca_c7;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp8  = CVM_A * pca_c8;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp9  = CVM_A * pca_c9;  % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp10 = CVM_A * pca_c10; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp11 = CVM_A * pca_c11; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp12 = CVM_A * pca_c12; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp13 = CVM_A * pca_c13; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp14 = CVM_A * pca_c14; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp15 = CVM_A * pca_c15; % Spaltenvektor: Reduzierung auf eine Dimmension
-A_princomp16 = CVM_A * pca_c16; % Spaltenvektor: Reduzierung auf eine Dimmension
+% Unterräume erzeugen
+pca_ur_1dim  = EigVec_CVM_A(:,1);    % Unterraum 1 dimensional
+pca_ur_2dim  = EigVec_CVM_A(:,1:2);  % Unterraum 2 dimensional
+pca_ur_3dim  = EigVec_CVM_A(:,1:3);  % Unterraum 3 dimensional
+pca_ur_4dim  = EigVec_CVM_A(:,1:4);  % Unterraum 4 dimensional
+pca_ur_5dim  = EigVec_CVM_A(:,1:5);  % Unterraum 5 dimensional
+pca_ur_6dim  = EigVec_CVM_A(:,1:6);  % Unterraum 6 dimensional
+pca_ur_7dim  = EigVec_CVM_A(:,1:7);  % Unterraum 7 dimensional
+pca_ur_8dim  = EigVec_CVM_A(:,1:8);  % Unterraum 8 dimensional
+pca_ur_9dim  = EigVec_CVM_A(:,1:9);  % Unterraum 9 dimensional
+pca_ur_10dim = EigVec_CVM_A(:,1:10); % Unterraum 10 dimensional
+pca_ur_11dim = EigVec_CVM_A(:,1:11); % Unterraum 11 dimensional
+pca_ur_12dim = EigVec_CVM_A(:,1:12); % Unterraum 12 dimensional
+pca_ur_13dim = EigVec_CVM_A(:,1:13); % Unterraum 13 dimensional
+pca_ur_14dim = EigVec_CVM_A(:,1:14); % Unterraum 14 dimensional
+pca_ur_15dim = EigVec_CVM_A(:,1:15); % Unterraum 15 dimensional
+pca_ur_16dim = EigVec_CVM_A(:,1:16); % Unterraum 16 dimensional
+
+% Abbildung der kompletten Trainingsdaten in einen Unterraum
+A_ur_dim1  = A_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_1dim
+A_ur_dim2  = A_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_2dim
+A_ur_dim3  = A_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_3dim
+A_ur_dim4  = A_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_4dim
+A_ur_dim5  = A_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_5dim
+A_ur_dim6  = A_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_6dim
+A_ur_dim7  = A_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_7dim
+A_ur_dim8  = A_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_8dim
+A_ur_dim9  = A_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_9dim
+A_ur_dim10 = A_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_10dim
+A_ur_dim11 = A_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_11dim
+A_ur_dim12 = A_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_12dim
+A_ur_dim13 = A_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_13dim
+A_ur_dim14 = A_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_14dim
+A_ur_dim15 = A_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_15dim
+A_ur_dim16 = A_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 0 in einen Unterraum
+A_0_ur_dim1  = A_0_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_1dim
+A_0_ur_dim2  = A_0_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_2dim
+A_0_ur_dim3  = A_0_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_3dim
+A_0_ur_dim4  = A_0_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_4dim
+A_0_ur_dim5  = A_0_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_5dim
+A_0_ur_dim6  = A_0_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_6dim
+A_0_ur_dim7  = A_0_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_7dim
+A_0_ur_dim8  = A_0_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_8dim
+A_0_ur_dim9  = A_0_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_9dim
+A_0_ur_dim10 = A_0_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_10dim
+A_0_ur_dim11 = A_0_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_11dim
+A_0_ur_dim12 = A_0_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_12dim
+A_0_ur_dim13 = A_0_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_13dim
+A_0_ur_dim14 = A_0_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_14dim
+A_0_ur_dim15 = A_0_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_15dim
+A_0_ur_dim16 = A_0_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_0_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 1 in einen Unterraum
+A_1_ur_dim1  = A_1_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_1dim
+A_1_ur_dim2  = A_1_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_2dim
+A_1_ur_dim3  = A_1_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_3dim
+A_1_ur_dim4  = A_1_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_4dim
+A_1_ur_dim5  = A_1_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_5dim
+A_1_ur_dim6  = A_1_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_6dim
+A_1_ur_dim7  = A_1_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_7dim
+A_1_ur_dim8  = A_1_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_8dim
+A_1_ur_dim9  = A_1_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_9dim
+A_1_ur_dim10 = A_1_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_10dim
+A_1_ur_dim11 = A_1_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_11dim
+A_1_ur_dim12 = A_1_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_12dim
+A_1_ur_dim13 = A_1_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_13dim
+A_1_ur_dim14 = A_1_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_14dim
+A_1_ur_dim15 = A_1_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_15dim
+A_1_ur_dim16 = A_1_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 2 in einen Unterraum
+A_2_ur_dim1  = A_2_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_1dim
+A_2_ur_dim2  = A_2_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_2dim
+A_2_ur_dim3  = A_2_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_3dim
+A_2_ur_dim4  = A_2_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_4dim
+A_2_ur_dim5  = A_2_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_5dim
+A_2_ur_dim6  = A_2_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_6dim
+A_2_ur_dim7  = A_2_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_7dim
+A_2_ur_dim8  = A_2_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_8dim
+A_2_ur_dim9  = A_2_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_9dim
+A_2_ur_dim10 = A_2_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_10dim
+A_2_ur_dim11 = A_2_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_11dim
+A_2_ur_dim12 = A_2_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_12dim
+A_2_ur_dim13 = A_2_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_13dim
+A_2_ur_dim14 = A_2_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_14dim
+A_2_ur_dim15 = A_2_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_15dim
+A_2_ur_dim16 = A_2_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_2_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 3 in einen Unterraum
+A_3_ur_dim1  = A_3_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_1dim
+A_3_ur_dim2  = A_3_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_2dim
+A_3_ur_dim3  = A_3_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_3dim
+A_3_ur_dim4  = A_3_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_4dim
+A_3_ur_dim5  = A_3_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_5dim
+A_3_ur_dim6  = A_3_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_6dim
+A_3_ur_dim7  = A_3_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_7dim
+A_3_ur_dim8  = A_3_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_8dim
+A_3_ur_dim9  = A_3_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_9dim
+A_3_ur_dim10 = A_3_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_10dim
+A_3_ur_dim11 = A_3_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_11dim
+A_3_ur_dim12 = A_3_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_1_nl in den Unterraum pca_ur_12dim
+A_3_ur_dim13 = A_3_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_13dim
+A_3_ur_dim14 = A_3_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_14dim
+A_3_ur_dim15 = A_3_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_15dim
+A_3_ur_dim16 = A_3_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_3_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 4 in einen Unterraum
+A_4_ur_dim1  = A_4_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_1dim
+A_4_ur_dim2  = A_4_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_2dim
+A_4_ur_dim3  = A_4_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_3dim
+A_4_ur_dim4  = A_4_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_4dim
+A_4_ur_dim5  = A_4_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_5dim
+A_4_ur_dim6  = A_4_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_6dim
+A_4_ur_dim7  = A_4_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_7dim
+A_4_ur_dim8  = A_4_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_8dim
+A_4_ur_dim9  = A_4_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_9dim
+A_4_ur_dim10 = A_4_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_10dim
+A_4_ur_dim11 = A_4_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_11dim
+A_4_ur_dim12 = A_4_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_12dim
+A_4_ur_dim13 = A_4_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_13dim
+A_4_ur_dim14 = A_4_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_14dim
+A_4_ur_dim15 = A_4_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_15dim
+A_4_ur_dim16 = A_4_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_4_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 5 in einen Unterraum
+A_5_ur_dim1  = A_5_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_1dim
+A_5_ur_dim2  = A_5_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_2dim
+A_5_ur_dim3  = A_5_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_3dim
+A_5_ur_dim4  = A_5_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_4dim
+A_5_ur_dim5  = A_5_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_5dim
+A_5_ur_dim6  = A_5_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_6dim
+A_5_ur_dim7  = A_5_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_7dim
+A_5_ur_dim8  = A_5_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_8dim
+A_5_ur_dim9  = A_5_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_9dim
+A_5_ur_dim10 = A_5_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_10dim
+A_5_ur_dim11 = A_5_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_11dim
+A_5_ur_dim12 = A_5_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_12dim
+A_5_ur_dim13 = A_5_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_13dim
+A_5_ur_dim14 = A_5_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_14dim
+A_5_ur_dim15 = A_5_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_15dim
+A_5_ur_dim16 = A_5_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_5_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 6 in einen Unterraum
+A_6_ur_dim1  = A_6_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_1dim
+A_6_ur_dim2  = A_6_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_2dim
+A_6_ur_dim3  = A_6_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_3dim
+A_6_ur_dim4  = A_6_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_4dim
+A_6_ur_dim5  = A_6_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_5dim
+A_6_ur_dim6  = A_6_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_6dim
+A_6_ur_dim7  = A_6_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_7dim
+A_6_ur_dim8  = A_6_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_8dim
+A_6_ur_dim9  = A_6_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_9dim
+A_6_ur_dim10 = A_6_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_10dim
+A_6_ur_dim11 = A_6_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_11dim
+A_6_ur_dim12 = A_6_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_12dim
+A_6_ur_dim13 = A_6_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_13dim
+A_6_ur_dim14 = A_6_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_14dim
+A_6_ur_dim15 = A_6_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_15dim
+A_6_ur_dim16 = A_6_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_6_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 7 in einen Unterraum
+A_7_ur_dim1  = A_7_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_1dim
+A_7_ur_dim2  = A_7_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_2dim
+A_7_ur_dim3  = A_7_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_3dim
+A_7_ur_dim4  = A_7_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_4dim
+A_7_ur_dim5  = A_7_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_5dim
+A_7_ur_dim6  = A_7_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_6dim
+A_7_ur_dim7  = A_7_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_7dim
+A_7_ur_dim9  = A_7_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_9dim
+A_7_ur_dim10 = A_7_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_10dim
+A_7_ur_dim11 = A_7_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_11dim
+A_7_ur_dim12 = A_7_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_12dim
+A_7_ur_dim13 = A_7_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_13dim
+A_7_ur_dim14 = A_7_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_14dim
+A_7_ur_dim15 = A_7_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_15dim
+A_7_ur_dim16 = A_7_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 8 in einen Unterraum
+A_8_ur_dim1  = A_8_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_1dim
+A_8_ur_dim2  = A_8_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_2dim
+A_8_ur_dim3  = A_8_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_3dim
+A_8_ur_dim4  = A_8_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_4dim
+A_8_ur_dim5  = A_8_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_5dim
+A_8_ur_dim6  = A_8_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_6dim
+A_8_ur_dim7  = A_8_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_7dim
+A_8_ur_dim8  = A_8_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_8dim
+A_8_ur_dim9  = A_8_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_9dim
+A_8_ur_dim10 = A_8_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_10dim
+A_8_ur_dim11 = A_8_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_11dim
+A_8_ur_dim12 = A_8_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_12dim
+A_8_ur_dim13 = A_8_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_13dim
+A_8_ur_dim14 = A_8_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_14dim
+A_8_ur_dim15 = A_8_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_15dim
+A_8_ur_dim16 = A_8_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_8_nl in den Unterraum pca_ur_16dim
+
+% Abbildung der Trainingsdaten der Zuglinie 9 in einen Unterraum
+A_9_ur_dim1  = A_9_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_1dim
+A_9_ur_dim2  = A_9_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_2dim
+A_9_ur_dim3  = A_9_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_3dim
+A_9_ur_dim4  = A_9_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_4dim
+A_9_ur_dim5  = A_9_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_5dim
+A_9_ur_dim6  = A_9_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_6dim
+A_9_ur_dim7  = A_9_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_7dim
+A_9_ur_dim8  = A_9_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_8dim
+A_9_ur_dim9  = A_9_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_9dim
+A_9_ur_dim10 = A_9_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_10dim
+A_9_ur_dim11 = A_9_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_11dim
+A_9_ur_dim12 = A_9_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_12dim
+A_9_ur_dim13 = A_9_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_13dim
+A_9_ur_dim14 = A_9_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_14dim
+A_9_ur_dim15 = A_9_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_15dim
+A_9_ur_dim16 = A_9_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus A_9_nl in den Unterraum pca_ur_16dim
+
+% Abbidung der Testdaten in einen Unterraum
+B_ur_dim1  = B_nl * pca_ur_1dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_1dim
+B_ur_dim2  = B_nl * pca_ur_2dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_2dim
+B_ur_dim3  = B_nl * pca_ur_3dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_3dim
+B_ur_dim4  = B_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_4dim
+B_ur_dim5  = B_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_5dim
+B_ur_dim6  = B_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_6dim
+B_ur_dim7  = B_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_7dim
+B_ur_dim8  = B_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_8dim
+B_ur_dim9  = B_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_9dim
+B_ur_dim10 = B_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_10dim
+B_ur_dim11 = B_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_11dim
+B_ur_dim12 = B_nl * pca_ur_12dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_12dim
+B_ur_dim13 = B_nl * pca_ur_13dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_13dim
+B_ur_dim14 = B_nl * pca_ur_14dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_14dim
+B_ur_dim15 = B_nl * pca_ur_15dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_15dim
+B_ur_dim16 = B_nl * pca_ur_16dim; % Abbildung der Datenpunkte aus B_nl in den Unterraum pca_ur_16dim
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 1 dimensionalen Unterraum
+E_A_0_ur_dim1 = mean(A_0_ur_dim1);
+E_A_1_ur_dim1 = mean(A_1_ur_dim1);
+E_A_2_ur_dim1 = mean(A_2_ur_dim1);
+E_A_3_ur_dim1 = mean(A_3_ur_dim1);
+E_A_4_ur_dim1 = mean(A_4_ur_dim1);
+E_A_5_ur_dim1 = mean(A_5_ur_dim1);
+E_A_6_ur_dim1 = mean(A_6_ur_dim1);
+E_A_7_ur_dim1 = mean(A_7_ur_dim1);
+E_A_8_ur_dim1 = mean(A_8_ur_dim1);
+E_A_9_ur_dim1 = mean(A_9_ur_dim1);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 2 dimensionalen Unterraum
+E_A_0_ur_dim2 = mean(A_0_ur_dim2);
+E_A_1_ur_dim2 = mean(A_1_ur_dim2);
+E_A_2_ur_dim2 = mean(A_2_ur_dim2);
+E_A_3_ur_dim2 = mean(A_3_ur_dim2);
+E_A_4_ur_dim2 = mean(A_4_ur_dim2);
+E_A_5_ur_dim1 = mean(A_5_ur_dim2);
+E_A_6_ur_dim2 = mean(A_6_ur_dim2);
+E_A_7_ur_dim2 = mean(A_7_ur_dim2);
+E_A_8_ur_dim2 = mean(A_8_ur_dim2);
+E_A_9_ur_dim2 = mean(A_9_ur_dim2);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 3 dimensionalen Unterraum
+E_A_0_ur_dim3 = mean(A_0_ur_dim3);
+E_A_1_ur_dim3 = mean(A_1_ur_dim3);
+E_A_2_ur_dim3 = mean(A_2_ur_dim3);
+E_A_3_ur_dim3 = mean(A_3_ur_dim3);
+E_A_4_ur_dim3 = mean(A_4_ur_dim3);
+E_A_5_ur_dim3 = mean(A_5_ur_dim3);
+E_A_6_ur_dim3 = mean(A_6_ur_dim3);
+E_A_7_ur_dim3 = mean(A_7_ur_dim3);
+E_A_8_ur_dim3 = mean(A_8_ur_dim3);
+E_A_9_ur_dim3 = mean(A_9_ur_dim3);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 4 dimensionalen Unterraum
+E_A_0_ur_dim4 = mean(A_0_ur_dim4);
+E_A_1_ur_dim4 = mean(A_1_ur_dim4);
+E_A_2_ur_dim4 = mean(A_2_ur_dim4);
+E_A_3_ur_dim4 = mean(A_3_ur_dim4);
+E_A_4_ur_dim4 = mean(A_4_ur_dim4);
+E_A_5_ur_dim4 = mean(A_5_ur_dim4);
+E_A_6_ur_dim4 = mean(A_6_ur_dim4);
+E_A_7_ur_dim4 = mean(A_7_ur_dim4);
+E_A_8_ur_dim4 = mean(A_8_ur_dim4);
+E_A_9_ur_dim4 = mean(A_9_ur_dim4);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 5 dimensionalen Unterraum
+E_A_0_ur_dim5 = mean(A_0_ur_dim5);
+E_A_1_ur_dim5 = mean(A_1_ur_dim5);
+E_A_2_ur_dim5 = mean(A_2_ur_dim5);
+E_A_3_ur_dim5 = mean(A_3_ur_dim5);
+E_A_4_ur_dim5 = mean(A_4_ur_dim5);
+E_A_5_ur_dim5 = mean(A_5_ur_dim5);
+E_A_6_ur_dim5 = mean(A_6_ur_dim5);
+E_A_7_ur_dim5 = mean(A_7_ur_dim5);
+E_A_8_ur_dim5 = mean(A_8_ur_dim5);
+E_A_9_ur_dim5 = mean(A_9_ur_dim5);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 6 dimensionalen Unterraum
+E_A_0_ur_dim6 = mean(A_0_ur_dim6);
+E_A_1_ur_dim6 = mean(A_1_ur_dim6);
+E_A_2_ur_dim6 = mean(A_2_ur_dim6);
+E_A_3_ur_dim6 = mean(A_3_ur_dim6);
+E_A_4_ur_dim6 = mean(A_4_ur_dim6);
+E_A_5_ur_dim6 = mean(A_5_ur_dim6);
+E_A_6_ur_dim6 = mean(A_6_ur_dim6);
+E_A_7_ur_dim6 = mean(A_7_ur_dim6);
+E_A_8_ur_dim6 = mean(A_8_ur_dim6);
+E_A_9_ur_dim6 = mean(A_9_ur_dim6);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 7 dimensionalen Unterraum
+E_A_0_ur_dim7 = mean(A_0_ur_dim7);
+E_A_1_ur_dim7 = mean(A_1_ur_dim7);
+E_A_2_ur_dim7 = mean(A_2_ur_dim7);
+E_A_3_ur_dim7 = mean(A_3_ur_dim7);
+E_A_4_ur_dim7 = mean(A_4_ur_dim7);
+E_A_5_ur_dim7 = mean(A_5_ur_dim7);
+E_A_6_ur_dim7 = mean(A_6_ur_dim7);
+E_A_7_ur_dim7 = mean(A_7_ur_dim7);
+E_A_8_ur_dim7 = mean(A_8_ur_dim7);
+E_A_9_ur_dim7 = mean(A_9_ur_dim7);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 8 dimensionalen Unterraum
+E_A_0_ur_dim8 = mean(A_0_ur_dim8);
+E_A_1_ur_dim8 = mean(A_1_ur_dim8);
+E_A_2_ur_dim8 = mean(A_2_ur_dim8);
+E_A_3_ur_dim8 = mean(A_3_ur_dim8);
+E_A_4_ur_dim8 = mean(A_4_ur_dim8);
+E_A_5_ur_dim8 = mean(A_5_ur_dim8);
+E_A_6_ur_dim8 = mean(A_6_ur_dim8);
+E_A_7_ur_dim8 = mean(A_7_ur_dim8);
+E_A_8_ur_dim8 = mean(A_8_ur_dim8);
+E_A_9_ur_dim8 = mean(A_9_ur_dim8);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 9 dimensionalen Unterraum
+E_A_0_ur_dim9 = mean(A_0_ur_dim9);
+E_A_1_ur_dim9 = mean(A_1_ur_dim9);
+E_A_2_ur_dim9 = mean(A_2_ur_dim9);
+E_A_3_ur_dim9 = mean(A_3_ur_dim9);
+E_A_4_ur_dim9 = mean(A_4_ur_dim9);
+E_A_5_ur_dim9 = mean(A_5_ur_dim9);
+E_A_6_ur_dim9 = mean(A_6_ur_dim9);
+E_A_7_ur_dim9 = mean(A_7_ur_dim9);
+E_A_8_ur_dim9 = mean(A_8_ur_dim9);
+E_A_9_ur_dim9 = mean(A_9_ur_dim9);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 10 dimensionalen Unterraum
+E_A_0_ur_dim10 = mean(A_0_ur_dim10);
+E_A_1_ur_dim10 = mean(A_1_ur_dim10);
+E_A_2_ur_dim10 = mean(A_2_ur_dim10);
+E_A_3_ur_dim10 = mean(A_3_ur_dim10);
+E_A_4_ur_dim10 = mean(A_4_ur_dim10);
+E_A_5_ur_dim10 = mean(A_5_ur_dim10);
+E_A_6_ur_dim10 = mean(A_6_ur_dim10);
+E_A_7_ur_dim10 = mean(A_7_ur_dim10);
+E_A_8_ur_dim10 = mean(A_8_ur_dim10);
+E_A_9_ur_dim10 = mean(A_9_ur_dim10);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 11 dimensionalen Unterraum
+E_A_0_ur_dim11 = mean(A_0_ur_dim11);
+E_A_1_ur_dim11 = mean(A_1_ur_dim11);
+E_A_2_ur_dim11 = mean(A_2_ur_dim11);
+E_A_3_ur_dim11 = mean(A_3_ur_dim11);
+E_A_4_ur_dim11 = mean(A_4_ur_dim11);
+E_A_5_ur_dim11 = mean(A_5_ur_dim11);
+E_A_6_ur_dim11 = mean(A_6_ur_dim11);
+E_A_7_ur_dim11 = mean(A_7_ur_dim11);
+E_A_8_ur_dim11 = mean(A_8_ur_dim11);
+E_A_9_ur_dim11 = mean(A_9_ur_dim11);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 1 dimensionalen Unterraum
+E_A_0_ur_dim12 = mean(A_0_ur_dim12);
+E_A_1_ur_dim12 = mean(A_1_ur_dim12);
+E_A_2_ur_dim12 = mean(A_2_ur_dim12);
+E_A_3_ur_dim12 = mean(A_3_ur_dim12);
+E_A_4_ur_dim12 = mean(A_4_ur_dim12);
+E_A_5_ur_dim12 = mean(A_5_ur_dim12);
+E_A_6_ur_dim12 = mean(A_6_ur_dim12);
+E_A_7_ur_dim12 = mean(A_7_ur_dim12);
+E_A_8_ur_dim12 = mean(A_8_ur_dim12);
+E_A_9_ur_dim12 = mean(A_9_ur_dim12);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 1 dimensionalen Unterraum
+E_A_0_ur_dim13 = mean(A_0_ur_dim13);
+E_A_1_ur_dim13 = mean(A_1_ur_dim13);
+E_A_2_ur_dim13 = mean(A_2_ur_dim13);
+E_A_3_ur_dim13 = mean(A_3_ur_dim13);
+E_A_4_ur_dim13 = mean(A_4_ur_dim13);
+E_A_5_ur_dim13 = mean(A_5_ur_dim13);
+E_A_6_ur_dim13 = mean(A_6_ur_dim13);
+E_A_7_ur_dim13 = mean(A_7_ur_dim13);
+E_A_8_ur_dim13 = mean(A_8_ur_dim13);
+E_A_9_ur_dim13 = mean(A_9_ur_dim13);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 14 dimensionalen Unterraum
+E_A_0_ur_dim14 = mean(A_0_ur_dim14);
+E_A_1_ur_dim14 = mean(A_1_ur_dim14);
+E_A_2_ur_dim14 = mean(A_2_ur_dim14);
+E_A_3_ur_dim14 = mean(A_3_ur_dim14);
+E_A_4_ur_dim14 = mean(A_4_ur_dim14);
+E_A_5_ur_dim14 = mean(A_5_ur_dim14);
+E_A_6_ur_dim14 = mean(A_6_ur_dim14);
+E_A_7_ur_dim14 = mean(A_7_ur_dim14);
+E_A_8_ur_dim14 = mean(A_8_ur_dim14);
+E_A_9_ur_dim14 = mean(A_9_ur_dim14);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 15 dimensionalen Unterraum
+E_A_0_ur_dim15 = mean(A_0_ur_dim15);
+E_A_1_ur_dim15 = mean(A_1_ur_dim15);
+E_A_2_ur_dim15 = mean(A_2_ur_dim15);
+E_A_3_ur_dim15 = mean(A_3_ur_dim15);
+E_A_4_ur_dim15 = mean(A_4_ur_dim15);
+E_A_5_ur_dim15 = mean(A_5_ur_dim15);
+E_A_6_ur_dim15 = mean(A_6_ur_dim15);
+E_A_7_ur_dim15 = mean(A_7_ur_dim15);
+E_A_8_ur_dim15 = mean(A_8_ur_dim15);
+E_A_9_ur_dim15 = mean(A_9_ur_dim15);
+
+% Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9) im 16 dimensionalen Unterraum
+E_A_0_ur_dim16 = mean(A_0_ur_dim16);
+E_A_1_ur_dim16 = mean(A_1_ur_dim16);
+E_A_2_ur_dim16 = mean(A_2_ur_dim16);
+E_A_3_ur_dim16 = mean(A_3_ur_dim16);
+E_A_4_ur_dim16 = mean(A_4_ur_dim16);
+E_A_5_ur_dim16 = mean(A_5_ur_dim16);
+E_A_6_ur_dim16 = mean(A_6_ur_dim16);
+E_A_7_ur_dim16 = mean(A_7_ur_dim16);
+E_A_8_ur_dim16 = mean(A_8_ur_dim16);
+E_A_9_ur_dim16 = mean(A_9_ur_dim16);
+
+%%%%%%%%%%%%%% AB HIER JANA !!! %%%%%%%%%%%%%%%%%%%%%
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9)
+CVM_A_0 = cov(A_0_nl);
+CVM_A_1 = cov(A_1_nl);
+CVM_A_2 = cov(A_2_nl);
+CVM_A_3 = cov(A_3_nl);
+CVM_A_4 = cov(A_4_nl);
+CVM_A_5 = cov(A_5_nl);
+CVM_A_6 = cov(A_6_nl);
+CVM_A_7 = cov(A_7_nl);
+CVM_A_8 = cov(A_8_nl);
+CVM_A_9 = cov(A_9_nl);
+
+% Multivariante PDF generieren fuer jeden Zug (0 bis 9)
+% wir geben hier kein Intervall an, weil die pdf hochdimensional ist 
+% und nicht nur fuer einen bestimmten Bereich berechnet werden soll
+A_0_mvpdf = mvnpdf(A_0_nl, E_A_0, CVM_A_0);
+A_1_mvpdf = mvnpdf(A_1_nl, E_A_1, CVM_A_1);
+A_2_mvpdf = mvnpdf(A_2_nl, E_A_2, CVM_A_2);
+A_3_mvpdf = mvnpdf(A_3_nl, E_A_3, CVM_A_3);
+A_4_mvpdf = mvnpdf(A_4_nl, E_A_4, CVM_A_4);
+A_5_mvpdf = mvnpdf(A_5_nl, E_A_5, CVM_A_5);
+A_6_mvpdf = mvnpdf(A_6_nl, E_A_6, CVM_A_6);
+A_7_mvpdf = mvnpdf(A_7_nl, E_A_7, CVM_A_7);
+A_8_mvpdf = mvnpdf(A_8_nl, E_A_8, CVM_A_8);
+A_9_mvpdf = mvnpdf(A_9_nl, E_A_9, CVM_A_9);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A_pc1_mean  = mean(A_princomp1);  % Erwartungswert der Hauptkomponente
 A_pc2_mean  = mean(A_princomp2);  % Erwartungswert der Hauptkomponente
