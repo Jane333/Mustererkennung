@@ -1,21 +1,21 @@
-%  Aufgabe 3, k-means
+% A 3.1: k-means auf die Daten clusters.txt anwenden,
+%        k-means soll selbst implementiert werden!
 
-C = load('clusters.txt');
 k = 3;
-numIterations = 5
+numIterations = 5;
 
-mean1 = C(1,:) % mean1, selected randomly
-mean2 = C(2,:) % mean2, selected randomly
-mean3 = C(3,:) % mean3, selected randomly
-mean1_elems = [] % elements belonging to mean1
-mean2_elems = [] % elements belonging to mean2
-mean3_elems = [] % elements belonging to mean3
-plotArray = []
+mean1 = C(1,:); % mean1, selected randomly
+mean2 = C(2,:); % mean2, selected randomly
+mean3 = C(3,:); % mean3, selected randomly
+mean1_elems = []; % elements belonging to mean1
+mean2_elems = []; % elements belonging to mean2
+mean3_elems = []; % elements belonging to mean3
+plotArray = [];
 
 for iter=1:numIterations
-    mean1_elems = []
-    mean2_elems = []
-    mean3_elems = []
+    mean1_elems = [];
+    mean2_elems = [];
+    mean3_elems = [];
     for elem=1:size(C,1) % iterate over all elements
         dist = sqrt(abs(C(elem,1) - mean1(:,1))^2  + abs(C(elem,2) - mean1(:,2))^2);
         closest = mean1;
@@ -40,12 +40,9 @@ for iter=1:numIterations
     mean1_elems;
     mean2_elems;
     mean3_elems;
-    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))]
-    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))]
-    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))]
     
     % Visualisierung der Clusterzentren
-    plotOfIteration = 5 % which iteration do we want to see a plot for?
+    plotOfIteration = 1; % which iteration do we want to see a plot for?
     if iter == plotOfIteration
         % x = min(mean1_elems):max(mean1_elems)
         mean1_elems_x = mean1_elems(:,1); % x coordinates of all elements belonging to mean1
@@ -66,5 +63,8 @@ for iter=1:numIterations
         hold on
         scatter(mean3(:,1), mean3(:,2), 60, [0 0 .3], 'filled')
     end
+    
+    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))];
+    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))];
+    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))];
 end
-

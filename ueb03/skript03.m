@@ -813,12 +813,9 @@ for iter=1:numIterations
     mean1_elems;
     mean2_elems;
     mean3_elems;
-    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))];
-    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))];
-    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))];
     
     % Visualisierung der Clusterzentren
-    plotOfIteration = 5; % which iteration do we want to see a plot for?
+    plotOfIteration = 1; % which iteration do we want to see a plot for?
     if iter == plotOfIteration
         % x = min(mean1_elems):max(mean1_elems)
         mean1_elems_x = mean1_elems(:,1); % x coordinates of all elements belonging to mean1
@@ -839,4 +836,8 @@ for iter=1:numIterations
         hold on
         scatter(mean3(:,1), mean3(:,2), 60, [0 0 .3], 'filled')
     end
+    
+    mean1 = [mean(mean1_elems(:,1)), mean(mean1_elems(:,2))];
+    mean2 = [mean(mean2_elems(:,1)), mean(mean2_elems(:,2))];
+    mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))];
 end
