@@ -176,7 +176,7 @@ classification_quality = corret_predicted / M_m
 % A 2.1: Erste Hauptkomponente der Trainingsdaten angeben
 
 % Schritt 1: Subtraktion der Mittelwerte 
-M_alt =A(:,1:A_n -1);
+M_alt = A(:,1:A_n -1);
 mu=mean(M_alt')';
 M_neu = repmat(mu,1,size(M_alt,2));
 M_minus_mean = M_alt - M_neu;
@@ -187,7 +187,8 @@ CVM_A = cov(A(:,1:A_n -1));
 % Schritt 3: Eigenwerte und Eigenvektoren der Kovarianzmatrix
 e = eig(CVM_A); % gibt einen Spaltenvektor mit den Eigenwerten von CVM_A zurück
 [VB,DB] = eig(CVM_A); % V = Eigenwerte von CVM_A % D = Diagonalmatrix der Eigenwerte zu CVM_A
-erste_hauptkomponente = DB(:,1); % ist das die erste Huptkomponente?
+% noch sortieren
+erste_hauptkomponente = VB(:,1) % ist das die erste Huptkomponente?
 
 % geht vielleicht auch cooler???
 %M_pca = princomp(zscore(B(:,1:B_n -1))); % pca with standardized variables
@@ -198,21 +199,21 @@ erste_hauptkomponente = DB(:,1); % ist das die erste Huptkomponente?
 %        (wie in Aufgabe 1)
 %        Klassifikationsguete fuer alle Dimensionen angeben
 pca_c1  = DB(:,1);  % Hauptkomponente 1
-pca_c2  = DB(:,2);  % Hauptkomponente 2
-pca_c3  = DB(:,3);  % Hauptkomponente 3
-pca_c4  = DB(:,4);  % Hauptkomponente 4
-pca_c5  = DB(:,5);  % Hauptkomponente 5
-pca_c6  = DB(:,6);  % Hauptkomponente 6
-pca_c7  = DB(:,7);  % Hauptkomponente 7
-pca_c8  = DB(:,8);  % Hauptkomponente 8
-pca_c9  = DB(:,9);  % Hauptkomponente 9
-pca_c10 = DB(:,10); % Hauptkomponente 10
-pca_c11 = DB(:,11); % Hauptkomponente 11
-pca_c12 = DB(:,12); % Hauptkomponente 12
-pca_c13 = DB(:,13); % Hauptkomponente 13
-pca_c14 = DB(:,14); % Hauptkomponente 14
-pca_c15 = DB(:,15); % Hauptkomponente 15
-pca_c16 = DB(:,16); % Hauptkomponente 16
+pca_c2  = DB(:,1:2);  % Hauptkomponente 2
+pca_c3  = DB(:,1:3);  % Hauptkomponente 3
+pca_c4  = DB(:,1:4);  % Hauptkomponente 4
+pca_c5  = DB(:,1:5);  % Hauptkomponente 5
+pca_c6  = DB(:,1:6);  % Hauptkomponente 6
+pca_c7  = DB(:,1:7);  % Hauptkomponente 7
+pca_c8  = DB(:,1:8);  % Hauptkomponente 8
+pca_c9  = DB(:,1:9);  % Hauptkomponente 9
+pca_c10 = DB(:,1:10); % Hauptkomponente 10
+pca_c11 = DB(:,1:11); % Hauptkomponente 11
+pca_c12 = DB(:,1:12); % Hauptkomponente 12
+pca_c13 = DB(:,1:13); % Hauptkomponente 13
+pca_c14 = DB(:,1:14); % Hauptkomponente 14
+pca_c15 = DB(:,1:15); % Hauptkomponente 15
+pca_c16 = DB(:,1:16); % Hauptkomponente 16
 % wahrscheinlch ist hier ne umgebende FOR-Schleife besser...
 
 A_princomp1  = CVM_A * pca_c1;  % Spaltenvektor: Reduzierung auf eine Dimmension
