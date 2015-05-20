@@ -174,14 +174,164 @@ classification_quality = corret_predicted / M_m
 %%%%%%%%%%%%%%%%%%%%%%%%%%  Aufgabe 2 (4 Punkte)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % A 2.1: Erste Hauptkomponente der Trainingsdaten angeben
-M_pca = princomp(zscore(B(:,1:B_n -1))); % pca with standardized variables
-M_pca_fst = M_pca(:,1); % ?
+
+% Schritt 1: Subtraktion der Mittelwerte 
+M_alt =A(:,1:A_n -1);
+mu=mean(M_alt')';
+M_neu = repmat(mu,1,size(M_alt,2));
+M_minus_mean = M_alt - M_neu;
+
+% Schritt 2: Berechnung der Kovarianzmatrix
+CVM_A = cov(A(:,1:A_n -1));
+
+% Schritt 3: Eigenwerte und Eigenvektoren der Kovarianzmatrix
+e = eig(CVM_A); % gibt einen Spaltenvektor mit den Eigenwerten von CVM_A zurück
+[VB,DB] = eig(CVM_A); % V = Eigenwerte von CVM_A % D = Diagonalmatrix der Eigenwerte zu CVM_A
+erste_hauptkomponente = DB(:,1); % ist das die erste Huptkomponente?
+
+% geht vielleicht auch cooler???
+%M_pca = princomp(zscore(B(:,1:B_n -1))); % pca with standardized variables
+%M_pca_fst = M_pca(:,1) % ?
 
 % A 2.2: Dimensionsreduzierung mittels PCA,
 %        Testdaten klassifizieren mit Bayes Klassifikator
 %        (wie in Aufgabe 1)
 %        Klassifikationsguete fuer alle Dimensionen angeben
+pca_c1  = DB(:,1);  % Hauptkomponente 1
+pca_c2  = DB(:,2);  % Hauptkomponente 2
+pca_c3  = DB(:,3);  % Hauptkomponente 3
+pca_c4  = DB(:,4);  % Hauptkomponente 4
+pca_c5  = DB(:,5);  % Hauptkomponente 5
+pca_c6  = DB(:,6);  % Hauptkomponente 6
+pca_c7  = DB(:,7);  % Hauptkomponente 7
+pca_c8  = DB(:,8);  % Hauptkomponente 8
+pca_c9  = DB(:,9);  % Hauptkomponente 9
+pca_c10 = DB(:,10); % Hauptkomponente 10
+pca_c11 = DB(:,11); % Hauptkomponente 11
+pca_c12 = DB(:,12); % Hauptkomponente 12
+pca_c13 = DB(:,13); % Hauptkomponente 13
+pca_c14 = DB(:,14); % Hauptkomponente 14
+pca_c15 = DB(:,15); % Hauptkomponente 15
+pca_c16 = DB(:,16); % Hauptkomponente 16
+% wahrscheinlch ist hier ne umgebende FOR-Schleife besser...
 
+A_princomp1  = CVM_A * pca_c1;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp2  = CVM_A * pca_c2;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp3  = CVM_A * pca_c3;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp4  = CVM_A * pca_c4;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp5  = CVM_A * pca_c5;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp6  = CVM_A * pca_c6;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp7  = CVM_A * pca_c7;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp8  = CVM_A * pca_c8;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp9  = CVM_A * pca_c9;  % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp10 = CVM_A * pca_c10; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp11 = CVM_A * pca_c11; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp12 = CVM_A * pca_c12; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp13 = CVM_A * pca_c13; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp14 = CVM_A * pca_c14; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp15 = CVM_A * pca_c15; % Spaltenvektor: Reduzierung auf eine Dimmension
+A_princomp16 = CVM_A * pca_c16; % Spaltenvektor: Reduzierung auf eine Dimmension
+
+A_pc1_mean  = mean(A_princomp1);  % Erwartungswert der Hauptkomponente
+A_pc2_mean  = mean(A_princomp2);  % Erwartungswert der Hauptkomponente
+A_pc3_mean  = mean(A_princomp3);  % Erwartungswert der Hauptkomponente
+A_pc4_mean  = mean(A_princomp4);  % Erwartungswert der Hauptkomponente
+A_pc5_mean  = mean(A_princomp5);  % Erwartungswert der Hauptkomponente
+A_pc6_mean  = mean(A_princomp6);  % Erwartungswert der Hauptkomponente
+A_pc7_mean  = mean(A_princomp7);  % Erwartungswert der Hauptkomponente
+A_pc8_mean  = mean(A_princomp8);  % Erwartungswert der Hauptkomponente
+A_pc9_mean  = mean(A_princomp9);  % Erwartungswert der Hauptkomponente
+A_pc10_mean = mean(A_princomp10); % Erwartungswert der Hauptkomponente
+A_pc11_mean = mean(A_princomp11); % Erwartungswert der Hauptkomponente
+A_pc12_mean = mean(A_princomp12); % Erwartungswert der Hauptkomponente
+A_pc13_mean = mean(A_princomp13); % Erwartungswert der Hauptkomponente
+A_pc14_mean = mean(A_princomp14); % Erwartungswert der Hauptkomponente
+A_pc15_mean = mean(A_princomp15); % Erwartungswert der Hauptkomponente
+A_pc16_mean = mean(A_princomp16); % Erwartungswert der Hauptkomponente
+
+A_pc1_std = std(A_princomp1);    % Standardabweichgung der Hauptkomponente
+A_pc2_std = std(A_princomp2);    % Standardabweichgung der Hauptkomponente
+A_pc3_std = std(A_princomp3);    % Standardabweichgung der Hauptkomponente
+A_pc4_std = std(A_princomp4);    % Standardabweichgung der Hauptkomponente
+A_pc5_std = std(A_princomp5);    % Standardabweichgung der Hauptkomponente
+A_pc6_std = std(A_princomp6);    % Standardabweichgung der Hauptkomponente
+A_pc7_std = std(A_princomp7);    % Standardabweichgung der Hauptkomponente
+A_pc8_std = std(A_princomp8);    % Standardabweichgung der Hauptkomponente
+A_pc9_std = std(A_princomp9);    % Standardabweichgung der Hauptkomponente
+A_pc10_std = std(A_princomp10);  % Standardabweichgung der Hauptkomponente
+A_pc11_std = std(A_princomp11);  % Standardabweichgung der Hauptkomponente
+A_pc12_std = std(A_princomp12);  % Standardabweichgung der Hauptkomponente
+A_pc13_std = std(A_princomp13);  % Standardabweichgung der Hauptkomponente
+A_pc14_std = std(A_princomp14);  % Standardabweichgung der Hauptkomponente
+A_pc15_std = std(A_princomp15);  % Standardabweichgung der Hauptkomponente
+A_pc16_std = std(A_princomp16);  % Standardabweichgung der Hauptkomponente
+
+x = min(A_princomp1):max(A_princomp1); % richtiges Intervall ?
+A_pc1_pdf = pdf('Normal',x,A_pc1_mean, A_pc1_std);
+
+x = min(A_princomp2):max(A_princomp2); % richtiges Intervall ?
+A_pc2_pdf = pdf('Normal',x,A_pc2_mean, A_pc2_std);
+
+x = min(A_princomp3):max(A_princomp3); % richtiges Intervall ?
+A_pc3_pdf = pdf('Normal',x,A_pc3_mean, A_pc3_std);
+
+x = min(A_princomp4):max(A_princomp4); % richtiges Intervall ?
+A_pc4_pdf = pdf('Normal',x,A_pc4_mean, A_pc4_std);
+
+x = min(A_princomp5):max(A_princomp5); % richtiges Intervall ?
+A_pc5_pdf = pdf('Normal',x,A_pc5_mean, A_pc5_std);
+
+x = min(A_princomp6):max(A_princomp6); % richtiges Intervall ?
+A_pc6_pdf = pdf('Normal',x,A_pc6_mean, A_pc6_std);
+
+x = min(A_princomp7):max(A_princomp7); % richtiges Intervall ?
+A_pc7_pdf = pdf('Normal',x,A_pc7_mean, A_pc7_std);
+
+x = min(A_princomp1):max(A_princomp1); % richtiges Intervall ?
+A_pc8_pdf = pdf('Normal',x,A_pc8_mean, A_pc8_std);
+
+x = min(A_princomp9):max(A_princomp9); % richtiges Intervall ?
+A_pc9_pdf = pdf('Normal',x,A_pc9_mean, A_pc9_std);
+
+x = min(A_princomp10):max(A_princomp10); % richtiges Intervall ?
+A_pc10_pdf = pdf('Normal',x,A_pc10_mean, A_pc10_std);
+
+x = min(A_princomp11):max(A_princomp11); % richtiges Intervall ?
+A_pc11_pdf = pdf('Normal',x,A_pc11_mean, A_pc11_std);
+
+x = min(A_princomp12):max(A_princomp12); % richtiges Intervall ?
+A_pc12_pdf = pdf('Normal',x,A_pc12_mean, A_pc12_std);
+
+x = min(A_princomp13):max(A_princomp13); % richtiges Intervall ?
+A_pc13_pdf = pdf('Normal',x,A_pc13_mean, A_pc13_std);
+
+x = min(A_princomp14):max(A_princomp14); % richtiges Intervall ?
+A_pc14_pdf = pdf('Normal',x,A_pc14_mean, A_pc14_std);
+
+x = min(A_princomp15):max(A_princomp15); % richtiges Intervall ?
+A_pc15_pdf = pdf('Normal',x,A_pc15_mean, A_pc15_std);
+
+x = min(A_princomp16):max(A_princomp16); % richtiges Intervall ?
+A_pc16_pdf = pdf('Normal',x,A_pc16_mean, A_pc16_std);
+
+A_pc1_aposteriori = A_pc1_pdf * A_x_apriori;
+A_pc2_aposteriori = A_pc2_pdf * A_x_apriori;
+A_pc3_aposteriori = A_pc3_pdf * A_x_apriori;
+A_pc4_aposteriori = A_pc4_pdf * A_x_apriori;
+A_pc5_aposteriori = A_pc5_pdf * A_x_apriori;
+A_pc6_aposteriori = A_pc6_pdf * A_x_apriori;
+A_pc7_aposteriori = A_pc7_pdf * A_x_apriori;
+A_pc8_aposteriori = A_pc8_pdf * A_x_apriori;
+A_pc9_aposteriori = A_pc9_pdf * A_x_apriori;
+A_pc10_aposteriori = A_pc10_pdf * A_x_apriori;
+A_pc11_aposteriori = A_pc11_pdf * A_x_apriori;
+A_pc12_aposteriori = A_pc12_pdf * A_x_apriori;
+A_pc13_aposteriori = A_pc13_pdf * A_x_apriori;
+A_pc14_aposteriori = A_pc14_pdf * A_x_apriori;
+A_pc15_aposteriori = A_pc15_pdf * A_x_apriori;
+A_pc16_aposteriori = A_pc16_pdf * A_x_apriori;
+
+% Hier jetzt 16 mal die FOR-schleife aus Teil 1 ? Uncool !!!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  Aufgabe 3 (3 Punkte)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
