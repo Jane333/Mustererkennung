@@ -383,6 +383,7 @@ A_7_ur_dim4  = A_7_nl * pca_ur_4dim;  % Abbildung der Datenpunkte aus A_7_nl in 
 A_7_ur_dim5  = A_7_nl * pca_ur_5dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_5dim
 A_7_ur_dim6  = A_7_nl * pca_ur_6dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_6dim
 A_7_ur_dim7  = A_7_nl * pca_ur_7dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_7dim
+A_7_ur_dim8  = A_7_nl * pca_ur_8dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_8dim
 A_7_ur_dim9  = A_7_nl * pca_ur_9dim;  % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_9dim
 A_7_ur_dim10 = A_7_nl * pca_ur_10dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_10dim
 A_7_ur_dim11 = A_7_nl * pca_ur_11dim; % Abbildung der Datenpunkte aus A_7_nl in den Unterraum pca_ur_11dim
@@ -638,136 +639,586 @@ E_A_7_ur_dim16 = mean(A_7_ur_dim16);
 E_A_8_ur_dim16 = mean(A_8_ur_dim16);
 E_A_9_ur_dim16 = mean(A_9_ur_dim16);
 
-%%%%%%%%%%%%%% AB HIER JANA !!! %%%%%%%%%%%%%%%%%%%%%
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 1 dimensionalen Unterraum
+CVM_A_0_ur_dim1 = cov(A_0_ur_dim1);
+CVM_A_1_ur_dim1 = cov(A_1_ur_dim1);
+CVM_A_2_ur_dim1 = cov(A_2_ur_dim1);
+CVM_A_3_ur_dim1 = cov(A_3_ur_dim1);
+CVM_A_4_ur_dim1 = cov(A_4_ur_dim1);
+CVM_A_5_ur_dim1 = cov(A_5_ur_dim1);
+CVM_A_6_ur_dim1 = cov(A_6_ur_dim1);
+CVM_A_7_ur_dim1 = cov(A_7_ur_dim1);
+CVM_A_8_ur_dim1 = cov(A_8_ur_dim1);
+CVM_A_9_ur_dim1 = cov(A_9_ur_dim1);
 
-% Kovarianzmatrix fuer jeden Zug (0 bis 9)
-CVM_A_0 = cov(A_0_nl);
-CVM_A_1 = cov(A_1_nl);
-CVM_A_2 = cov(A_2_nl);
-CVM_A_3 = cov(A_3_nl);
-CVM_A_4 = cov(A_4_nl);
-CVM_A_5 = cov(A_5_nl);
-CVM_A_6 = cov(A_6_nl);
-CVM_A_7 = cov(A_7_nl);
-CVM_A_8 = cov(A_8_nl);
-CVM_A_9 = cov(A_9_nl);
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 2 dimensionalen Unterraum
+CVM_A_0_ur_dim2 = cov(A_0_ur_dim2);
+CVM_A_1_ur_dim2 = cov(A_1_ur_dim2);
+CVM_A_2_ur_dim2 = cov(A_2_ur_dim2);
+CVM_A_3_ur_dim2 = cov(A_3_ur_dim2);
+CVM_A_4_ur_dim2 = cov(A_4_ur_dim2);
+CVM_A_5_ur_dim2 = cov(A_5_ur_dim2);
+CVM_A_6_ur_dim2 = cov(A_6_ur_dim2);
+CVM_A_7_ur_dim2 = cov(A_7_ur_dim2);
+CVM_A_8_ur_dim2 = cov(A_8_ur_dim2);
+CVM_A_9_ur_dim2 = cov(A_9_ur_dim2);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 3 dimensionalen Unterraum
+CVM_A_0_ur_dim3 = cov(A_0_ur_dim3);
+CVM_A_1_ur_dim3 = cov(A_1_ur_dim3);
+CVM_A_2_ur_dim3 = cov(A_2_ur_dim3);
+CVM_A_3_ur_dim3 = cov(A_3_ur_dim3);
+CVM_A_4_ur_dim3 = cov(A_4_ur_dim3);
+CVM_A_5_ur_dim3 = cov(A_5_ur_dim3);
+CVM_A_6_ur_dim3 = cov(A_6_ur_dim3);
+CVM_A_7_ur_dim3 = cov(A_7_ur_dim3);
+CVM_A_8_ur_dim3 = cov(A_8_ur_dim3);
+CVM_A_9_ur_dim3 = cov(A_9_ur_dim3);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 4 dimensionalen Unterraum
+CVM_A_0_ur_dim4 = cov(A_0_ur_dim4);
+CVM_A_1_ur_dim4 = cov(A_1_ur_dim4);
+CVM_A_2_ur_dim4 = cov(A_2_ur_dim4);
+CVM_A_3_ur_dim4 = cov(A_3_ur_dim4);
+CVM_A_4_ur_dim4 = cov(A_4_ur_dim4);
+CVM_A_5_ur_dim4 = cov(A_5_ur_dim4);
+CVM_A_6_ur_dim4 = cov(A_6_ur_dim4);
+CVM_A_7_ur_dim4 = cov(A_7_ur_dim4);
+CVM_A_8_ur_dim4 = cov(A_8_ur_dim4);
+CVM_A_9_ur_dim4 = cov(A_9_ur_dim4);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 5 dimensionalen Unterraum
+CVM_A_0_ur_dim5 = cov(A_0_ur_dim5);
+CVM_A_1_ur_dim5 = cov(A_1_ur_dim5);
+CVM_A_2_ur_dim5 = cov(A_2_ur_dim5);
+CVM_A_3_ur_dim5 = cov(A_3_ur_dim5);
+CVM_A_4_ur_dim5 = cov(A_4_ur_dim5);
+CVM_A_5_ur_dim5 = cov(A_5_ur_dim5);
+CVM_A_6_ur_dim5 = cov(A_6_ur_dim5);
+CVM_A_7_ur_dim5 = cov(A_7_ur_dim5);
+CVM_A_8_ur_dim5 = cov(A_8_ur_dim5);
+CVM_A_9_ur_dim5 = cov(A_9_ur_dim5);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 6 dimensionalen Unterraum
+CVM_A_0_ur_dim6 = cov(A_0_ur_dim6);
+CVM_A_1_ur_dim6 = cov(A_1_ur_dim6);
+CVM_A_2_ur_dim6 = cov(A_2_ur_dim6);
+CVM_A_3_ur_dim6 = cov(A_3_ur_dim6);
+CVM_A_4_ur_dim6 = cov(A_4_ur_dim6);
+CVM_A_5_ur_dim6 = cov(A_5_ur_dim6);
+CVM_A_6_ur_dim6 = cov(A_6_ur_dim6);
+CVM_A_7_ur_dim6 = cov(A_7_ur_dim6);
+CVM_A_8_ur_dim6 = cov(A_8_ur_dim6);
+CVM_A_9_ur_dim6 = cov(A_9_ur_dim6);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 7 dimensionalen Unterraum
+CVM_A_0_ur_dim7 = cov(A_0_ur_dim7);
+CVM_A_1_ur_dim7 = cov(A_1_ur_dim7);
+CVM_A_2_ur_dim7 = cov(A_2_ur_dim7);
+CVM_A_3_ur_dim7 = cov(A_3_ur_dim7);
+CVM_A_4_ur_dim7 = cov(A_4_ur_dim7);
+CVM_A_5_ur_dim7 = cov(A_5_ur_dim7);
+CVM_A_6_ur_dim7 = cov(A_6_ur_dim7);
+CVM_A_7_ur_dim7 = cov(A_7_ur_dim7);
+CVM_A_8_ur_dim7 = cov(A_8_ur_dim7);
+CVM_A_9_ur_dim7 = cov(A_9_ur_dim7);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 8 dimensionalen Unterraum
+CVM_A_0_ur_dim8 = cov(A_0_ur_dim8);
+CVM_A_1_ur_dim8 = cov(A_1_ur_dim8);
+CVM_A_2_ur_dim8 = cov(A_2_ur_dim8);
+CVM_A_3_ur_dim8 = cov(A_3_ur_dim8);
+CVM_A_4_ur_dim8 = cov(A_4_ur_dim8);
+CVM_A_5_ur_dim8 = cov(A_5_ur_dim8);
+CVM_A_6_ur_dim8 = cov(A_6_ur_dim8);
+CVM_A_7_ur_dim8 = cov(A_7_ur_dim8);
+CVM_A_8_ur_dim8 = cov(A_8_ur_dim8);
+CVM_A_9_ur_dim8 = cov(A_9_ur_dim8);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 9 dimensionalen Unterraum
+CVM_A_0_ur_dim9 = cov(A_0_ur_dim9);
+CVM_A_1_ur_dim9 = cov(A_1_ur_dim9);
+CVM_A_2_ur_dim9 = cov(A_2_ur_dim9);
+CVM_A_3_ur_dim9 = cov(A_3_ur_dim9);
+CVM_A_4_ur_dim9 = cov(A_4_ur_dim9);
+CVM_A_5_ur_dim9 = cov(A_5_ur_dim9);
+CVM_A_6_ur_dim9 = cov(A_6_ur_dim9);
+CVM_A_7_ur_dim9 = cov(A_7_ur_dim9);
+CVM_A_8_ur_dim9 = cov(A_8_ur_dim9);
+CVM_A_9_ur_dim9 = cov(A_9_ur_dim9);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 10 dimensionalen Unterraum
+CVM_A_0_ur_dim10 = cov(A_0_ur_dim10);
+CVM_A_1_ur_dim10 = cov(A_1_ur_dim10);
+CVM_A_2_ur_dim10 = cov(A_2_ur_dim10);
+CVM_A_3_ur_dim10 = cov(A_3_ur_dim10);
+CVM_A_4_ur_dim10 = cov(A_4_ur_dim10);
+CVM_A_5_ur_dim10 = cov(A_5_ur_dim10);
+CVM_A_6_ur_dim10 = cov(A_6_ur_dim10);
+CVM_A_7_ur_dim10 = cov(A_7_ur_dim10);
+CVM_A_8_ur_dim10 = cov(A_8_ur_dim10);
+CVM_A_9_ur_dim10 = cov(A_9_ur_dim10);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 11 dimensionalen Unterraum
+CVM_A_0_ur_dim11 = cov(A_0_ur_dim11);
+CVM_A_1_ur_dim11 = cov(A_1_ur_dim11);
+CVM_A_2_ur_dim11 = cov(A_2_ur_dim11);
+CVM_A_3_ur_dim11 = cov(A_3_ur_dim11);
+CVM_A_4_ur_dim11 = cov(A_4_ur_dim11);
+CVM_A_5_ur_dim11 = cov(A_5_ur_dim11);
+CVM_A_6_ur_dim11 = cov(A_6_ur_dim11);
+CVM_A_7_ur_dim11 = cov(A_7_ur_dim11);
+CVM_A_8_ur_dim11 = cov(A_8_ur_dim11);
+CVM_A_9_ur_dim11 = cov(A_9_ur_dim11);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 12 dimensionalen Unterraum
+CVM_A_0_ur_dim12 = cov(A_0_ur_dim12);
+CVM_A_1_ur_dim12 = cov(A_1_ur_dim12);
+CVM_A_2_ur_dim12 = cov(A_2_ur_dim12);
+CVM_A_3_ur_dim12 = cov(A_3_ur_dim12);
+CVM_A_4_ur_dim12 = cov(A_4_ur_dim12);
+CVM_A_5_ur_dim12 = cov(A_5_ur_dim12);
+CVM_A_6_ur_dim12 = cov(A_6_ur_dim12);
+CVM_A_7_ur_dim12 = cov(A_7_ur_dim12);
+CVM_A_8_ur_dim12 = cov(A_8_ur_dim12);
+CVM_A_9_ur_dim12 = cov(A_9_ur_dim12);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 13 dimensionalen Unterraum
+CVM_A_0_ur_dim13 = cov(A_0_ur_dim13);
+CVM_A_1_ur_dim13 = cov(A_1_ur_dim13);
+CVM_A_2_ur_dim13 = cov(A_2_ur_dim13);
+CVM_A_3_ur_dim13 = cov(A_3_ur_dim13);
+CVM_A_4_ur_dim13 = cov(A_4_ur_dim13);
+CVM_A_5_ur_dim13 = cov(A_5_ur_dim13);
+CVM_A_6_ur_dim13 = cov(A_6_ur_dim13);
+CVM_A_7_ur_dim13 = cov(A_7_ur_dim13);
+CVM_A_8_ur_dim13 = cov(A_8_ur_dim13);
+CVM_A_9_ur_dim13 = cov(A_9_ur_dim13);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 14 dimensionalen Unterraum
+CVM_A_0_ur_dim14 = cov(A_0_ur_dim14);
+CVM_A_1_ur_dim14 = cov(A_1_ur_dim14);
+CVM_A_2_ur_dim14 = cov(A_2_ur_dim14);
+CVM_A_3_ur_dim14 = cov(A_3_ur_dim14);
+CVM_A_4_ur_dim14 = cov(A_4_ur_dim14);
+CVM_A_5_ur_dim14 = cov(A_5_ur_dim14);
+CVM_A_6_ur_dim14 = cov(A_6_ur_dim14);
+CVM_A_7_ur_dim14 = cov(A_7_ur_dim14);
+CVM_A_8_ur_dim14 = cov(A_8_ur_dim14);
+CVM_A_9_ur_dim14 = cov(A_9_ur_dim14);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 15 dimensionalen Unterraum
+CVM_A_0_ur_dim15 = cov(A_0_ur_dim15);
+CVM_A_1_ur_dim15 = cov(A_1_ur_dim15);
+CVM_A_2_ur_dim15 = cov(A_2_ur_dim15);
+CVM_A_3_ur_dim15 = cov(A_3_ur_dim15);
+CVM_A_4_ur_dim15 = cov(A_4_ur_dim15);
+CVM_A_5_ur_dim15 = cov(A_5_ur_dim15);
+CVM_A_6_ur_dim15 = cov(A_6_ur_dim15);
+CVM_A_7_ur_dim15 = cov(A_7_ur_dim15);
+CVM_A_8_ur_dim15 = cov(A_8_ur_dim15);
+CVM_A_9_ur_dim15 = cov(A_9_ur_dim15);
+
+% Kovarianzmatrix fuer jeden Zug (0 bis 9) im 16 dimensionalen Unterraum
+CVM_A_0_ur_dim16 = cov(A_0_ur_dim16);
+CVM_A_1_ur_dim16 = cov(A_1_ur_dim16);
+CVM_A_2_ur_dim16 = cov(A_2_ur_dim16);
+CVM_A_3_ur_dim16 = cov(A_3_ur_dim16);
+CVM_A_4_ur_dim16 = cov(A_4_ur_dim16);
+CVM_A_5_ur_dim16 = cov(A_5_ur_dim16);
+CVM_A_6_ur_dim16 = cov(A_6_ur_dim16);
+CVM_A_7_ur_dim16 = cov(A_7_ur_dim16);
+CVM_A_8_ur_dim16 = cov(A_8_ur_dim16);
+CVM_A_9_ur_dim16 = cov(A_9_ur_dim16);
+
 
 % Multivariante PDF generieren fuer jeden Zug (0 bis 9)
-% wir geben hier kein Intervall an, weil die pdf hochdimensional ist 
-% und nicht nur fuer einen bestimmten Bereich berechnet werden soll
-A_0_mvpdf = mvnpdf(A_0_nl, E_A_0, CVM_A_0);
-A_1_mvpdf = mvnpdf(A_1_nl, E_A_1, CVM_A_1);
-A_2_mvpdf = mvnpdf(A_2_nl, E_A_2, CVM_A_2);
-A_3_mvpdf = mvnpdf(A_3_nl, E_A_3, CVM_A_3);
-A_4_mvpdf = mvnpdf(A_4_nl, E_A_4, CVM_A_4);
-A_5_mvpdf = mvnpdf(A_5_nl, E_A_5, CVM_A_5);
-A_6_mvpdf = mvnpdf(A_6_nl, E_A_6, CVM_A_6);
-A_7_mvpdf = mvnpdf(A_7_nl, E_A_7, CVM_A_7);
-A_8_mvpdf = mvnpdf(A_8_nl, E_A_8, CVM_A_8);
-A_9_mvpdf = mvnpdf(A_9_nl, E_A_9, CVM_A_9);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% multivariate PDF im 1 dimensionalen Unterraum
+A_0_mvpdf_ur_dim1 = mvnpdf(A_0_ur_dim1, E_A_0_ur_dim1, CVM_A_0_ur_dim1);
+A_1_mvpdf_ur_dim1 = mvnpdf(A_1_ur_dim1, E_A_1_ur_dim1, CVM_A_1_ur_dim1);
+A_2_mvpdf_ur_dim1 = mvnpdf(A_2_ur_dim1, E_A_2_ur_dim1, CVM_A_2_ur_dim1);
+A_3_mvpdf_ur_dim1 = mvnpdf(A_3_ur_dim1, E_A_3_ur_dim1, CVM_A_3_ur_dim1);
+A_4_mvpdf_ur_dim1 = mvnpdf(A_4_ur_dim1, E_A_4_ur_dim1, CVM_A_4_ur_dim1);
+A_5_mvpdf_ur_dim1 = mvnpdf(A_5_ur_dim1, E_A_5_ur_dim1, CVM_A_5_ur_dim1);
+A_6_mvpdf_ur_dim1 = mvnpdf(A_6_ur_dim1, E_A_6_ur_dim1, CVM_A_6_ur_dim1);
+A_7_mvpdf_ur_dim1 = mvnpdf(A_7_ur_dim1, E_A_7_ur_dim1, CVM_A_7_ur_dim1);
+A_8_mvpdf_ur_dim1 = mvnpdf(A_8_ur_dim1, E_A_8_ur_dim1, CVM_A_8_ur_dim1);
+A_9_mvpdf_ur_dim1 = mvnpdf(A_9_ur_dim1, E_A_9_ur_dim1, CVM_A_9_ur_dim1);
 
-A_pc1_mean  = mean(A_princomp1);  % Erwartungswert der Hauptkomponente
-A_pc2_mean  = mean(A_princomp2);  % Erwartungswert der Hauptkomponente
-A_pc3_mean  = mean(A_princomp3);  % Erwartungswert der Hauptkomponente
-A_pc4_mean  = mean(A_princomp4);  % Erwartungswert der Hauptkomponente
-A_pc5_mean  = mean(A_princomp5);  % Erwartungswert der Hauptkomponente
-A_pc6_mean  = mean(A_princomp6);  % Erwartungswert der Hauptkomponente
-A_pc7_mean  = mean(A_princomp7);  % Erwartungswert der Hauptkomponente
-A_pc8_mean  = mean(A_princomp8);  % Erwartungswert der Hauptkomponente
-A_pc9_mean  = mean(A_princomp9);  % Erwartungswert der Hauptkomponente
-A_pc10_mean = mean(A_princomp10); % Erwartungswert der Hauptkomponente
-A_pc11_mean = mean(A_princomp11); % Erwartungswert der Hauptkomponente
-A_pc12_mean = mean(A_princomp12); % Erwartungswert der Hauptkomponente
-A_pc13_mean = mean(A_princomp13); % Erwartungswert der Hauptkomponente
-A_pc14_mean = mean(A_princomp14); % Erwartungswert der Hauptkomponente
-A_pc15_mean = mean(A_princomp15); % Erwartungswert der Hauptkomponente
-A_pc16_mean = mean(A_princomp16); % Erwartungswert der Hauptkomponente
+% multivariate PDF im 2 dimensionalen Unterraum
+A_0_mvpdf_ur_dim2 = mvnpdf(A_0_ur_dim2, E_A_0_ur_dim2, CVM_A_0_ur_dim2);
+A_1_mvpdf_ur_dim2 = mvnpdf(A_1_ur_dim2, E_A_1_ur_dim2, CVM_A_1_ur_dim2);
+A_2_mvpdf_ur_dim2 = mvnpdf(A_2_ur_dim2, E_A_2_ur_dim2, CVM_A_2_ur_dim2);
+A_3_mvpdf_ur_dim2 = mvnpdf(A_3_ur_dim2, E_A_3_ur_dim2, CVM_A_3_ur_dim2);
+A_4_mvpdf_ur_dim2 = mvnpdf(A_4_ur_dim2, E_A_4_ur_dim2, CVM_A_4_ur_dim2);
+A_5_mvpdf_ur_dim2 = mvnpdf(A_5_ur_dim2, E_A_5_ur_dim2, CVM_A_5_ur_dim2);
+A_6_mvpdf_ur_dim2 = mvnpdf(A_6_ur_dim2, E_A_6_ur_dim2, CVM_A_6_ur_dim2);
+A_7_mvpdf_ur_dim2 = mvnpdf(A_7_ur_dim2, E_A_7_ur_dim2, CVM_A_7_ur_dim2);
+A_8_mvpdf_ur_dim2 = mvnpdf(A_8_ur_dim2, E_A_8_ur_dim2, CVM_A_8_ur_dim2);
+A_9_mvpdf_ur_dim1 = mvnpdf(A_9_ur_dim2, E_A_9_ur_dim2, CVM_A_9_ur_dim2);
 
-A_pc1_std = std(A_princomp1);    % Standardabweichgung der Hauptkomponente
-A_pc2_std = std(A_princomp2);    % Standardabweichgung der Hauptkomponente
-A_pc3_std = std(A_princomp3);    % Standardabweichgung der Hauptkomponente
-A_pc4_std = std(A_princomp4);    % Standardabweichgung der Hauptkomponente
-A_pc5_std = std(A_princomp5);    % Standardabweichgung der Hauptkomponente
-A_pc6_std = std(A_princomp6);    % Standardabweichgung der Hauptkomponente
-A_pc7_std = std(A_princomp7);    % Standardabweichgung der Hauptkomponente
-A_pc8_std = std(A_princomp8);    % Standardabweichgung der Hauptkomponente
-A_pc9_std = std(A_princomp9);    % Standardabweichgung der Hauptkomponente
-A_pc10_std = std(A_princomp10);  % Standardabweichgung der Hauptkomponente
-A_pc11_std = std(A_princomp11);  % Standardabweichgung der Hauptkomponente
-A_pc12_std = std(A_princomp12);  % Standardabweichgung der Hauptkomponente
-A_pc13_std = std(A_princomp13);  % Standardabweichgung der Hauptkomponente
-A_pc14_std = std(A_princomp14);  % Standardabweichgung der Hauptkomponente
-A_pc15_std = std(A_princomp15);  % Standardabweichgung der Hauptkomponente
-A_pc16_std = std(A_princomp16);  % Standardabweichgung der Hauptkomponente
+% multivariate PDF im 3 dimensionalen Unterraum
+A_0_mvpdf_ur_dim3 = mvnpdf(A_0_ur_dim3, E_A_0_ur_dim3, CVM_A_0_ur_dim3);
+A_1_mvpdf_ur_dim3 = mvnpdf(A_1_ur_dim3, E_A_1_ur_dim3, CVM_A_1_ur_dim3);
+A_2_mvpdf_ur_dim3 = mvnpdf(A_2_ur_dim3, E_A_2_ur_dim3, CVM_A_2_ur_dim3);
+A_3_mvpdf_ur_dim3 = mvnpdf(A_3_ur_dim3, E_A_3_ur_dim3, CVM_A_3_ur_dim3);
+A_4_mvpdf_ur_dim3 = mvnpdf(A_4_ur_dim3, E_A_4_ur_dim3, CVM_A_4_ur_dim3);
+A_5_mvpdf_ur_dim3 = mvnpdf(A_5_ur_dim3, E_A_5_ur_dim3, CVM_A_5_ur_dim3);
+A_6_mvpdf_ur_dim3 = mvnpdf(A_6_ur_dim3, E_A_6_ur_dim3, CVM_A_6_ur_dim3);
+A_7_mvpdf_ur_dim3 = mvnpdf(A_7_ur_dim3, E_A_7_ur_dim3, CVM_A_7_ur_dim3);
+A_8_mvpdf_ur_dim3 = mvnpdf(A_8_ur_dim3, E_A_8_ur_dim3, CVM_A_8_ur_dim3);
+A_9_mvpdf_ur_dim3 = mvnpdf(A_9_ur_dim3, E_A_9_ur_dim3, CVM_A_9_ur_dim3);
 
-x = min(A_princomp1):max(A_princomp1); % richtiges Intervall ?
-A_pc1_pdf = pdf('Normal',x,A_pc1_mean, A_pc1_std);
+% multivariate PDF im 4 dimensionalen Unterraum
+A_0_mvpdf_ur_dim4 = mvnpdf(A_0_ur_dim4, E_A_0_ur_dim4, CVM_A_0_ur_dim4);
+A_1_mvpdf_ur_dim4 = mvnpdf(A_1_ur_dim4, E_A_1_ur_dim4, CVM_A_1_ur_dim4);
+A_2_mvpdf_ur_dim4 = mvnpdf(A_2_ur_dim4, E_A_2_ur_dim4, CVM_A_2_ur_dim4);
+A_3_mvpdf_ur_dim4 = mvnpdf(A_3_ur_dim4, E_A_3_ur_dim4, CVM_A_3_ur_dim4);
+A_4_mvpdf_ur_dim4 = mvnpdf(A_4_ur_dim4, E_A_4_ur_dim4, CVM_A_4_ur_dim4);
+A_5_mvpdf_ur_dim4 = mvnpdf(A_5_ur_dim4, E_A_5_ur_dim4, CVM_A_5_ur_dim4);
+A_6_mvpdf_ur_dim4 = mvnpdf(A_6_ur_dim4, E_A_6_ur_dim4, CVM_A_6_ur_dim4);
+A_7_mvpdf_ur_dim4 = mvnpdf(A_7_ur_dim4, E_A_7_ur_dim4, CVM_A_7_ur_dim4);
+A_8_mvpdf_ur_dim4 = mvnpdf(A_8_ur_dim4, E_A_8_ur_dim4, CVM_A_8_ur_dim4);
+A_9_mvpdf_ur_dim4 = mvnpdf(A_9_ur_dim4, E_A_9_ur_dim4, CVM_A_9_ur_dim4);
 
-x = min(A_princomp2):max(A_princomp2); % richtiges Intervall ?
-A_pc2_pdf = pdf('Normal',x,A_pc2_mean, A_pc2_std);
+% multivariate PDF im 5 dimensionalen Unterraum
+A_0_mvpdf_ur_dim5 = mvnpdf(A_0_ur_dim5, E_A_0_ur_dim5, CVM_A_0_ur_dim5);
+A_1_mvpdf_ur_dim5 = mvnpdf(A_1_ur_dim5, E_A_1_ur_dim5, CVM_A_1_ur_dim5);
+A_2_mvpdf_ur_dim5 = mvnpdf(A_2_ur_dim5, E_A_2_ur_dim5, CVM_A_2_ur_dim5);
+A_3_mvpdf_ur_dim5 = mvnpdf(A_3_ur_dim5, E_A_3_ur_dim5, CVM_A_3_ur_dim5);
+A_4_mvpdf_ur_dim5 = mvnpdf(A_4_ur_dim5, E_A_4_ur_dim5, CVM_A_4_ur_dim5);
+A_5_mvpdf_ur_dim5 = mvnpdf(A_5_ur_dim5, E_A_5_ur_dim5, CVM_A_5_ur_dim5);
+A_6_mvpdf_ur_dim5 = mvnpdf(A_6_ur_dim5, E_A_6_ur_dim5, CVM_A_6_ur_dim5);
+A_7_mvpdf_ur_dim5 = mvnpdf(A_7_ur_dim5, E_A_7_ur_dim5, CVM_A_7_ur_dim5);
+A_8_mvpdf_ur_dim5 = mvnpdf(A_8_ur_dim5, E_A_8_ur_dim5, CVM_A_8_ur_dim5);
+A_9_mvpdf_ur_dim5 = mvnpdf(A_9_ur_dim5, E_A_9_ur_dim5, CVM_A_9_ur_dim5);
 
-x = min(A_princomp3):max(A_princomp3); % richtiges Intervall ?
-A_pc3_pdf = pdf('Normal',x,A_pc3_mean, A_pc3_std);
+% multivariate PDF im 6 dimensionalen Unterraum
+A_0_mvpdf_ur_dim6 = mvnpdf(A_0_ur_dim6, E_A_0_ur_dim6, CVM_A_0_ur_dim6);
+A_1_mvpdf_ur_dim6 = mvnpdf(A_1_ur_dim6, E_A_1_ur_dim6, CVM_A_1_ur_dim6);
+A_2_mvpdf_ur_dim6 = mvnpdf(A_2_ur_dim6, E_A_2_ur_dim6, CVM_A_2_ur_dim6);
+A_3_mvpdf_ur_dim6 = mvnpdf(A_3_ur_dim6, E_A_3_ur_dim6, CVM_A_3_ur_dim6);
+A_4_mvpdf_ur_dim6 = mvnpdf(A_4_ur_dim6, E_A_4_ur_dim6, CVM_A_4_ur_dim6);
+A_5_mvpdf_ur_dim6 = mvnpdf(A_5_ur_dim6, E_A_5_ur_dim6, CVM_A_5_ur_dim6);
+A_6_mvpdf_ur_dim6 = mvnpdf(A_6_ur_dim6, E_A_6_ur_dim6, CVM_A_6_ur_dim6);
+A_7_mvpdf_ur_dim6 = mvnpdf(A_7_ur_dim6, E_A_7_ur_dim6, CVM_A_7_ur_dim6);
+A_8_mvpdf_ur_dim6 = mvnpdf(A_8_ur_dim6, E_A_8_ur_dim6, CVM_A_8_ur_dim6);
+A_9_mvpdf_ur_dim6 = mvnpdf(A_9_ur_dim6, E_A_9_ur_dim6, CVM_A_9_ur_dim6);
 
-x = min(A_princomp4):max(A_princomp4); % richtiges Intervall ?
-A_pc4_pdf = pdf('Normal',x,A_pc4_mean, A_pc4_std);
+% multivariate PDF im 7 dimensionalen Unterraum
+A_0_mvpdf_ur_dim7 = mvnpdf(A_0_ur_dim7, E_A_0_ur_dim7, CVM_A_0_ur_dim7);
+A_1_mvpdf_ur_dim7 = mvnpdf(A_1_ur_dim7, E_A_1_ur_dim7, CVM_A_1_ur_dim7);
+A_2_mvpdf_ur_dim7 = mvnpdf(A_2_ur_dim7, E_A_2_ur_dim7, CVM_A_2_ur_dim7);
+A_3_mvpdf_ur_dim7 = mvnpdf(A_3_ur_dim7, E_A_3_ur_dim7, CVM_A_3_ur_dim7);
+A_4_mvpdf_ur_dim7 = mvnpdf(A_4_ur_dim7, E_A_4_ur_dim7, CVM_A_4_ur_dim7);
+A_5_mvpdf_ur_dim7 = mvnpdf(A_5_ur_dim7, E_A_5_ur_dim7, CVM_A_5_ur_dim7);
+A_6_mvpdf_ur_dim7 = mvnpdf(A_6_ur_dim7, E_A_6_ur_dim7, CVM_A_6_ur_dim7);
+A_7_mvpdf_ur_dim7 = mvnpdf(A_7_ur_dim7, E_A_7_ur_dim7, CVM_A_7_ur_dim7);
+A_8_mvpdf_ur_dim7 = mvnpdf(A_8_ur_dim7, E_A_8_ur_dim7, CVM_A_8_ur_dim7);
+A_9_mvpdf_ur_dim7 = mvnpdf(A_9_ur_dim7, E_A_9_ur_dim7, CVM_A_9_ur_dim7);
 
-x = min(A_princomp5):max(A_princomp5); % richtiges Intervall ?
-A_pc5_pdf = pdf('Normal',x,A_pc5_mean, A_pc5_std);
+% multivariate PDF im 8 dimensionalen Unterraum
+A_0_mvpdf_ur_dim8 = mvnpdf(A_0_ur_dim8, E_A_0_ur_dim8, CVM_A_0_ur_dim8);
+A_1_mvpdf_ur_dim8 = mvnpdf(A_1_ur_dim8, E_A_1_ur_dim8, CVM_A_1_ur_dim8);
+A_2_mvpdf_ur_dim8 = mvnpdf(A_2_ur_dim8, E_A_2_ur_dim8, CVM_A_2_ur_dim8);
+A_3_mvpdf_ur_dim8 = mvnpdf(A_3_ur_dim8, E_A_3_ur_dim8, CVM_A_3_ur_dim8);
+A_4_mvpdf_ur_dim8 = mvnpdf(A_4_ur_dim8, E_A_4_ur_dim8, CVM_A_4_ur_dim8);
+A_5_mvpdf_ur_dim8 = mvnpdf(A_5_ur_dim8, E_A_5_ur_dim8, CVM_A_5_ur_dim8);
+A_6_mvpdf_ur_dim8 = mvnpdf(A_6_ur_dim8, E_A_6_ur_dim8, CVM_A_6_ur_dim8);
+A_7_mvpdf_ur_dim8 = mvnpdf(A_7_ur_dim8, E_A_7_ur_dim8, CVM_A_7_ur_dim8);
+A_8_mvpdf_ur_dim8 = mvnpdf(A_8_ur_dim8, E_A_8_ur_dim8, CVM_A_8_ur_dim8);
+A_9_mvpdf_ur_dim8 = mvnpdf(A_9_ur_dim8, E_A_9_ur_dim8, CVM_A_9_ur_dim8);
 
-x = min(A_princomp6):max(A_princomp6); % richtiges Intervall ?
-A_pc6_pdf = pdf('Normal',x,A_pc6_mean, A_pc6_std);
+% multivariate PDF im 9 dimensionalen Unterraum
+A_0_mvpdf_ur_dim9 = mvnpdf(A_0_ur_dim9, E_A_0_ur_dim9, CVM_A_0_ur_dim9);
+A_1_mvpdf_ur_dim9 = mvnpdf(A_1_ur_dim9, E_A_1_ur_dim9, CVM_A_1_ur_dim9);
+A_2_mvpdf_ur_dim9 = mvnpdf(A_2_ur_dim9, E_A_2_ur_dim9, CVM_A_2_ur_dim9);
+A_3_mvpdf_ur_dim9 = mvnpdf(A_3_ur_dim9, E_A_3_ur_dim9, CVM_A_3_ur_dim9);
+A_4_mvpdf_ur_dim9 = mvnpdf(A_4_ur_dim9, E_A_4_ur_dim9, CVM_A_4_ur_dim9);
+A_5_mvpdf_ur_dim9 = mvnpdf(A_5_ur_dim9, E_A_5_ur_dim9, CVM_A_5_ur_dim9);
+A_6_mvpdf_ur_dim9 = mvnpdf(A_6_ur_dim9, E_A_6_ur_dim9, CVM_A_6_ur_dim9);
+A_7_mvpdf_ur_dim9 = mvnpdf(A_7_ur_dim9, E_A_7_ur_dim9, CVM_A_7_ur_dim9);
+A_8_mvpdf_ur_dim9 = mvnpdf(A_8_ur_dim9, E_A_8_ur_dim9, CVM_A_8_ur_dim9);
+A_9_mvpdf_ur_dim9 = mvnpdf(A_9_ur_dim9, E_A_9_ur_dim9, CVM_A_9_ur_dim9);
 
-x = min(A_princomp7):max(A_princomp7); % richtiges Intervall ?
-A_pc7_pdf = pdf('Normal',x,A_pc7_mean, A_pc7_std);
+% multivariate PDF im 10 dimensionalen Unterraum
+A_0_mvpdf_ur_dim10 = mvnpdf(A_0_ur_dim10, E_A_0_ur_dim10, CVM_A_0_ur_dim10);
+A_1_mvpdf_ur_dim10 = mvnpdf(A_1_ur_dim10, E_A_1_ur_dim10, CVM_A_1_ur_dim10);
+A_2_mvpdf_ur_dim10 = mvnpdf(A_2_ur_dim10, E_A_2_ur_dim10, CVM_A_2_ur_dim10);
+A_3_mvpdf_ur_dim10 = mvnpdf(A_3_ur_dim10, E_A_3_ur_dim10, CVM_A_3_ur_dim10);
+A_4_mvpdf_ur_dim10 = mvnpdf(A_4_ur_dim10, E_A_4_ur_dim10, CVM_A_4_ur_dim10);
+A_5_mvpdf_ur_dim10 = mvnpdf(A_5_ur_dim10, E_A_5_ur_dim10, CVM_A_5_ur_dim10);
+A_6_mvpdf_ur_dim10 = mvnpdf(A_6_ur_dim10, E_A_6_ur_dim10, CVM_A_6_ur_dim10);
+A_7_mvpdf_ur_dim10 = mvnpdf(A_7_ur_dim10, E_A_7_ur_dim10, CVM_A_7_ur_dim10);
+A_8_mvpdf_ur_dim10 = mvnpdf(A_8_ur_dim10, E_A_8_ur_dim10, CVM_A_8_ur_dim10);
+A_9_mvpdf_ur_dim10 = mvnpdf(A_9_ur_dim10, E_A_9_ur_dim10, CVM_A_9_ur_dim10);
 
-x = min(A_princomp1):max(A_princomp1); % richtiges Intervall ?
-A_pc8_pdf = pdf('Normal',x,A_pc8_mean, A_pc8_std);
+% multivariate PDF im 11 dimensionalen Unterraum
+A_0_mvpdf_ur_dim11 = mvnpdf(A_0_ur_dim11, E_A_0_ur_dim11, CVM_A_0_ur_dim11);
+A_1_mvpdf_ur_dim11 = mvnpdf(A_1_ur_dim11, E_A_1_ur_dim11, CVM_A_1_ur_dim11);
+A_2_mvpdf_ur_dim11 = mvnpdf(A_2_ur_dim11, E_A_2_ur_dim11, CVM_A_2_ur_dim11);
+A_3_mvpdf_ur_dim11 = mvnpdf(A_3_ur_dim11, E_A_3_ur_dim11, CVM_A_3_ur_dim11);
+A_4_mvpdf_ur_dim11 = mvnpdf(A_4_ur_dim11, E_A_4_ur_dim11, CVM_A_4_ur_dim11);
+A_5_mvpdf_ur_dim11 = mvnpdf(A_5_ur_dim11, E_A_5_ur_dim11, CVM_A_5_ur_dim11);
+A_6_mvpdf_ur_dim11 = mvnpdf(A_6_ur_dim11, E_A_6_ur_dim11, CVM_A_6_ur_dim11);
+A_7_mvpdf_ur_dim11 = mvnpdf(A_7_ur_dim11, E_A_7_ur_dim11, CVM_A_7_ur_dim11);
+A_8_mvpdf_ur_dim11 = mvnpdf(A_8_ur_dim11, E_A_8_ur_dim11, CVM_A_8_ur_dim11);
+A_9_mvpdf_ur_dim11 = mvnpdf(A_9_ur_dim11, E_A_9_ur_dim11, CVM_A_9_ur_dim11);
 
-x = min(A_princomp9):max(A_princomp9); % richtiges Intervall ?
-A_pc9_pdf = pdf('Normal',x,A_pc9_mean, A_pc9_std);
+% multivariate PDF im 12 dimensionalen Unterraum
+A_0_mvpdf_ur_dim12 = mvnpdf(A_0_ur_dim12, E_A_0_ur_dim12, CVM_A_0_ur_dim12);
+A_1_mvpdf_ur_dim12 = mvnpdf(A_1_ur_dim12, E_A_1_ur_dim12, CVM_A_1_ur_dim12);
+A_2_mvpdf_ur_dim12 = mvnpdf(A_2_ur_dim12, E_A_2_ur_dim12, CVM_A_2_ur_dim12);
+A_3_mvpdf_ur_dim12 = mvnpdf(A_3_ur_dim12, E_A_3_ur_dim12, CVM_A_3_ur_dim12);
+A_4_mvpdf_ur_dim12 = mvnpdf(A_4_ur_dim12, E_A_4_ur_dim12, CVM_A_4_ur_dim12);
+A_5_mvpdf_ur_dim12 = mvnpdf(A_5_ur_dim12, E_A_5_ur_dim12, CVM_A_5_ur_dim12);
+A_6_mvpdf_ur_dim12 = mvnpdf(A_6_ur_dim12, E_A_6_ur_dim12, CVM_A_6_ur_dim12);
+A_7_mvpdf_ur_dim12 = mvnpdf(A_7_ur_dim12, E_A_7_ur_dim12, CVM_A_7_ur_dim12);
+A_8_mvpdf_ur_dim12 = mvnpdf(A_8_ur_dim12, E_A_8_ur_dim12, CVM_A_8_ur_dim12);
+A_9_mvpdf_ur_dim12 = mvnpdf(A_9_ur_dim12, E_A_9_ur_dim12, CVM_A_9_ur_dim12);
 
-x = min(A_princomp10):max(A_princomp10); % richtiges Intervall ?
-A_pc10_pdf = pdf('Normal',x,A_pc10_mean, A_pc10_std);
+% multivariate PDF im 13 dimensionalen Unterraum
+A_0_mvpdf_ur_dim13 = mvnpdf(A_0_ur_dim13, E_A_0_ur_dim13, CVM_A_0_ur_dim13);
+A_1_mvpdf_ur_dim13 = mvnpdf(A_1_ur_dim13, E_A_1_ur_dim13, CVM_A_1_ur_dim13);
+A_2_mvpdf_ur_dim13 = mvnpdf(A_2_ur_dim13, E_A_2_ur_dim13, CVM_A_2_ur_dim13);
+A_3_mvpdf_ur_dim13 = mvnpdf(A_3_ur_dim13, E_A_3_ur_dim13, CVM_A_3_ur_dim13);
+A_4_mvpdf_ur_dim13 = mvnpdf(A_4_ur_dim13, E_A_4_ur_dim13, CVM_A_4_ur_dim13);
+A_5_mvpdf_ur_dim13 = mvnpdf(A_5_ur_dim13, E_A_5_ur_dim13, CVM_A_5_ur_dim13);
+A_6_mvpdf_ur_dim13 = mvnpdf(A_6_ur_dim13, E_A_6_ur_dim13, CVM_A_6_ur_dim13);
+A_7_mvpdf_ur_dim13 = mvnpdf(A_7_ur_dim13, E_A_7_ur_dim13, CVM_A_7_ur_dim13);
+A_8_mvpdf_ur_dim13 = mvnpdf(A_8_ur_dim13, E_A_8_ur_dim13, CVM_A_8_ur_dim13);
+A_9_mvpdf_ur_dim13 = mvnpdf(A_9_ur_dim13, E_A_9_ur_dim13, CVM_A_9_ur_dim13);
 
-x = min(A_princomp11):max(A_princomp11); % richtiges Intervall ?
-A_pc11_pdf = pdf('Normal',x,A_pc11_mean, A_pc11_std);
+% multivariate PDF im 14 dimensionalen Unterraum
+A_0_mvpdf_ur_dim14 = mvnpdf(A_0_ur_dim14, E_A_0_ur_dim14, CVM_A_0_ur_dim14);
+A_1_mvpdf_ur_dim14 = mvnpdf(A_1_ur_dim14, E_A_1_ur_dim14, CVM_A_1_ur_dim14);
+A_2_mvpdf_ur_dim14 = mvnpdf(A_2_ur_dim14, E_A_2_ur_dim14, CVM_A_2_ur_dim14);
+A_3_mvpdf_ur_dim14 = mvnpdf(A_3_ur_dim14, E_A_3_ur_dim14, CVM_A_3_ur_dim14);
+A_4_mvpdf_ur_dim14 = mvnpdf(A_4_ur_dim14, E_A_4_ur_dim14, CVM_A_4_ur_dim14);
+A_5_mvpdf_ur_dim14 = mvnpdf(A_5_ur_dim14, E_A_5_ur_dim14, CVM_A_5_ur_dim14);
+A_6_mvpdf_ur_dim14 = mvnpdf(A_6_ur_dim14, E_A_6_ur_dim14, CVM_A_6_ur_dim14);
+A_7_mvpdf_ur_dim14 = mvnpdf(A_7_ur_dim14, E_A_7_ur_dim14, CVM_A_7_ur_dim14);
+A_8_mvpdf_ur_dim14 = mvnpdf(A_8_ur_dim14, E_A_8_ur_dim14, CVM_A_8_ur_dim14);
+A_9_mvpdf_ur_dim14 = mvnpdf(A_9_ur_dim14, E_A_9_ur_dim14, CVM_A_9_ur_dim14);
 
-x = min(A_princomp12):max(A_princomp12); % richtiges Intervall ?
-A_pc12_pdf = pdf('Normal',x,A_pc12_mean, A_pc12_std);
+% multivariate PDF im 15 dimensionalen Unterraum
+A_0_mvpdf_ur_dim15 = mvnpdf(A_0_ur_dim15, E_A_0_ur_dim15, CVM_A_0_ur_dim15);
+A_1_mvpdf_ur_dim15 = mvnpdf(A_1_ur_dim15, E_A_1_ur_dim15, CVM_A_1_ur_dim15);
+A_2_mvpdf_ur_dim15 = mvnpdf(A_2_ur_dim15, E_A_2_ur_dim15, CVM_A_2_ur_dim15);
+A_3_mvpdf_ur_dim15 = mvnpdf(A_3_ur_dim15, E_A_3_ur_dim15, CVM_A_3_ur_dim15);
+A_4_mvpdf_ur_dim15 = mvnpdf(A_4_ur_dim15, E_A_4_ur_dim15, CVM_A_4_ur_dim15);
+A_5_mvpdf_ur_dim15 = mvnpdf(A_5_ur_dim15, E_A_5_ur_dim15, CVM_A_5_ur_dim15);
+A_6_mvpdf_ur_dim15 = mvnpdf(A_6_ur_dim15, E_A_6_ur_dim15, CVM_A_6_ur_dim15);
+A_7_mvpdf_ur_dim15 = mvnpdf(A_7_ur_dim15, E_A_7_ur_dim15, CVM_A_7_ur_dim15);
+A_8_mvpdf_ur_dim15 = mvnpdf(A_8_ur_dim15, E_A_8_ur_dim15, CVM_A_8_ur_dim15);
+A_9_mvpdf_ur_dim15 = mvnpdf(A_9_ur_dim15, E_A_9_ur_dim15, CVM_A_9_ur_dim15);
 
-x = min(A_princomp13):max(A_princomp13); % richtiges Intervall ?
-A_pc13_pdf = pdf('Normal',x,A_pc13_mean, A_pc13_std);
+% multivariate PDF im 16 dimensionalen Unterraum
+A_0_mvpdf_ur_dim16 = mvnpdf(A_0_ur_dim16, E_A_0_ur_dim16, CVM_A_0_ur_dim16);
+A_1_mvpdf_ur_dim16 = mvnpdf(A_1_ur_dim16, E_A_1_ur_dim16, CVM_A_1_ur_dim16);
+A_2_mvpdf_ur_dim16 = mvnpdf(A_2_ur_dim16, E_A_2_ur_dim16, CVM_A_2_ur_dim16);
+A_3_mvpdf_ur_dim16 = mvnpdf(A_3_ur_dim16, E_A_3_ur_dim16, CVM_A_3_ur_dim16);
+A_4_mvpdf_ur_dim16 = mvnpdf(A_4_ur_dim16, E_A_4_ur_dim16, CVM_A_4_ur_dim16);
+A_5_mvpdf_ur_dim16 = mvnpdf(A_5_ur_dim16, E_A_5_ur_dim16, CVM_A_5_ur_dim16);
+A_6_mvpdf_ur_dim16 = mvnpdf(A_6_ur_dim16, E_A_6_ur_dim16, CVM_A_6_ur_dim16);
+A_7_mvpdf_ur_dim16 = mvnpdf(A_7_ur_dim16, E_A_7_ur_dim16, CVM_A_7_ur_dim16);
+A_8_mvpdf_ur_dim16 = mvnpdf(A_8_ur_dim16, E_A_8_ur_dim16, CVM_A_8_ur_dim16);
+A_9_mvpdf_ur_dim16 = mvnpdf(A_9_ur_dim16, E_A_9_ur_dim16, CVM_A_9_ur_dim16);
 
-x = min(A_princomp14):max(A_princomp14); % richtiges Intervall ?
-A_pc14_pdf = pdf('Normal',x,A_pc14_mean, A_pc14_std);
+% Aposteriori - Wahrscheinlichkeit im 1 dimensionalen Unterraum
+A_0_aposteriori_ur_dim1 = A_0_mvpdf_ur_dim1 * A_x_apriori;
+A_1_aposteriori_ur_dim1 = A_1_mvpdf_ur_dim1 * A_x_apriori;
+A_2_aposteriori_ur_dim1 = A_2_mvpdf_ur_dim1 * A_x_apriori;
+A_3_aposteriori_ur_dim1 = A_3_mvpdf_ur_dim1 * A_x_apriori;
+A_4_aposteriori_ur_dim1 = A_4_mvpdf_ur_dim1 * A_x_apriori;
+A_5_aposteriori_ur_dim1 = A_5_mvpdf_ur_dim1 * A_x_apriori;
+A_6_aposteriori_ur_dim1 = A_6_mvpdf_ur_dim1 * A_x_apriori;
+A_7_aposteriori_ur_dim1 = A_7_mvpdf_ur_dim1 * A_x_apriori;
+A_8_aposteriori_ur_dim1 = A_8_mvpdf_ur_dim1 * A_x_apriori;
+A_9_aposteriori_ur_dim1 = A_9_mvpdf_ur_dim1 * A_x_apriori;
 
-x = min(A_princomp15):max(A_princomp15); % richtiges Intervall ?
-A_pc15_pdf = pdf('Normal',x,A_pc15_mean, A_pc15_std);
+% Aposteriori - Wahrscheinlichkeit im 2 dimensionalen Unterraum
+A_0_aposteriori_ur_dim2 = A_0_mvpdf_ur_dim2 * A_x_apriori;
+A_1_aposteriori_ur_dim2 = A_1_mvpdf_ur_dim2 * A_x_apriori;
+A_2_aposteriori_ur_dim2 = A_2_mvpdf_ur_dim2 * A_x_apriori;
+A_3_aposteriori_ur_dim2 = A_3_mvpdf_ur_dim2 * A_x_apriori;
+A_4_aposteriori_ur_dim2 = A_4_mvpdf_ur_dim2 * A_x_apriori;
+A_5_aposteriori_ur_dim2 = A_5_mvpdf_ur_dim2 * A_x_apriori;
+A_6_aposteriori_ur_dim2 = A_6_mvpdf_ur_dim2 * A_x_apriori;
+A_7_aposteriori_ur_dim2 = A_7_mvpdf_ur_dim2 * A_x_apriori;
+A_8_aposteriori_ur_dim2 = A_8_mvpdf_ur_dim2 * A_x_apriori;
+A_9_aposteriori_ur_dim2 = A_9_mvpdf_ur_dim2 * A_x_apriori;
 
-x = min(A_princomp16):max(A_princomp16); % richtiges Intervall ?
-A_pc16_pdf = pdf('Normal',x,A_pc16_mean, A_pc16_std);
+% Aposteriori - Wahrscheinlichkeit im 3 dimensionalen Unterraum
+A_0_aposteriori_ur_dim3 = A_0_mvpdf_ur_dim3 * A_x_apriori;
+A_1_aposteriori_ur_dim3 = A_1_mvpdf_ur_dim3 * A_x_apriori;
+A_2_aposteriori_ur_dim3 = A_2_mvpdf_ur_dim3 * A_x_apriori;
+A_3_aposteriori_ur_dim3 = A_3_mvpdf_ur_dim3 * A_x_apriori;
+A_4_aposteriori_ur_dim3 = A_4_mvpdf_ur_dim3 * A_x_apriori;
+A_5_aposteriori_ur_dim3 = A_5_mvpdf_ur_dim3 * A_x_apriori;
+A_6_aposteriori_ur_dim3 = A_6_mvpdf_ur_dim3 * A_x_apriori;
+A_7_aposteriori_ur_dim3 = A_7_mvpdf_ur_dim3 * A_x_apriori;
+A_8_aposteriori_ur_dim3 = A_8_mvpdf_ur_dim3 * A_x_apriori;
+A_9_aposteriori_ur_dim3 = A_9_mvpdf_ur_dim3 * A_x_apriori;
 
-A_pc1_aposteriori = A_pc1_pdf * A_x_apriori;
-A_pc2_aposteriori = A_pc2_pdf * A_x_apriori;
-A_pc3_aposteriori = A_pc3_pdf * A_x_apriori;
-A_pc4_aposteriori = A_pc4_pdf * A_x_apriori;
-A_pc5_aposteriori = A_pc5_pdf * A_x_apriori;
-A_pc6_aposteriori = A_pc6_pdf * A_x_apriori;
-A_pc7_aposteriori = A_pc7_pdf * A_x_apriori;
-A_pc8_aposteriori = A_pc8_pdf * A_x_apriori;
-A_pc9_aposteriori = A_pc9_pdf * A_x_apriori;
-A_pc10_aposteriori = A_pc10_pdf * A_x_apriori;
-A_pc11_aposteriori = A_pc11_pdf * A_x_apriori;
-A_pc12_aposteriori = A_pc12_pdf * A_x_apriori;
-A_pc13_aposteriori = A_pc13_pdf * A_x_apriori;
-A_pc14_aposteriori = A_pc14_pdf * A_x_apriori;
-A_pc15_aposteriori = A_pc15_pdf * A_x_apriori;
-A_pc16_aposteriori = A_pc16_pdf * A_x_apriori;
+% Aposteriori - Wahrscheinlichkeit im 4 dimensionalen Unterraum
+A_0_aposteriori_ur_dim4 = A_0_mvpdf_ur_dim4 * A_x_apriori;
+A_1_aposteriori_ur_dim4 = A_1_mvpdf_ur_dim4 * A_x_apriori;
+A_2_aposteriori_ur_dim4 = A_2_mvpdf_ur_dim4 * A_x_apriori;
+A_3_aposteriori_ur_dim4 = A_3_mvpdf_ur_dim4 * A_x_apriori;
+A_4_aposteriori_ur_dim4 = A_4_mvpdf_ur_dim4 * A_x_apriori;
+A_5_aposteriori_ur_dim4 = A_5_mvpdf_ur_dim4 * A_x_apriori;
+A_6_aposteriori_ur_dim4 = A_6_mvpdf_ur_dim4 * A_x_apriori;
+A_7_aposteriori_ur_dim4 = A_7_mvpdf_ur_dim4 * A_x_apriori;
+A_8_aposteriori_ur_dim4 = A_8_mvpdf_ur_dim4 * A_x_apriori;
+A_9_aposteriori_ur_dim4 = A_9_mvpdf_ur_dim4 * A_x_apriori;
 
-% Hier jetzt 16 mal die FOR-schleife aus Teil 1 ? Uncool !!!
+% Aposteriori - Wahrscheinlichkeit im 5 dimensionalen Unterraum
+A_0_aposteriori_ur_dim5 = A_0_mvpdf_ur_dim5 * A_x_apriori;
+A_1_aposteriori_ur_dim5 = A_1_mvpdf_ur_dim5 * A_x_apriori;
+A_2_aposteriori_ur_dim5 = A_2_mvpdf_ur_dim5 * A_x_apriori;
+A_3_aposteriori_ur_dim5 = A_3_mvpdf_ur_dim5 * A_x_apriori;
+A_4_aposteriori_ur_dim5 = A_4_mvpdf_ur_dim5 * A_x_apriori;
+A_5_aposteriori_ur_dim5 = A_5_mvpdf_ur_dim5 * A_x_apriori;
+A_6_aposteriori_ur_dim5 = A_6_mvpdf_ur_dim5 * A_x_apriori;
+A_7_aposteriori_ur_dim5 = A_7_mvpdf_ur_dim5 * A_x_apriori;
+A_8_aposteriori_ur_dim5 = A_8_mvpdf_ur_dim5 * A_x_apriori;
+A_9_aposteriori_ur_dim5 = A_9_mvpdf_ur_dim5 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 6 dimensionalen Unterraum
+A_0_aposteriori_ur_dim6 = A_0_mvpdf_ur_dim6 * A_x_apriori;
+A_1_aposteriori_ur_dim6 = A_1_mvpdf_ur_dim6 * A_x_apriori;
+A_2_aposteriori_ur_dim6 = A_2_mvpdf_ur_dim6 * A_x_apriori;
+A_3_aposteriori_ur_dim6 = A_3_mvpdf_ur_dim6 * A_x_apriori;
+A_4_aposteriori_ur_dim6 = A_4_mvpdf_ur_dim6 * A_x_apriori;
+A_5_aposteriori_ur_dim6 = A_5_mvpdf_ur_dim6 * A_x_apriori;
+A_6_aposteriori_ur_dim6 = A_6_mvpdf_ur_dim6 * A_x_apriori;
+A_7_aposteriori_ur_dim6 = A_7_mvpdf_ur_dim6 * A_x_apriori;
+A_8_aposteriori_ur_dim6 = A_8_mvpdf_ur_dim6 * A_x_apriori;
+A_9_aposteriori_ur_dim6 = A_9_mvpdf_ur_dim6 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 7 dimensionalen Unterraum
+A_0_aposteriori_ur_dim7 = A_0_mvpdf_ur_dim7 * A_x_apriori;
+A_1_aposteriori_ur_dim7 = A_1_mvpdf_ur_dim7 * A_x_apriori;
+A_2_aposteriori_ur_dim7 = A_2_mvpdf_ur_dim7 * A_x_apriori;
+A_3_aposteriori_ur_dim7 = A_3_mvpdf_ur_dim7 * A_x_apriori;
+A_4_aposteriori_ur_dim7 = A_4_mvpdf_ur_dim7 * A_x_apriori;
+A_5_aposteriori_ur_dim7 = A_5_mvpdf_ur_dim7 * A_x_apriori;
+A_6_aposteriori_ur_dim7 = A_6_mvpdf_ur_dim7 * A_x_apriori;
+A_7_aposteriori_ur_dim7 = A_7_mvpdf_ur_dim7 * A_x_apriori;
+A_8_aposteriori_ur_dim7 = A_8_mvpdf_ur_dim7 * A_x_apriori;
+A_9_aposteriori_ur_dim7 = A_9_mvpdf_ur_dim7 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 8 dimensionalen Unterraum
+A_0_aposteriori_ur_dim8 = A_0_mvpdf_ur_dim8 * A_x_apriori;
+A_1_aposteriori_ur_dim8 = A_1_mvpdf_ur_dim8 * A_x_apriori;
+A_2_aposteriori_ur_dim8 = A_2_mvpdf_ur_dim8 * A_x_apriori;
+A_3_aposteriori_ur_dim8 = A_3_mvpdf_ur_dim8 * A_x_apriori;
+A_4_aposteriori_ur_dim8 = A_4_mvpdf_ur_dim8 * A_x_apriori;
+A_5_aposteriori_ur_dim8 = A_5_mvpdf_ur_dim8 * A_x_apriori;
+A_6_aposteriori_ur_dim8 = A_6_mvpdf_ur_dim8 * A_x_apriori;
+A_7_aposteriori_ur_dim8 = A_7_mvpdf_ur_dim8 * A_x_apriori;
+A_8_aposteriori_ur_dim8 = A_8_mvpdf_ur_dim8 * A_x_apriori;
+A_9_aposteriori_ur_dim8 = A_9_mvpdf_ur_dim8 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 9 dimensionalen Unterraum
+A_0_aposteriori_ur_dim9 = A_0_mvpdf_ur_dim9 * A_x_apriori;
+A_1_aposteriori_ur_dim9 = A_1_mvpdf_ur_dim9 * A_x_apriori;
+A_2_aposteriori_ur_dim9 = A_2_mvpdf_ur_dim9 * A_x_apriori;
+A_3_aposteriori_ur_dim9 = A_3_mvpdf_ur_dim9 * A_x_apriori;
+A_4_aposteriori_ur_dim9 = A_4_mvpdf_ur_dim9 * A_x_apriori;
+A_5_aposteriori_ur_dim9 = A_5_mvpdf_ur_dim9 * A_x_apriori;
+A_6_aposteriori_ur_dim9 = A_6_mvpdf_ur_dim9 * A_x_apriori;
+A_7_aposteriori_ur_dim9 = A_7_mvpdf_ur_dim9 * A_x_apriori;
+A_8_aposteriori_ur_dim9 = A_8_mvpdf_ur_dim9 * A_x_apriori;
+A_9_aposteriori_ur_dim9 = A_9_mvpdf_ur_dim9 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 10 dimensionalen Unterraum
+A_0_aposteriori_ur_dim10 = A_0_mvpdf_ur_dim10 * A_x_apriori;
+A_1_aposteriori_ur_dim10 = A_1_mvpdf_ur_dim10 * A_x_apriori;
+A_2_aposteriori_ur_dim10 = A_2_mvpdf_ur_dim10 * A_x_apriori;
+A_3_aposteriori_ur_dim10 = A_3_mvpdf_ur_dim10 * A_x_apriori;
+A_4_aposteriori_ur_dim10 = A_4_mvpdf_ur_dim10 * A_x_apriori;
+A_5_aposteriori_ur_dim10 = A_5_mvpdf_ur_dim10 * A_x_apriori;
+A_6_aposteriori_ur_dim10 = A_6_mvpdf_ur_dim10 * A_x_apriori;
+A_7_aposteriori_ur_dim10 = A_7_mvpdf_ur_dim10 * A_x_apriori;
+A_8_aposteriori_ur_dim10 = A_8_mvpdf_ur_dim10 * A_x_apriori;
+A_9_aposteriori_ur_dim10 = A_9_mvpdf_ur_dim10 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 11 dimensionalen Unterraum
+A_0_aposteriori_ur_dim11 = A_0_mvpdf_ur_dim11 * A_x_apriori;
+A_1_aposteriori_ur_dim11 = A_1_mvpdf_ur_dim11 * A_x_apriori;
+A_2_aposteriori_ur_dim11 = A_2_mvpdf_ur_dim11 * A_x_apriori;
+A_3_aposteriori_ur_dim11 = A_3_mvpdf_ur_dim11 * A_x_apriori;
+A_4_aposteriori_ur_dim11 = A_4_mvpdf_ur_dim11 * A_x_apriori;
+A_5_aposteriori_ur_dim11 = A_5_mvpdf_ur_dim11 * A_x_apriori;
+A_6_aposteriori_ur_dim11 = A_6_mvpdf_ur_dim11 * A_x_apriori;
+A_7_aposteriori_ur_dim11 = A_7_mvpdf_ur_dim11 * A_x_apriori;
+A_8_aposteriori_ur_dim11 = A_8_mvpdf_ur_dim11 * A_x_apriori;
+A_9_aposteriori_ur_dim11 = A_9_mvpdf_ur_dim11 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 12 dimensionalen Unterraum
+A_0_aposteriori_ur_dim12 = A_0_mvpdf_ur_dim12 * A_x_apriori;
+A_1_aposteriori_ur_dim12 = A_1_mvpdf_ur_dim12 * A_x_apriori;
+A_2_aposteriori_ur_dim12 = A_2_mvpdf_ur_dim12 * A_x_apriori;
+A_3_aposteriori_ur_dim12 = A_3_mvpdf_ur_dim12 * A_x_apriori;
+A_4_aposteriori_ur_dim12 = A_4_mvpdf_ur_dim12 * A_x_apriori;
+A_5_aposteriori_ur_dim12 = A_5_mvpdf_ur_dim12 * A_x_apriori;
+A_6_aposteriori_ur_dim12 = A_6_mvpdf_ur_dim12 * A_x_apriori;
+A_7_aposteriori_ur_dim12 = A_7_mvpdf_ur_dim12 * A_x_apriori;
+A_8_aposteriori_ur_dim12 = A_8_mvpdf_ur_dim12 * A_x_apriori;
+A_9_aposteriori_ur_dim12 = A_9_mvpdf_ur_dim12 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 13 dimensionalen Unterraum
+A_0_aposteriori_ur_dim13 = A_0_mvpdf_ur_dim13 * A_x_apriori;
+A_1_aposteriori_ur_dim13 = A_1_mvpdf_ur_dim13 * A_x_apriori;
+A_2_aposteriori_ur_dim13 = A_2_mvpdf_ur_dim13 * A_x_apriori;
+A_3_aposteriori_ur_dim13 = A_3_mvpdf_ur_dim13 * A_x_apriori;
+A_4_aposteriori_ur_dim13 = A_4_mvpdf_ur_dim13 * A_x_apriori;
+A_5_aposteriori_ur_dim13 = A_5_mvpdf_ur_dim13 * A_x_apriori;
+A_6_aposteriori_ur_dim13 = A_6_mvpdf_ur_dim13 * A_x_apriori;
+A_7_aposteriori_ur_dim13 = A_7_mvpdf_ur_dim13 * A_x_apriori;
+A_8_aposteriori_ur_dim13 = A_8_mvpdf_ur_dim13 * A_x_apriori;
+A_9_aposteriori_ur_dim13 = A_9_mvpdf_ur_dim13 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 14 dimensionalen Unterraum
+A_0_aposteriori_ur_dim14 = A_0_mvpdf_ur_dim14 * A_x_apriori;
+A_1_aposteriori_ur_dim14 = A_1_mvpdf_ur_dim14 * A_x_apriori;
+A_2_aposteriori_ur_dim14 = A_2_mvpdf_ur_dim14 * A_x_apriori;
+A_3_aposteriori_ur_dim14 = A_3_mvpdf_ur_dim14 * A_x_apriori;
+A_4_aposteriori_ur_dim14 = A_4_mvpdf_ur_dim14 * A_x_apriori;
+A_5_aposteriori_ur_dim14 = A_5_mvpdf_ur_dim14 * A_x_apriori;
+A_6_aposteriori_ur_dim14 = A_6_mvpdf_ur_dim14 * A_x_apriori;
+A_7_aposteriori_ur_dim14 = A_7_mvpdf_ur_dim14 * A_x_apriori;
+A_8_aposteriori_ur_dim14 = A_8_mvpdf_ur_dim14 * A_x_apriori;
+A_9_aposteriori_ur_dim14 = A_9_mvpdf_ur_dim14 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 15 dimensionalen Unterraum
+A_0_aposteriori_ur_dim15 = A_0_mvpdf_ur_dim15 * A_x_apriori;
+A_1_aposteriori_ur_dim15 = A_1_mvpdf_ur_dim15 * A_x_apriori;
+A_2_aposteriori_ur_dim15 = A_2_mvpdf_ur_dim15 * A_x_apriori;
+A_3_aposteriori_ur_dim15 = A_3_mvpdf_ur_dim15 * A_x_apriori;
+A_4_aposteriori_ur_dim15 = A_4_mvpdf_ur_dim15 * A_x_apriori;
+A_5_aposteriori_ur_dim15 = A_5_mvpdf_ur_dim15 * A_x_apriori;
+A_6_aposteriori_ur_dim15 = A_6_mvpdf_ur_dim15 * A_x_apriori;
+A_7_aposteriori_ur_dim15 = A_7_mvpdf_ur_dim15 * A_x_apriori;
+A_8_aposteriori_ur_dim15 = A_8_mvpdf_ur_dim15 * A_x_apriori;
+A_9_aposteriori_ur_dim15 = A_9_mvpdf_ur_dim15 * A_x_apriori;
+
+% Aposteriori - Wahrscheinlichkeit im 16 dimensionalen Unterraum
+A_0_aposteriori_ur_dim16 = A_0_mvpdf_ur_dim16 * A_x_apriori;
+A_1_aposteriori_ur_dim16 = A_1_mvpdf_ur_dim16 * A_x_apriori;
+A_2_aposteriori_ur_dim16 = A_2_mvpdf_ur_dim16 * A_x_apriori;
+A_3_aposteriori_ur_dim16 = A_3_mvpdf_ur_dim16 * A_x_apriori;
+A_4_aposteriori_ur_dim16 = A_4_mvpdf_ur_dim16 * A_x_apriori;
+A_5_aposteriori_ur_dim16 = A_5_mvpdf_ur_dim16 * A_x_apriori;
+A_6_aposteriori_ur_dim16 = A_6_mvpdf_ur_dim16 * A_x_apriori;
+A_7_aposteriori_ur_dim16 = A_7_mvpdf_ur_dim16 * A_x_apriori;
+A_8_aposteriori_ur_dim16 = A_8_mvpdf_ur_dim16 * A_x_apriori;
+A_9_aposteriori_ur_dim16 = A_9_mvpdf_ur_dim16 * A_x_apriori;
+
+% HIER KLASSIFIZIEREN %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  Aufgabe 3 (3 Punkte)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
