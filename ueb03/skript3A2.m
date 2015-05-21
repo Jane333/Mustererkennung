@@ -804,30 +804,6 @@ CVM_A_7_ur_dim5 = cov(A_7_ur_dim5);
 CVM_A_8_ur_dim5 = cov(A_8_ur_dim5);
 CVM_A_9_ur_dim5 = cov(A_9_ur_dim5);
 
-% multivariate PDF bestimmen
-A_0_mvpdf_ur_dim5 = mvnpdf(A_0_ur_dim5, E_A_0_ur_dim5, CVM_A_0_ur_dim5);
-A_1_mvpdf_ur_dim5 = mvnpdf(A_1_ur_dim5, E_A_1_ur_dim5, CVM_A_1_ur_dim5);
-A_2_mvpdf_ur_dim5 = mvnpdf(A_2_ur_dim5, E_A_2_ur_dim5, CVM_A_2_ur_dim5);
-A_3_mvpdf_ur_dim5 = mvnpdf(A_3_ur_dim5, E_A_3_ur_dim5, CVM_A_3_ur_dim5);
-A_4_mvpdf_ur_dim5 = mvnpdf(A_4_ur_dim5, E_A_4_ur_dim5, CVM_A_4_ur_dim5);
-A_5_mvpdf_ur_dim5 = mvnpdf(A_5_ur_dim5, E_A_5_ur_dim5, CVM_A_5_ur_dim5);
-A_6_mvpdf_ur_dim5 = mvnpdf(A_6_ur_dim5, E_A_6_ur_dim5, CVM_A_6_ur_dim5);
-A_7_mvpdf_ur_dim5 = mvnpdf(A_7_ur_dim5, E_A_7_ur_dim5, CVM_A_7_ur_dim5);
-A_8_mvpdf_ur_dim5 = mvnpdf(A_8_ur_dim5, E_A_8_ur_dim5, CVM_A_8_ur_dim5);
-A_9_mvpdf_ur_dim5 = mvnpdf(A_9_ur_dim5, E_A_9_ur_dim5, CVM_A_9_ur_dim5);
-
-% Aposteriori - Wahrscheinlichkeit bestimmen
-A_0_aposteriori_ur_dim5 = A_0_mvpdf_ur_dim5 * A_x_apriori;
-A_1_aposteriori_ur_dim5 = A_1_mvpdf_ur_dim5 * A_x_apriori;
-A_2_aposteriori_ur_dim5 = A_2_mvpdf_ur_dim5 * A_x_apriori;
-A_3_aposteriori_ur_dim5 = A_3_mvpdf_ur_dim5 * A_x_apriori;
-A_4_aposteriori_ur_dim5 = A_4_mvpdf_ur_dim5 * A_x_apriori;
-A_5_aposteriori_ur_dim5 = A_5_mvpdf_ur_dim5 * A_x_apriori;
-A_6_aposteriori_ur_dim5 = A_6_mvpdf_ur_dim5 * A_x_apriori;
-A_7_aposteriori_ur_dim5 = A_7_mvpdf_ur_dim5 * A_x_apriori;
-A_8_aposteriori_ur_dim5 = A_8_mvpdf_ur_dim5 * A_x_apriori;
-A_9_aposteriori_ur_dim5 = A_9_mvpdf_ur_dim5 * A_x_apriori;
-
 % Klassifizierung der Testdaten (Metrik: L2-Norm)
 M_classify_dim5 = [];
 for index = 1:size(B_ur_dim5,1)
@@ -835,16 +811,16 @@ for index = 1:size(B_ur_dim5,1)
     trainData = B_ur_dim5(index,:);
     
     % multivariate PDF fuer Testdatensatz (für jede Zuglinie)
-    A_0_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_0_ur_dim5, CVM_A_0_ur_dim5);
-    A_1_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_1_ur_dim5, CVM_A_1_ur_dim5);
-    A_2_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_2_ur_dim5, CVM_A_2_ur_dim5);
-    A_3_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_3_ur_dim5, CVM_A_3_ur_dim5);
-    A_4_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_4_ur_dim5, CVM_A_4_ur_dim5);
-    A_5_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_5_ur_dim5, CVM_A_5_ur_dim5);
-    A_6_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_6_ur_dim5, CVM_A_6_ur_dim5);
-    A_7_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_7_ur_dim5, CVM_A_7_ur_dim5);
-    A_8_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_8_ur_dim5, CVM_A_8_ur_dim5);
-    A_9_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_9_ur_dim5, CVM_A_9_ur_dim5);
+    A_0_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_0_ur_dim5, CVM_A_0_ur_dim5) * A_x_apriori;
+    A_1_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_1_ur_dim5, CVM_A_1_ur_dim5) * A_x_apriori;
+    A_2_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_2_ur_dim5, CVM_A_2_ur_dim5) * A_x_apriori;
+    A_3_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_3_ur_dim5, CVM_A_3_ur_dim5) * A_x_apriori;
+    A_4_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_4_ur_dim5, CVM_A_4_ur_dim5) * A_x_apriori;
+    A_5_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_5_ur_dim5, CVM_A_5_ur_dim5) * A_x_apriori;
+    A_6_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_6_ur_dim5, CVM_A_6_ur_dim5) * A_x_apriori;
+    A_7_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_7_ur_dim5, CVM_A_7_ur_dim5) * A_x_apriori;
+    A_8_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_8_ur_dim5, CVM_A_8_ur_dim5) * A_x_apriori;
+    A_9_aposteriori_predict_dim5 = mvnpdf(trainData, E_A_9_ur_dim5, CVM_A_9_ur_dim5) * A_x_apriori;
     
     % L2 Norm der aposteriori Vorhersage
     A0_l2_dim5 = norm(A_0_aposteriori_predict_dim5);
