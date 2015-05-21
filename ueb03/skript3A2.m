@@ -188,24 +188,25 @@ biggest_principalcomponent = EigVec_CVM_A(:,size(EigVec_CVM_A,2));
 %%% A 2.2: PCA und Klassiifikation der Testdaten
 
 % PCA: 1-dimmensional
+biggestEVec = size(EigVec_CVM_A,2);
 
 % Unterraum erzeugen
-pca_ur_1dim  = EigVec_CVM_A(:,size(EigVec_CVM_A,2)); % größter (= letzter) Eigenvektor
+pca_ur_1dim  = EigVec_CVM_A(:,biggestEVec); % groeßter (= letzter) Eigenvektor
 
 % Abbildung der gesamten Trainingsdaten auf Unterraum
 %A_ur_dim1  = A_nl * pca_ur_1dim;
 
 % Abbildung der Trainingsdaten auf Unterraum
-A_0_ur_dim1  = A_0_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 0
-A_1_ur_dim1  = A_1_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 1
-A_2_ur_dim1  = A_2_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 2
-A_3_ur_dim1  = A_3_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 3
-A_4_ur_dim1  = A_4_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 4
-A_5_ur_dim1  = A_5_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 5
-A_6_ur_dim1  = A_6_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 6
-A_7_ur_dim1  = A_7_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 7
-A_8_ur_dim1  = A_8_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 8
-A_9_ur_dim1  = A_9_nl * pca_ur_1dim; % Datenpunkte für Zuglinie 9
+A_0_ur_dim1  = A_0_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 0
+A_1_ur_dim1  = A_1_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 1
+A_2_ur_dim1  = A_2_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 2
+A_3_ur_dim1  = A_3_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 3
+A_4_ur_dim1  = A_4_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 4
+A_5_ur_dim1  = A_5_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 5
+A_6_ur_dim1  = A_6_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 6
+A_7_ur_dim1  = A_7_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 7
+A_8_ur_dim1  = A_8_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 8
+A_9_ur_dim1  = A_9_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 9
 
 % Abbidung der Testdaten auf Unterraum
 B_ur_dim1  = B_nl * pca_ur_1dim;
@@ -264,7 +265,7 @@ for index = 1:size(B_ur_dim1,1)
     
     trainData = B_ur_dim1(index,:);
     
-    % multivariate PDF für Testdatensatz (für jede Zuglinie)
+    % multivariate PDF fuer Testdatensatz (für jede Zuglinie)
     A_0_aposteriori_predict_dim1 = mvnpdf(trainData, E_A_0_ur_dim1, CVM_A_0_ur_dim1);
     A_1_aposteriori_predict_dim1 = mvnpdf(trainData, E_A_1_ur_dim1, CVM_A_1_ur_dim1);
     A_2_aposteriori_predict_dim1 = mvnpdf(trainData, E_A_2_ur_dim1, CVM_A_2_ur_dim1);
@@ -279,7 +280,7 @@ for index = 1:size(B_ur_dim1,1)
     % Bestimmung des Maximums (aposteriori Vorhersage)
     [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict_dim1),norm(A_1_aposteriori_predict_dim1),norm(A_2_aposteriori_predict_dim1),norm(A_3_aposteriori_predict_dim1),norm(A_4_aposteriori_predict_dim1),norm(A_5_aposteriori_predict_dim1),norm(A_6_aposteriori_predict_dim1),norm(A_7_aposteriori_predict_dim1),norm(A_8_aposteriori_predict_dim1),norm(A_9_aposteriori_predict_dim1)]);
     
-    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Größte?)
+    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groeßte?)
     if (maxValue == norm(A_0_aposteriori_predict_dim1))       % train 0 predicted
         tmpVector = [B_ur_dim1(index,:),B(index,B_n),0];
         M_classify_dim1 = vertcat(M_classify_dim1,tmpVector);
