@@ -99,7 +99,7 @@ M_classify = [];
 for index = 1:size(B,1)
     trainData = B(index,1:B_n -1);
     
-    % multivariate PDF für Testdatensatz (für jede Zuglinie)
+    % multivariate PDF für Testdatensatz (fuer jede Zuglinie)
     A_0_aposteriori_predict = mvnpdf(trainData, E_A_0, CVM_A_0);
     A_1_aposteriori_predict = mvnpdf(trainData, E_A_1, CVM_A_1);
     A_2_aposteriori_predict = mvnpdf(trainData, E_A_2, CVM_A_2);
@@ -114,7 +114,7 @@ for index = 1:size(B,1)
     % Bestimmung des Maximums (aposteriori Vorhersage)
     [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict),norm(A_1_aposteriori_predict),norm(A_2_aposteriori_predict),norm(A_3_aposteriori_predict),norm(A_4_aposteriori_predict),norm(A_5_aposteriori_predict),norm(A_6_aposteriori_predict),norm(A_7_aposteriori_predict),norm(A_8_aposteriori_predict),norm(A_9_aposteriori_predict)]);
     
-    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Größte?)
+    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groesste?)
     if (maxValue == norm(A_0_aposteriori_predict))     % train 0 predicted
         tmpVector = [B(index,1:B_n -1),B(index,B_n),0];
         M_classify = vertcat(M_classify,tmpVector);
