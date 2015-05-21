@@ -18,7 +18,7 @@ B_nl = B(:,1:B_n -1);
 A_0 = A((A(:,17)==0),:);
 A_1 = A((A(:,17)==1),:);
 A_2 = A((A(:,17)==2),:);
-A_3 = A((A(:,17)==3),:);
+A_3 = A((A(:,17)==3),:); 
 A_4 = A((A(:,17)==4),:);
 A_5 = A((A(:,17)==5),:);
 A_6 = A((A(:,17)==6),:);
@@ -187,14 +187,11 @@ biggest_principalcomponent = EigVec_CVM_A(:,size(EigVec_CVM_A,2));
 
 %%% A 2.2: PCA und Klassiifikation der Testdaten
 
-% PCA: 1-dimmensional
+%%%%% PCA: 1-dimmensional %%%%%
 biggestEVec = size(EigVec_CVM_A,2);
 
 % Unterraum erzeugen
 pca_ur_1dim  = EigVec_CVM_A(:,biggestEVec); % groeﬂter (= letzter) Eigenvektor
-
-% Abbildung der gesamten Trainingsdaten auf Unterraum
-%A_ur_dim1  = A_nl * pca_ur_1dim;
 
 % Abbildung der Trainingsdaten auf Unterraum
 A_0_ur_dim1  = A_0_nl * pca_ur_1dim; % Datenpunkte fuer Zuglinie 0
@@ -277,9 +274,21 @@ for index = 1:size(B_ur_dim1,1)
     A_8_aposteriori_predict_dim1 = mvnpdf(trainData, E_A_8_ur_dim1, CVM_A_8_ur_dim1);
     A_9_aposteriori_predict_dim1 = mvnpdf(trainData, E_A_9_ur_dim1, CVM_A_9_ur_dim1);
     
-    % Bestimmung des Maximums (aposteriori Vorhersage)
-    [maxValue, indexAtMaxValue] = max([norm(A_0_aposteriori_predict_dim1),norm(A_1_aposteriori_predict_dim1),norm(A_2_aposteriori_predict_dim1),norm(A_3_aposteriori_predict_dim1),norm(A_4_aposteriori_predict_dim1),norm(A_5_aposteriori_predict_dim1),norm(A_6_aposteriori_predict_dim1),norm(A_7_aposteriori_predict_dim1),norm(A_8_aposteriori_predict_dim1),norm(A_9_aposteriori_predict_dim1)]);
+     % L2 Norm der aposteriori Vorhersage
+    A0_l2_dim1 = norm(A_0_aposteriori_predict_dim1);
+    A1_l2_dim1 = norm(A_1_aposteriori_predict_dim1);
+    A2_l2_dim1 = norm(A_2_aposteriori_predict_dim1);
+    A3_l2_dim1 = norm(A_3_aposteriori_predict_dim1);
+    A4_l2_dim1 = norm(A_4_aposteriori_predict_dim1);
+    A5_l2_dim1 = norm(A_5_aposteriori_predict_dim1);
+    A6_l2_dim1 = norm(A_6_aposteriori_predict_dim1);
+    A7_l2_dim1 = norm(A_7_aposteriori_predict_dim1);
+    A8_l2_dim1 = norm(A_8_aposteriori_predict_dim1);
+    A9_l2_dim1 = norm(A_9_aposteriori_predict_dim1);
     
+    % Bestimmung des Maximums (aposteriori Vorhersage)
+    [maxValue, indexAtMaxValue] = max([A0_l2_dim1, A1_l2_dim1, A2_l2_dim1, A3_l2_dim1, A4_l2_dim1, A5_l2_dim1, A6_l2_dim1, A7_l2_dim1, A8_l2_dim1, A9_l2_dim1]);
+        
     % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groeﬂte?)
     if (maxValue == norm(A_0_aposteriori_predict_dim1))       % train 0 predicted
         tmpVector = [B_ur_dim1(index,:),B(index,B_n),0];
@@ -322,6 +331,19 @@ knownClass_dim1 = M_classify_dim1(:, M_classify_dim1_n -1);
 predictedClass_dim1 = M_classify_dim1(:, M_classify_dim1_n);
 confusionmatrix_dim1 = confusionmat(knownClass, predictedClass)
 
+%  confusionmatrix_dim1 =
+
+%  341     0     0     0     0     0     0     0    22     0
+%    0   350    12     0     1     0     0     0     1     0
+%    0     8   355     0     0     0     0     1     0     0
+%    0     9     0   320     0     1     0     1     0     5
+%    0     0     0     0   362     0     0     0     0     2
+%    0     0     0     1     0   323     0     0     2     9
+%    0     0     0     0     0     0   325     0    11     0
+%    0    28     0     0     0     0     0   314     5    17
+%    0     0     0     0     0     0     0     0   336     0
+%    0     5     0     0     0     0     0     1     1   329
+
 % Klassifikationsguete
 corret_predicted_dim1 = 0;
 for index = 1:M_classify_dim1_m
@@ -330,3 +352,339 @@ for index = 1:M_classify_dim1_m
     end
 end
 classification_quality_dim1 = corret_predicted_dim1 / M_classify_dim1_m
+
+%  classification_quality_dim1 = 0.4042
+
+%%%%% PCA: 2-dimmensional %%%%%
+
+% Unterraum erzeugen
+pca_ur_2dim  = EigVec_CVM_A(:,biggestEVec -1:biggestEVec); % groeﬂter (= letzter) Eigenvektor
+
+% Abbildung der Trainingsdaten auf Unterraum
+A_0_ur_dim2  = A_0_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 0
+A_1_ur_dim2  = A_1_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 1
+A_2_ur_dim2  = A_2_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 2
+A_3_ur_dim2  = A_3_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 3
+A_4_ur_dim2  = A_4_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 4
+A_5_ur_dim2  = A_5_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 5
+A_6_ur_dim2  = A_6_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 6
+A_7_ur_dim2  = A_7_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 7
+A_8_ur_dim2  = A_8_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 8
+A_9_ur_dim2  = A_9_nl * pca_ur_2dim; % Datenpunkte fuer Zuglinie 9
+
+% Abbidung der Testdaten auf Unterraum
+B_ur_dim2  = B_nl * pca_ur_2dim;
+
+% Erwartungswerte bestimmen
+E_A_0_ur_dim2 = mean(A_0_ur_dim2);
+E_A_1_ur_dim2 = mean(A_1_ur_dim2);
+E_A_2_ur_dim2 = mean(A_2_ur_dim2);
+E_A_3_ur_dim2 = mean(A_3_ur_dim2);
+E_A_4_ur_dim2 = mean(A_4_ur_dim2);
+E_A_5_ur_dim2 = mean(A_5_ur_dim2);
+E_A_6_ur_dim2 = mean(A_6_ur_dim2);
+E_A_7_ur_dim2 = mean(A_7_ur_dim2);
+E_A_8_ur_dim2 = mean(A_8_ur_dim2);
+E_A_9_ur_dim2 = mean(A_9_ur_dim2);
+
+% Kovarianzmatrixen bestimmen
+CVM_A_0_ur_dim2 = cov(A_0_ur_dim2);
+CVM_A_1_ur_dim2 = cov(A_1_ur_dim2);
+CVM_A_2_ur_dim2 = cov(A_2_ur_dim2);
+CVM_A_3_ur_dim2 = cov(A_3_ur_dim2);
+CVM_A_4_ur_dim2 = cov(A_4_ur_dim2);
+CVM_A_5_ur_dim2 = cov(A_5_ur_dim2);
+CVM_A_6_ur_dim2 = cov(A_6_ur_dim2);
+CVM_A_7_ur_dim2 = cov(A_7_ur_dim2);
+CVM_A_8_ur_dim2 = cov(A_8_ur_dim2);
+CVM_A_9_ur_dim2 = cov(A_9_ur_dim2);
+
+% multivariate PDF bestimmen
+A_0_mvpdf_ur_dim2 = mvnpdf(A_0_ur_dim2, E_A_0_ur_dim2, CVM_A_0_ur_dim2);
+A_1_mvpdf_ur_dim2 = mvnpdf(A_1_ur_dim2, E_A_1_ur_dim2, CVM_A_1_ur_dim2);
+A_2_mvpdf_ur_dim2 = mvnpdf(A_2_ur_dim2, E_A_2_ur_dim2, CVM_A_2_ur_dim2);
+A_3_mvpdf_ur_dim2 = mvnpdf(A_3_ur_dim2, E_A_3_ur_dim2, CVM_A_3_ur_dim2);
+A_4_mvpdf_ur_dim2 = mvnpdf(A_4_ur_dim2, E_A_4_ur_dim2, CVM_A_4_ur_dim2);
+A_5_mvpdf_ur_dim2 = mvnpdf(A_5_ur_dim2, E_A_5_ur_dim2, CVM_A_5_ur_dim2);
+A_6_mvpdf_ur_dim2 = mvnpdf(A_6_ur_dim2, E_A_6_ur_dim2, CVM_A_6_ur_dim2);
+A_7_mvpdf_ur_dim2 = mvnpdf(A_7_ur_dim2, E_A_7_ur_dim2, CVM_A_7_ur_dim2);
+A_8_mvpdf_ur_dim2 = mvnpdf(A_8_ur_dim2, E_A_8_ur_dim2, CVM_A_8_ur_dim2);
+A_9_mvpdf_ur_dim2 = mvnpdf(A_9_ur_dim2, E_A_9_ur_dim2, CVM_A_9_ur_dim2);
+
+% Aposteriori - Wahrscheinlichkeit bestimmen
+A_0_aposteriori_ur_dim2 = A_0_mvpdf_ur_dim2 * A_x_apriori;
+A_1_aposteriori_ur_dim2 = A_1_mvpdf_ur_dim2 * A_x_apriori;
+A_2_aposteriori_ur_dim2 = A_2_mvpdf_ur_dim2 * A_x_apriori;
+A_3_aposteriori_ur_dim2 = A_3_mvpdf_ur_dim2 * A_x_apriori;
+A_4_aposteriori_ur_dim2 = A_4_mvpdf_ur_dim2 * A_x_apriori;
+A_5_aposteriori_ur_dim2 = A_5_mvpdf_ur_dim2 * A_x_apriori;
+A_6_aposteriori_ur_dim2 = A_6_mvpdf_ur_dim2 * A_x_apriori;
+A_7_aposteriori_ur_dim2 = A_7_mvpdf_ur_dim2 * A_x_apriori;
+A_8_aposteriori_ur_dim2 = A_8_mvpdf_ur_dim2 * A_x_apriori;
+A_9_aposteriori_ur_dim2 = A_9_mvpdf_ur_dim2 * A_x_apriori;
+
+% Klassifizierung der Testdaten (Metrik: L2-Norm)
+M_classify_dim2 = [];
+for index = 1:size(B_ur_dim2,1)
+    
+    trainData = B_ur_dim2(index,:);
+    
+    % multivariate PDF fuer Testdatensatz (f¸r jede Zuglinie)
+    A_0_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_0_ur_dim2, CVM_A_0_ur_dim2);
+    A_1_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_1_ur_dim2, CVM_A_1_ur_dim2);
+    A_2_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_2_ur_dim2, CVM_A_2_ur_dim2);
+    A_3_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_3_ur_dim2, CVM_A_3_ur_dim2);
+    A_4_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_4_ur_dim2, CVM_A_4_ur_dim2);
+    A_5_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_5_ur_dim2, CVM_A_5_ur_dim2);
+    A_6_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_6_ur_dim2, CVM_A_6_ur_dim2);
+    A_7_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_7_ur_dim2, CVM_A_7_ur_dim2);
+    A_8_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_8_ur_dim2, CVM_A_8_ur_dim2);
+    A_9_aposteriori_predict_dim2 = mvnpdf(trainData, E_A_9_ur_dim2, CVM_A_9_ur_dim2);
+    
+    % L2 Norm der aposteriori Vorhersage
+    A0_l2_dim2 = norm(A_0_aposteriori_predict_dim2);
+    A1_l2_dim2 = norm(A_1_aposteriori_predict_dim2);
+    A2_l2_dim2 = norm(A_2_aposteriori_predict_dim2);
+    A3_l2_dim2 = norm(A_3_aposteriori_predict_dim2);
+    A4_l2_dim2 = norm(A_4_aposteriori_predict_dim2);
+    A5_l2_dim2 = norm(A_5_aposteriori_predict_dim2);
+    A6_l2_dim2 = norm(A_6_aposteriori_predict_dim2);
+    A7_l2_dim2 = norm(A_7_aposteriori_predict_dim2);
+    A8_l2_dim2 = norm(A_8_aposteriori_predict_dim2);
+    A9_l2_dim2 = norm(A_9_aposteriori_predict_dim2);
+    
+    % Bestimmung des Maximums (aposteriori Vorhersage)
+    [maxValue, indexAtMaxValue] = max([A0_l2_dim2, A1_l2_dim2, A2_l2_dim2, A3_l2_dim2, A4_l2_dim2, A5_l2_dim2, A6_l2_dim2, A7_l2_dim2, A8_l2_dim2, A9_l2_dim2]);
+    
+    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groeﬂte?)
+    if (maxValue == A0_l2_dim2)       % train 0 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),0];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A1_l2_dim2)   % train 1 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),1];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A2_l2_dim2)   % train 2 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),2];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A3_l2_dim2)   % train 3 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),3];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A4_l2_dim2)   % train 4 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),4];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A5_l2_dim2)   % train 5 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),5];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A6_l2_dim2)   % train 6 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),6];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A7_l2_dim2)   % train 7 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),7];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    elseif (maxValue == A8_l2_dim2)   % train 8 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),8];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    else                              % train 9 predicted
+        tmpVector = [B_ur_dim2(index,:),B(index,B_n),9];
+        M_classify_dim2 = vertcat(M_classify_dim2,tmpVector);
+    end % end-if
+end % end-for_each
+
+M_classify_dim2_n = size(M_classify_dim2,2);
+M_classify_dim2_m = size(M_classify_dim2,1);
+
+% Konfusionsmatrix
+knownClass_dim2 = M_classify_dim2(:, M_classify_dim2_n -1);
+predictedClass_dim2 = M_classify_dim2(:, M_classify_dim2_n);
+confusionmatrix_dim2 = confusionmat(knownClass, predictedClass)
+
+%  confusionmatrix_dim2 =
+%
+%  341     0     0     0     0     0     0     0    22     0
+%    0   350    12     0     1     0     0     0     1     0
+%    0     8   355     0     0     0     0     1     0     0
+%    0     9     0   320     0     1     0     1     0     5
+%    0     0     0     0   362     0     0     0     0     2
+%    0     0     0     1     0   323     0     0     2     9
+%    0     0     0     0     0     0   325     0    11     0
+%    0    28     0     0     0     0     0   314     5    17
+%    0     0     0     0     0     0     0     0   336     0
+%    0     5     0     0     0     0     0     1     1   329
+
+% Klassifikationsguete
+corret_predicted_dim2 = 0;
+for index = 1:M_classify_dim2_m
+    if M_classify_dim2(index, M_classify_dim2_n -1) == M_classify_dim2(index, M_classify_dim2_n)
+        corret_predicted_dim2 = corret_predicted_dim2 + 1;
+    end
+end
+classification_quality_dim2 = corret_predicted_dim2 / M_classify_dim2_m
+
+%  classification_quality_dim2 = 0.6515
+
+%%%%% PCA: 3-dimmensional %%%%%
+
+% Unterraum erzeugen
+pca_ur_3dim  = EigVec_CVM_A(:,biggestEVec -2:biggestEVec); % groeﬂter (= letzter) Eigenvektor
+
+% Abbildung der Trainingsdaten auf Unterraum
+A_0_ur_dim3  = A_0_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 0
+A_1_ur_dim3  = A_1_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 1
+A_2_ur_dim3  = A_2_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 2
+A_3_ur_dim3  = A_3_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 3
+A_4_ur_dim3  = A_4_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 4
+A_5_ur_dim3  = A_5_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 5
+A_6_ur_dim3  = A_6_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 6
+A_7_ur_dim3  = A_7_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 7
+A_8_ur_dim3  = A_8_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 8
+A_9_ur_dim3  = A_9_nl * pca_ur_3dim; % Datenpunkte fuer Zuglinie 9
+
+% Abbidung der Testdaten auf Unterraum
+B_ur_dim3  = B_nl * pca_ur_3dim;
+
+% Erwartungswerte bestimmen
+E_A_0_ur_dim3 = mean(A_0_ur_dim3);
+E_A_1_ur_dim3 = mean(A_1_ur_dim3);
+E_A_2_ur_dim3 = mean(A_2_ur_dim3);
+E_A_3_ur_dim3 = mean(A_3_ur_dim3);
+E_A_4_ur_dim3 = mean(A_4_ur_dim3);
+E_A_5_ur_dim3 = mean(A_5_ur_dim3);
+E_A_6_ur_dim3 = mean(A_6_ur_dim3);
+E_A_7_ur_dim3 = mean(A_7_ur_dim3);
+E_A_8_ur_dim3 = mean(A_8_ur_dim3);
+E_A_9_ur_dim3 = mean(A_9_ur_dim3);
+
+% Kovarianzmatrixen bestimmen
+CVM_A_0_ur_dim3 = cov(A_0_ur_dim3);
+CVM_A_1_ur_dim3 = cov(A_1_ur_dim3);
+CVM_A_2_ur_dim3 = cov(A_2_ur_dim3);
+CVM_A_3_ur_dim3 = cov(A_3_ur_dim3);
+CVM_A_4_ur_dim3 = cov(A_4_ur_dim3);
+CVM_A_5_ur_dim3 = cov(A_5_ur_dim3);
+CVM_A_6_ur_dim3 = cov(A_6_ur_dim3);
+CVM_A_7_ur_dim3 = cov(A_7_ur_dim3);
+CVM_A_8_ur_dim3 = cov(A_8_ur_dim3);
+CVM_A_9_ur_dim3 = cov(A_9_ur_dim3);
+
+% multivariate PDF bestimmen
+A_0_mvpdf_ur_dim3 = mvnpdf(A_0_ur_dim3, E_A_0_ur_dim3, CVM_A_0_ur_dim3);
+A_1_mvpdf_ur_dim3 = mvnpdf(A_1_ur_dim3, E_A_1_ur_dim3, CVM_A_1_ur_dim3);
+A_2_mvpdf_ur_dim3 = mvnpdf(A_2_ur_dim3, E_A_2_ur_dim3, CVM_A_2_ur_dim3);
+A_3_mvpdf_ur_dim3 = mvnpdf(A_3_ur_dim3, E_A_3_ur_dim3, CVM_A_3_ur_dim3);
+A_4_mvpdf_ur_dim3 = mvnpdf(A_4_ur_dim3, E_A_4_ur_dim3, CVM_A_4_ur_dim3);
+A_5_mvpdf_ur_dim3 = mvnpdf(A_5_ur_dim3, E_A_5_ur_dim3, CVM_A_5_ur_dim3);
+A_6_mvpdf_ur_dim3 = mvnpdf(A_6_ur_dim3, E_A_6_ur_dim3, CVM_A_6_ur_dim3);
+A_7_mvpdf_ur_dim3 = mvnpdf(A_7_ur_dim3, E_A_7_ur_dim3, CVM_A_7_ur_dim3);
+A_8_mvpdf_ur_dim3 = mvnpdf(A_8_ur_dim3, E_A_8_ur_dim3, CVM_A_8_ur_dim3);
+A_9_mvpdf_ur_dim3 = mvnpdf(A_9_ur_dim3, E_A_9_ur_dim3, CVM_A_9_ur_dim3);
+
+% Aposteriori - Wahrscheinlichkeit bestimmen
+A_0_aposteriori_ur_dim3 = A_0_mvpdf_ur_dim3 * A_x_apriori;
+A_1_aposteriori_ur_dim3 = A_1_mvpdf_ur_dim3 * A_x_apriori;
+A_2_aposteriori_ur_dim3 = A_2_mvpdf_ur_dim3 * A_x_apriori;
+A_3_aposteriori_ur_dim3 = A_3_mvpdf_ur_dim3 * A_x_apriori;
+A_4_aposteriori_ur_dim3 = A_4_mvpdf_ur_dim3 * A_x_apriori;
+A_5_aposteriori_ur_dim3 = A_5_mvpdf_ur_dim3 * A_x_apriori;
+A_6_aposteriori_ur_dim3 = A_6_mvpdf_ur_dim3 * A_x_apriori;
+A_7_aposteriori_ur_dim3 = A_7_mvpdf_ur_dim3 * A_x_apriori;
+A_8_aposteriori_ur_dim3 = A_8_mvpdf_ur_dim3 * A_x_apriori;
+A_9_aposteriori_ur_dim3 = A_9_mvpdf_ur_dim3 * A_x_apriori;
+
+% Klassifizierung der Testdaten (Metrik: L2-Norm)
+M_classify_dim3 = [];
+for index = 1:size(B_ur_dim3,1)
+    
+    trainData = B_ur_dim3(index,:);
+    
+    % multivariate PDF fuer Testdatensatz (f¸r jede Zuglinie)
+    A_0_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_0_ur_dim3, CVM_A_0_ur_dim3);
+    A_1_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_1_ur_dim3, CVM_A_1_ur_dim3);
+    A_2_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_2_ur_dim3, CVM_A_2_ur_dim3);
+    A_3_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_3_ur_dim3, CVM_A_3_ur_dim3);
+    A_4_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_4_ur_dim3, CVM_A_4_ur_dim3);
+    A_5_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_5_ur_dim3, CVM_A_5_ur_dim3);
+    A_6_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_6_ur_dim3, CVM_A_6_ur_dim3);
+    A_7_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_7_ur_dim3, CVM_A_7_ur_dim3);
+    A_8_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_8_ur_dim3, CVM_A_8_ur_dim3);
+    A_9_aposteriori_predict_dim3 = mvnpdf(trainData, E_A_9_ur_dim3, CVM_A_9_ur_dim3);
+    
+    % L2 Norm der aposteriori Vorhersage
+    A0_l2_dim3 = norm(A_0_aposteriori_predict_dim3);
+    A1_l2_dim3 = norm(A_1_aposteriori_predict_dim3);
+    A2_l2_dim3 = norm(A_2_aposteriori_predict_dim3);
+    A3_l2_dim3 = norm(A_3_aposteriori_predict_dim3);
+    A4_l2_dim3 = norm(A_4_aposteriori_predict_dim3);
+    A5_l2_dim3 = norm(A_5_aposteriori_predict_dim3);
+    A6_l2_dim3 = norm(A_6_aposteriori_predict_dim3);
+    A7_l2_dim3 = norm(A_7_aposteriori_predict_dim3);
+    A8_l2_dim3 = norm(A_8_aposteriori_predict_dim3);
+    A9_l2_dim3 = norm(A_9_aposteriori_predict_dim3);
+    
+    % Bestimmung des Maximums (aposteriori Vorhersage)
+    [maxValue, indexAtMaxValue] = max([A0_l2_dim3, A1_l2_dim3, A2_l2_dim3, A3_l2_dim3, A4_l2_dim3, A5_l2_dim3, A6_l2_dim3, A7_l2_dim3, A8_l2_dim3, A9_l2_dim3]);
+    
+    % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groeﬂte?)
+    if (maxValue == A0_l2_dim3)       % train 0 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),0];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A1_l2_dim3)   % train 1 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),1];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A2_l2_dim3)   % train 2 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),2];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A3_l2_dim3)   % train 3 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),3];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A4_l2_dim3)   % train 4 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),4];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A5_l2_dim3)   % train 5 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),5];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A6_l2_dim3)   % train 6 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),6];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A7_l2_dim3)   % train 7 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),7];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    elseif (maxValue == A8_l2_dim3)   % train 8 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),8];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    else                              % train 9 predicted
+        tmpVector = [B_ur_dim3(index,:),B(index,B_n),9];
+        M_classify_dim3 = vertcat(M_classify_dim3,tmpVector);
+    end % end-if
+end % end-for_each
+
+M_classify_dim3_n = size(M_classify_dim3,2);
+M_classify_dim3_m = size(M_classify_dim3,1);
+
+% Konfusionsmatrix
+knownClass_dim3 = M_classify_dim3(:, M_classify_dim3_n -1);
+predictedClass_dim3 = M_classify_dim3(:, M_classify_dim3_n);
+confusionmatrix_dim3 = confusionmat(knownClass, predictedClass)
+
+%  confusionmatrix_dim3 =
+%
+%  341     0     0     0     0     0     0     0    22     0
+%    0   350    12     0     1     0     0     0     1     0
+%    0     8   355     0     0     0     0     1     0     0
+%    0     9     0   320     0     1     0     1     0     5
+%    0     0     0     0   362     0     0     0     0     2
+%    0     0     0     1     0   323     0     0     2     9
+%    0     0     0     0     0     0   325     0    11     0
+%    0    28     0     0     0     0     0   314     5    17
+%    0     0     0     0     0     0     0     0   336     0
+%    0     5     0     0     0     0     0     1     1   329
+
+% Klassifikationsguete
+corret_predicted_dim3 = 0;
+for index = 1:M_classify_dim3_m
+    if M_classify_dim3(index, M_classify_dim3_n -1) == M_classify_dim3(index, M_classify_dim3_n)
+        corret_predicted_dim3 = corret_predicted_dim3 + 1;
+    end
+end
+classification_quality_dim3 = corret_predicted_dim3 / M_classify_dim3_m
+
+%  classification_quality_dim2 = 0.7882
