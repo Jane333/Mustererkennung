@@ -295,7 +295,7 @@ for dim = [1:16]
         % Bestimmung des Maximums (aposteriori Vorhersage)
         [maxValue, indexAtMaxValue] = max([A0_l2, A1_l2, A2_l2, A3_l2, A4_l2, A5_l2, A6_l2, A7_l2, A8_l2, A9_l2]);
     
-        % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groeﬂte?)
+        % Bayes Klassifikation (Welche aposteriori Vorhersage war die Groesste?)
         if (maxValue == A0_l2)       % train 0 predicted
             tmpVector = [B_ur(index,:),B(index,B_n),0];
             M_classify = vertcat(M_classify,tmpVector);
@@ -349,7 +349,7 @@ for dim = [1:16]
     
 end % for dim
 
-% Grafische Ausgabe der Daten (kann sp‰ter auskommentiert werden)
+% Graphische Ausgabe der Daten (kann spaeter auskommentiert werden)
 A_ur = A_nl * pca_ur;   % 16 dimensional
 surf(A_ur)
 
