@@ -99,19 +99,19 @@ A_9_aposteriori = A_9_mvpdf * A_x_apriori;
 % Klassifizierung der Testdaten (Metrik: L2-Norm)
 M_classify = [];
 for index = 1:size(B,1)
-    trainData = B(index,1:B_n -1);
+    testData = B(index,1:B_n -1);
     
     % multivariate PDF für Testdatensatz (fuer jede Zuglinie)
-    A_0_aposteriori_predict = mvnpdf(trainData, E_A_0, CVM_A_0);
-    A_1_aposteriori_predict = mvnpdf(trainData, E_A_1, CVM_A_1);
-    A_2_aposteriori_predict = mvnpdf(trainData, E_A_2, CVM_A_2);
-    A_3_aposteriori_predict = mvnpdf(trainData, E_A_3, CVM_A_3);
-    A_4_aposteriori_predict = mvnpdf(trainData, E_A_4, CVM_A_4);
-    A_5_aposteriori_predict = mvnpdf(trainData, E_A_5, CVM_A_5);
-    A_6_aposteriori_predict = mvnpdf(trainData, E_A_6, CVM_A_6);
-    A_7_aposteriori_predict = mvnpdf(trainData, E_A_7, CVM_A_7);
-    A_8_aposteriori_predict = mvnpdf(trainData, E_A_8, CVM_A_8);
-    A_9_aposteriori_predict = mvnpdf(trainData, E_A_9, CVM_A_9);
+    A_0_aposteriori_predict = mvnpdf(testData, E_A_0, CVM_A_0);
+    A_1_aposteriori_predict = mvnpdf(testData, E_A_1, CVM_A_1);
+    A_2_aposteriori_predict = mvnpdf(testData, E_A_2, CVM_A_2);
+    A_3_aposteriori_predict = mvnpdf(testData, E_A_3, CVM_A_3);
+    A_4_aposteriori_predict = mvnpdf(testData, E_A_4, CVM_A_4);
+    A_5_aposteriori_predict = mvnpdf(testData, E_A_5, CVM_A_5);
+    A_6_aposteriori_predict = mvnpdf(testData, E_A_6, CVM_A_6);
+    A_7_aposteriori_predict = mvnpdf(testData, E_A_7, CVM_A_7);
+    A_8_aposteriori_predict = mvnpdf(testData, E_A_8, CVM_A_8);
+    A_9_aposteriori_predict = mvnpdf(testData, E_A_9, CVM_A_9);
     
     % L2 Norm der aposteriori Vorhersage
     A0_l2 = norm(A_0_aposteriori_predict);
@@ -208,8 +208,8 @@ CVM_B = cov(B_nl); % zentriert durch cov()
 
 % Eigenvektoren (VB) und Eigenwerte (DB) der Kovarianzmatrix (balanciert)
 [VB,DB] = eig(CVM_A);
-EigVec_CVM_A = VB; % Eigenvektoren von CVM_A
-EigVal_CVM_A = DB; % Diagonalmatrix der Eigenwerte zu CVM_A
+EigVec_CVM_A = VB % Eigenvektoren von CVM_A
+EigVal_CVM_A = DB % Diagonalmatrix der Eigenwerte zu CVM_A
 
 [VB,DB] = eig(CVM_B);
 EigVec_CVM_B = VB; % Eigenvektoren von CVM_B
@@ -217,7 +217,8 @@ EigVal_CVM_B = DB; % Diagonalmatrix der Eigenwerte zu CVM_B
 
 % Sweet as sugar...
 biggestEVec = size(EigVec_CVM_A,2);
-X = EigVal_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]);
+%X = EigVal_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
+X = EigVec_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 for dim = [1:16]
 
@@ -266,19 +267,19 @@ for dim = [1:16]
     % Klassifizierung der Testdaten (Metrik: L2-Norm)
     M_classify = [];
     for index = 1:size(B_ur,1)
-        trainData = B_ur(index,:);
+        testData = B_ur(index,:);
     
         % multivariate PDF fuer Testdatensatz (für jede Zuglinie)
-        A_0_aposteriori_predict = mvnpdf(trainData, E_A_0_ur, CVM_A_0_ur) * A_x_apriori;
-        A_1_aposteriori_predict = mvnpdf(trainData, E_A_1_ur, CVM_A_1_ur) * A_x_apriori;
-        A_2_aposteriori_predict = mvnpdf(trainData, E_A_2_ur, CVM_A_2_ur) * A_x_apriori;
-        A_3_aposteriori_predict = mvnpdf(trainData, E_A_3_ur, CVM_A_3_ur) * A_x_apriori;
-        A_4_aposteriori_predict = mvnpdf(trainData, E_A_4_ur, CVM_A_4_ur) * A_x_apriori;
-        A_5_aposteriori_predict = mvnpdf(trainData, E_A_5_ur, CVM_A_5_ur) * A_x_apriori;
-        A_6_aposteriori_predict = mvnpdf(trainData, E_A_6_ur, CVM_A_6_ur) * A_x_apriori;
-        A_7_aposteriori_predict = mvnpdf(trainData, E_A_7_ur, CVM_A_7_ur) * A_x_apriori;
-        A_8_aposteriori_predict = mvnpdf(trainData, E_A_8_ur, CVM_A_8_ur) * A_x_apriori;
-        A_9_aposteriori_predict = mvnpdf(trainData, E_A_9_ur, CVM_A_9_ur) * A_x_apriori;
+        A_0_aposteriori_predict = mvnpdf(testData, E_A_0_ur, CVM_A_0_ur) * A_x_apriori;
+        A_1_aposteriori_predict = mvnpdf(testData, E_A_1_ur, CVM_A_1_ur) * A_x_apriori;
+        A_2_aposteriori_predict = mvnpdf(testData, E_A_2_ur, CVM_A_2_ur) * A_x_apriori;
+        A_3_aposteriori_predict = mvnpdf(testData, E_A_3_ur, CVM_A_3_ur) * A_x_apriori;
+        A_4_aposteriori_predict = mvnpdf(testData, E_A_4_ur, CVM_A_4_ur) * A_x_apriori;
+        A_5_aposteriori_predict = mvnpdf(testData, E_A_5_ur, CVM_A_5_ur) * A_x_apriori;
+        A_6_aposteriori_predict = mvnpdf(testData, E_A_6_ur, CVM_A_6_ur) * A_x_apriori;
+        A_7_aposteriori_predict = mvnpdf(testData, E_A_7_ur, CVM_A_7_ur) * A_x_apriori;
+        A_8_aposteriori_predict = mvnpdf(testData, E_A_8_ur, CVM_A_8_ur) * A_x_apriori;
+        A_9_aposteriori_predict = mvnpdf(testData, E_A_9_ur, CVM_A_9_ur) * A_x_apriori;
     
         % L2 Norm der aposteriori Vorhersage
         A0_l2 = norm(A_0_aposteriori_predict);
