@@ -1,6 +1,6 @@
 %%%%% Uebung 03 %%%%%
 
-% Autoren: J. Cavojska, N. Lehmann
+% Autoren: J. Cavojska, N. Lehmann, R. Toudic
 
 % Trainingsdaten, Testdaten und Clusterdaten laden
 A = load('pendigits-training.txt');
@@ -43,7 +43,10 @@ A_7_nl = A_7(:,1:A_n -1);
 A_8_nl = A_8(:,1:A_n -1);
 A_9_nl = A_9(:,1:A_n -1);
 
-%%% Aufgabe 1 (3 Punkte) %%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%  Aufgabe 1 (3 Punkte)  %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9)
 E_A_0 = mean(A_0_nl);
@@ -173,6 +176,7 @@ for index = 1:size(B,1)
 
 end % end-for_each
 
+disp('Ergebnisse der Aufg. 1: ');
 % Konfusionsmatrix
 %  341     0     0     0     0     0     0     0    22     0
 %    0   350    12     0     1     0     0     0     1     0
@@ -200,16 +204,20 @@ end
 classification_quality = corret_predicted / M_m
 
 
-%%% Aufgabe 2 (4 Punkte) %%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%  Aufgabe 2 (4 Punkte)  %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+disp('Aufg. 2: ');
 % Kovarianzmatrix
 CVM_A = cov(A_nl); % zentriert durch cov()
 CVM_B = cov(B_nl); % zentriert durch cov()
 
 % Eigenvektoren (VB) und Eigenwerte (DB) der Kovarianzmatrix (balanciert)
 [VB,DB] = eig(CVM_A);
-EigVec_CVM_A = VB % Eigenvektoren von CVM_A
-EigVal_CVM_A = DB % Diagonalmatrix der Eigenwerte zu CVM_A
+EigVec_CVM_A = VB; % Eigenvektoren von CVM_A
+EigVal_CVM_A = DB; % Diagonalmatrix der Eigenwerte zu CVM_A
 
 [VB,DB] = eig(CVM_B);
 EigVec_CVM_B = VB; % Eigenvektoren von CVM_B
@@ -217,8 +225,7 @@ EigVal_CVM_B = DB; % Diagonalmatrix der Eigenwerte zu CVM_B
 
 % Sweet as sugar...
 biggestEVec = size(EigVec_CVM_A,2);
-%X = EigVal_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
-X = EigVec_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
+X = EigVec_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]);
 
 for dim = [1:16]
 
@@ -237,7 +244,7 @@ for dim = [1:16]
     A_8_ur = A_8_nl * pca_ur; % Datenpunkte fuer Zuglinie 8
     A_9_ur = A_9_nl * pca_ur; % Datenpunkte fuer Zuglinie 9
     
-    % Abbidung der Testdaten auf Unterraum
+    % Abbildung der Testdaten auf Unterraum
     B_ur  = B_nl * pca_ur;
     
     % Erwartungswerte bestimmen
@@ -252,7 +259,7 @@ for dim = [1:16]
     E_A_8_ur = mean(A_8_ur);
     E_A_9_ur = mean(A_9_ur);
     
-    % Kovarianzmatrixen bestimmen
+    % Kovarianzmatrizen bestimmen
     CVM_A_0_ur = cov(A_0_ur);
     CVM_A_1_ur = cov(A_1_ur);
     CVM_A_2_ur = cov(A_2_ur);
@@ -355,10 +362,12 @@ A_ur = A_nl * pca_ur;   % 16 dimensional
 surf(A_ur)
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%  Aufgabe 3 (3 Punkte)  %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% Aufgabe 3 (3 Punkte) %%%
-% A 3.1: k-means auf die Daten clusters.txt anwenden,
-%        k-means soll selbst implementiert werden!
+%  k-means auf die Daten clusters.txt anwenden, visualisieren.
+%  k-means soll selbst implementiert werden!
 
 k = 3;
 numIterations = 5;
