@@ -209,7 +209,9 @@ classification_quality = corret_predicted / M_m
 %%%%%%%%%%%%%%%%%%  Aufgabe 2 (4 Punkte)  %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp('Aufg. 2: ');
+% Aufgabe 2 a) - erste Hauptkomponente ausgeben
+
+disp('Aufg. 2 a): ');
 % Kovarianzmatrix
 CVM_A = cov(A_nl); % zentriert durch cov()
 CVM_B = cov(B_nl); % zentriert durch cov()
@@ -226,6 +228,33 @@ EigVal_CVM_B = DB; % Diagonalmatrix der Eigenwerte zu CVM_B
 % Sweet as sugar...
 biggestEVec = size(EigVec_CVM_A,2);
 X = EigVec_CVM_A(:,[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]);
+
+% get the principal component (the eigenvector with the highest eigenvalue):
+% the eigenvalues in EigVal_CVM_A are already sorted (ascending), so we can just get the last column:
+disp('First principal component:');
+first_principal_component = EigVec_CVM_A(:,end)
+
+% erste Hauptkomponente:
+%  0.0713
+%  0.0722
+%  -0.2017
+%  -0.1531
+%  -0.2704
+%  -0.3593
+%  -0.1578
+%  -0.4137
+%  -0.1183
+%  -0.1779
+%  -0.0376
+%  0.2106
+%  0.0705
+%  0.4627
+%  0.0877
+%  0.4574
+
+
+% Aufgabe 2 b) - Raum mit PCA reduzieren, dann im Unterraum Daten klassifizieren
+disp('Aufg. 2 b): ');
 
 for dim = [1:16]
 
