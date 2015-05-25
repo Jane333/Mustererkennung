@@ -47,7 +47,9 @@
 \begin{document}
 \maketitle
 %\renewcommand{\contentsname}{Table of Contents}
-%\tableofcontents
+
+\tableofcontents
+\newpage
 
 \section{Aufbereitung der Daten}
 \begin{lstlisting}[language=Python]
@@ -92,13 +94,12 @@ A_7_nl = A_7(:,1:A_n -1);
 A_8_nl = A_8(:,1:A_n -1);
 A_9_nl = A_9(:,1:A_n -1);
 \end{lstlisting}
+\newpage
 
 \section{Aufgabe 1 (Multivariate Normalverteilung)}
-\textit{Laden Sie die Dateien pendigits-­testing.txt​ und pendigits­training.txt​. Jede Zeile dieser Dateien ist ein Datensatz für einen Linienzug einer Ziffer bestehend aus 17 Zahlen, die durch Leerzeichen getrennt sind. Die ersten 16 Zahlen sind 8 
-X/Y­Koordinatenpaare. Die letzte Zahl ist die Ziffer, die der Linienzug darstellen soll.\\
+\textit{Laden Sie die Dateien pendigits-­testing.txt​ und pendigits­training.txt​. Jede Zeile dieser Dateien ist ein Datensatz fuer einen Linienzug einer Ziffer bestehend aus 17 Zahlen, die durch Leerzeichen getrennt sind. Die ersten 16 Zahlen sind 8 X/Y ­Koordinatenpaare. Die letzte Zahl ist die Ziffer, die der Linienzug darstellen soll.\\
 \\
-Berechnen Sie die multivariate (mehrdimensionale) Normalverteilung​ (Erwartungswert und Kovarianzmatrix) über dem 16­-dimensionalen Koordinatenvektor jeweils für alle 10 Ziffern anhand der Werte aus ​pendigits­training.txt​.}
-\\
+Berechnen Sie die multivariate (mehrdimensionale) Normalverteilung​ (Erwartungswert und Kovarianzmatrix) über dem 16­-dimensionalen Koordinatenvektor jeweils fuer alle 10 Ziffern anhand der Werte aus ​pendigits­training.txt​.}
 \begin{lstlisting}[language=Python]
 % Erwartungswert fuer jede Koordinate fuer jeden Zug (0 bis 9)
 E_A_0 = mean(A_0_nl);
@@ -151,8 +152,7 @@ A_7_aposteriori = A_7_mvpdf * A_x_apriori;
 A_8_aposteriori = A_8_mvpdf * A_x_apriori;
 A_9_aposteriori = A_9_mvpdf * A_x_apriori;
 \end{lstlisting}
-
-\textit{Klassifizieren Sie die Ziffern in pendigits­testing.txt​ anhand der entsprechenden A­-posteriori­ Wahrscheinlichkeitsdichtefunktionen. Nehmen dabei Sie eine gleichverteilte A­priori­Wahrscheinlichkeit für jede Ziffer an.}
+\textit{Klassifizieren Sie die Ziffern in pendigits­testing.txt​ anhand der entsprechenden A­-posteriori­ Wahrscheinlichkeitsdichtefunktionen. Nehmen Sie dabei eine gleichverteilte A­priori ­Wahrscheinlichkeit fuer jede Ziffer an.}
 \begin{lstlisting}[language=Python]
 % Klassifizierung der Testdaten (Metrik: L2-Norm)
 M_classify = [];
@@ -231,9 +231,8 @@ for index = 1:size(B,1)
 
 end % end-for_each
 \end{lstlisting}
-
-\textit{Geben ​Sie die die Konfusionsmatrix und Klassifikationsgüte aus​.}
-\\
+\newpage
+\textit{Geben ​Sie die Konfusionsmatrix und Klassifikationsgüte aus​.}
 \begin{lstlisting}[language=Python]
 % Konfusionsmatrix (Rows: actual classes, Columns: predicted classes)
 %  341     0     0     0     0     0     0     0    22     0
@@ -260,9 +259,10 @@ for index = 1:M_m
 end
 classification_quality = corret_predicted / M_m
 \end{lstlisting}
+\newpage
+
 \section{Aufgabe 2 (Multivariate Normalverteilung mit PCA)}
-\textit{a) Geben sie die erste Hauptkomponente der Daten in pendigits­training.txt​ an.}\\
-\\
+\textit{a) Geben sie die erste Hauptkomponente der Daten in pendigits­training.txt​ an.}
 \begin{lstlisting}[language=Python]
 % Kovarianzmatrix
 CVM_A = cov(A_nl); % zentriert durch cov()
@@ -301,8 +301,8 @@ first_principal_component = EigVec_CVM_A(:,end)
 %  0.0877
 %  0.4574
 \end{lstlisting}
-
-\textit{b) Reduzieren Sie die Dimension des pendigits-­Datensatzes mittels einer Hauptkomponentennanalyse (PCA) und klassifizieren die Testdaten anhand der Trainingsdaten mit einem Bayes­Klassifikator (wie Aufgabe 1).}
+\newpage
+\textit{b) Reduzieren Sie die Dimension des pendigits-­Datensatzes mittels einer Hauptkomponentennanalyse (PCA) und klassifizieren Sie die Testdaten anhand der Trainingsdaten mit einem Bayes­-Klassifikator (wie Aufgabe 1).}
 \begin{lstlisting}[language=Python]
 for dim = [1:16]
 
@@ -434,8 +434,8 @@ for dim = [1:16]
     
 end % for dim
 \end{lstlisting}
-\textit{Geben Sie die Klassifikationsgüte für jede der Dimensionen von 1 bis 15 aus.}\\
-
+\newpage
+\textit{Geben Sie die Klassifikationsguete fuer jede der Dimensionen von 1 bis 15 aus.}\\
 \begin{lstlisting}[language=Python]
 Number of dimensions: 1
 classification_quality = 0.4042
@@ -485,10 +485,10 @@ classification_quality = 0.9594
 Number of dimensions: 16
 classification_quality = 0.9591
 \end{lstlisting}
+\newpage
+
 \section{Aufgabe 3 (k-Means)}
-\textit{Laden Sie die Datei clusters.txt​. Jede Zeile dieser Datei entspricht einem X/Y­Koordinatenpaar.\\
-Clustern Sie den Datensatz mit dem k­-Means-­Algorithmus.\\
-Visualisieren Sie die Clusterzentren und Zuordnung der Puńkte der ersten 5 Iterationsschritte mit k=3 (Also insgesamt 5 Bilder)}
+\textit{Laden Sie die Datei clusters.txt​. Jede Zeile dieser Datei entspricht einem X/Y ­Koordinatenpaar. Clustern Sie den Datensatz mit dem k­-Means-­Algorithmus. Visualisieren Sie die Clusterzentren und Zuordnung der Punkte der ersten 5 Iterationsschritte mit k=3 (Also insgesamt 5 Bilder)}
 \begin{lstlisting}[language=Python]
 C = load('clusters.txt');
 k = 3;
@@ -560,12 +560,15 @@ for iter=1:numIterations
     mean3 = [mean(mean3_elems(:,1)), mean(mean3_elems(:,2))];
 end
 \end{lstlisting}
-
+\newpage
 \subsection{Grafiken zu den ersten 5 k-Means-Iterationen:}
 
-1. \includegraphics[width=6cm]{kmeans_iter1.png}
-2. \includegraphics[width=6cm]{kmeans_iter2.png}\\
-3. \includegraphics[width=6cm]{kmeans_iter3.png}
-4. \includegraphics[width=6cm]{kmeans_iter4.png}\\
-5. \includegraphics[width=6cm]{kmeans_iter5.png}\\
+\begin{enumerate}
+\item \includegraphics[width=6cm]{kmeans_iter1.png}
+\item \includegraphics[width=6cm]{kmeans_iter2.png}
+\item \includegraphics[width=6cm]{kmeans_iter3.png}
+\item \includegraphics[width=6cm]{kmeans_iter4.png}
+\item \includegraphics[width=6cm]{kmeans_iter5.png}
+\end{enumerate}
+
 \end{document}
