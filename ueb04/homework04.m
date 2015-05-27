@@ -22,8 +22,8 @@ X = A(:,2:3);  % alle Datenpunkte, ausser Laenge
 onesVector = ones(size(X,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie A
 X = horzcat(onesVector, X);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
 
-% X.' ist die transponierte Matrix X
-beta = inv(X.'*X) * X.' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
+% X' ist die transponierte Matrix X
+beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
 % Resultat:
 % beta =
 %     1.0e+03 *
@@ -46,16 +46,16 @@ Result = [];  % Ergebnismatrix
 featureIndices = [1 2 3 4 5 6 7 8 9 10 11];
 for numFeatures = 1:11  % es gibt 11 features, anhand welcher man klassifizieren kann
     combinations = combnk(featureIndices, numFeatures)
-    for combination = combinations % pot
+    %for combination = combinations % pot
+    for line = 1:size(combinations, 1)
+        combination = combinations(line,:);
         X = B(:, combination);
         onesVector = ones(size(X,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie B
         X = horzcat(onesVector, X);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
-        beta = inv(X.'*X) * X.' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
+        beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
         
-        
-        
-        Q = (y - X*beta).'*(y - X*beta)  % mean squared error
+        Q = (y - X*beta)'*(y - X*beta);  % mean squared error
         Result = vertcat(Result, [numFeatures, Q]);
     end
 end % for numFeatures
-Result;
+Result
