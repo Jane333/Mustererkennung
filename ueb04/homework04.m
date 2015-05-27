@@ -13,7 +13,7 @@ B_m   = size(B,1);
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 1  %%%%%%%%%%%%%%%%%%%%%
 
-%  Schätzen Sie den Wert für “length” anhand der Parameter “age” und “temperature” mit linearer Regression. 
+%  Schaetzen Sie den Wert für “length�? anhand der Parameter “age�? und “temperature�? mit linearer Regression. 
 %  Visualisieren Sie dreidimensional die tatsächlichen Datenpunkte, die geschätzten Datenpunkte, die Ebene 
 %  auf die projiziert wurde, sowie die Abstände der tatsächlichen Datenpunkte zu dieser Ebene .  
 
@@ -33,29 +33,32 @@ beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regre
 %     -0.1064
 
 % TODO: Plotten
-
+fancy_beat = horzcat(A(:,2:3),X*beta);
+figure('NumberTitle','off','Name','Aufgabe 1 - Mesh - Surf');
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 2  %%%%%%%%%%%%%%%%%%%%%
 
-%  Schätzen Sie den Wert für “quality” mit linearer Regression anhand aller möglichen Kombinationen der anderen Parameter (also jeweils für alle Einer­, Zweier­, Dreierkombinationen, usw.) und berechnen jeweils die Summe der quadratischen Abweichungen zwischen den geschätzten und tatsächlichen Werten für “quality”.
-% Visualisieren Sie dies als zweidimensionalen Plot. Auf der X­Achse steht dabei die Anzahl der verwendeten Parameter, auf der y­Achse die Summe der quadratischen Abweichungen.
+% Schaetzen Sie den Wert fuer quality mit linearer Regression anhand aller moeglichen Kombinationen der anderen Parameter (also jeweils für alle Einer­, Zweier­, Dreierkombinationen, usw.) und berechnen jeweils die Summe der quadratischen Abweichungen zwischen den geschätzten und tatsächlichen Werten für “quality�?.
+% Visualisieren Sie dies als zweidimensionalen Plot. Auf der X�Achse steht dabei die Anzahl der verwendeten Parameter, auf der y­Achse die Summe der quadratischen Abweichungen.
  
 y = B(:,12);  % Spalte mit Weinqualitaet
 Result = [];  % Ergebnismatrix
 
 featureIndices = [1 2 3 4 5 6 7 8 9 10 11];
 for numFeatures = 1:11  % es gibt 11 features, anhand welcher man klassifizieren kann
-    combinations = combnk(featureIndices, numFeatures)
-    %for combination = combinations % pot
+    combinations = combnk(featureIndices, numFeatures);
+    % for combination = combinations
     for line = 1:size(combinations, 1)
         combination = combinations(line,:);
         X = B(:, combination);
         onesVector = ones(size(X,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie B
-        X = horzcat(onesVector, X);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
-        beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
+        X = horzcat(onesVector, X);      % Einsen-Vektor an Datenpunkte-Matrix drankleben
+        beta = inv(X'*X) * X' * y;       % beta ist der Vektor mit den Koeffizienten der Regressionsebene
         
         Q = (y - X*beta)'*(y - X*beta);  % mean squared error
         Result = vertcat(Result, [numFeatures, Q]);
     end
 end % for numFeatures
-Result
+
+figure('NumberTitle','off','Name','Aufgabe 2 - Scatter');
+scatter(Result(:,1),Result(:,2));
