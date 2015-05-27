@@ -33,7 +33,10 @@ beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regre
 %     -0.1064
 
 % TODO: Plotten
-fancy_beat = horzcat(A(:,2:3),X*beta);
+syms x1 x2 x3;
+fancy_beat = beta(1,1)*x1 + beta(2,1)*x2 + beta(3,1)*x3
+fb = beta*[x1 x2 x3] %keine Ahnung... muss ich mehr drueber nachdenken
+
 figure('NumberTitle','off','Name','Aufgabe 1 - Mesh - Surf');
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 2  %%%%%%%%%%%%%%%%%%%%%
