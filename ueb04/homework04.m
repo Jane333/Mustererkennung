@@ -1,3 +1,8 @@
+% Clean up
+clear all
+close all
+clc
+
 %%%%%%%%%%%%%%%%%  Datenaufbereitung  %%%%%%%%%%%%%%%%
 
 % fish.txt: index; the age of the fish; the water temperature in Celsius; the length of the fish
@@ -13,14 +18,14 @@ B_m   = size(B,1);
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 1  %%%%%%%%%%%%%%%%%%%%%
 
-%  Schaetzen Sie den Wert für “length�? anhand der Parameter “age�? und “temperature�? mit linearer Regression. 
-%  Visualisieren Sie dreidimensional die tatsächlichen Datenpunkte, die geschätzten Datenpunkte, die Ebene 
-%  auf die projiziert wurde, sowie die Abstände der tatsächlichen Datenpunkte zu dieser Ebene .  
+%  Schaetzen Sie den Wert fuer length anhand der Parameter age und temperature mit linearer Regression. 
+%  Visualisieren Sie dreidimensional die tatsaechlichen Datenpunkte, die geschaetzten Datenpunkte, die Ebene 
+%  auf die projiziert wurde, sowie die Abstaende der tatsaechlichen Datenpunkte zu dieser Ebene.  
 
 y = A(:,4);  % nur die Laengen der Fische
-X = A(:,2:3);  % alle Datenpunkte, ausser Laenge
-onesVector = ones(size(X,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie A
-X = horzcat(onesVector, X);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
+Z = A(:,2:3);  % alle Datenpunkte, ausser Laenge
+onesVector = ones(size(Z,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie A
+X = horzcat(onesVector, Z);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
 
 % X' ist die transponierte Matrix X
 beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
@@ -32,12 +37,36 @@ beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regre
 %      0.0262
 %     -0.1064
 
-% TODO: Plotten
-syms x1 x2 x3;
-fancy_beat = beta(1,1)*x1 + beta(2,1)*x2 + beta(3,1)*x3
-fb = beta*[x1 x2 x3] %keine Ahnung... muss ich mehr drueber nachdenken
+% Ebene berechnen
+Xbeta = X*beta; % rechnet die geschaetzten Werte fuer lenght aus
+E = horzcat(Z, Xbeta); % nur zum Ansehen: linear regressierte Daten
+E = horzcat(E,y); % nur zum Vergleich: Ursprungsdaten
 
-figure('NumberTitle','off','Name','Aufgabe 1 - Mesh - Surf');
+% Skalierung ueber Extrema? (14-153)
+minE1 = min(E(:,1)');
+maxE1 = max(E(:,1)');
+minE2 = min(E(:,2)');
+maxE2 = max(E(:,2)');
+minE = min(minE1,minE2);
+maxE = max(maxE1,maxE2);
+
+% Ebene plotten
+figure('NumberTitle','off','Name','Aufgabe 1 - Mesh');
+
+x=minE:maxE; 
+y=minE:maxE; 
+Z=beta(1,1)*x+beta(2,1)*y+beta(3,1); 
+Z = repmat(Z,maxE,1); 
+mesh(Z); % die Ebene
+
+
+bildPunkte = A(:,2:4);
+% die Bildpunkte muessen jetzt noch in das Bild...
+
+xlabel('Alter'); 
+ylabel('Wassertemperatur'); 
+zlabel('Laenge');
+legend('Linear regressierte Fischlaenge')
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 2  %%%%%%%%%%%%%%%%%%%%%
 
