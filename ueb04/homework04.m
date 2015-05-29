@@ -28,7 +28,7 @@ onesVector = ones(size(Z,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge 
 X = horzcat(onesVector, Z);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
 
 % X' ist die transponierte Matrix X
-beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
+beta = inv(X'*X) * X' * y;  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
 % Resultat:
 % beta =
 %     1.0e+03 *
@@ -37,41 +37,35 @@ beta = inv(X'*X) * X' * y  % beta ist der Vektor mit den Koeffizienten der Regre
 %      0.0262
 %     -0.1064
 
-% Ebene berechnen
-Xbeta = X*beta; % rechnet die geschaetzten Werte fuer lenght aus
-E = horzcat(Z, Xbeta); % nur zum Ansehen: linear regressierte Daten
-E = horzcat(E,y); % nur zum Vergleich: Ursprungsdaten
-
-% Skalierung ueber Extrema? (14-153)
-minE1 = min(E(:,1)');
-maxE1 = max(E(:,1)');
-minE2 = min(E(:,2)');
-maxE2 = max(E(:,2)');
-minE = min(minE1,minE2);
-maxE = max(maxE1,maxE2);
-
-% Ebene plotten
+% Plot
 figure('NumberTitle','off','Name','Aufgabe 1 - Mesh');
-
-x=minE:maxE; 
-y=minE:maxE; 
-Z=beta(1,1)*x+beta(2,1)*y+beta(3,1); 
-Z = repmat(Z,maxE,1); 
-mesh(Z); % die Ebene
-
-
-% die Bildpunkte muessen jetzt noch in das Bild...
-bildPunkte = A(:,2:4);
 hold on
-% plotting the data points into the same figure:
-scatter3(bildPunkte(:,1), bildPunkte(:,2), bildPunkte(:,3), 60, [1 0 0])
-%hold on
-% plotting the lines connecting data points and plane into the same figure:
+
+% Bildpunkte der Rohdaten
+Bildpunkte = A(:,2:4);
+scatter3(Bildpunkte(:,1), Bildpunkte(:,2), Bildpunkte(:,3),30,[0 0 1]);
+
+% Bildpunkte der geschaetzten Daten
+EstimatedLength = X*beta;
+% Ebene mit Geschaetzter Laenge
+EstimatedData = horzcat(Z, EstimatedLength);
+% Plot
+scatter3(EstimatedData(:,1), EstimatedData(:,2), EstimatedData(:,3),30,[1 0 0], 'filled');
+
+% Intervalle bestimmen
+min_A = min(A(:,2:4));
+max_A = max(A(:,2:4));
+
+x1 = min_A(1,1):5:max_A(1,1);
+x2 = min_A(1,2):2:max_A(1,2);
+[D1, D2] = meshgrid(x1,x2);
+M = beta(1)+beta(2)*D1+beta(3)*D2;
+mesh(D1,D2,M);
 
 xlabel('Alter'); 
 ylabel('Wassertemperatur'); 
 zlabel('Laenge');
-legend('Linear regressierte Fischlaenge')
+legend('Datenpunkte', 'regressierte Datenpunkte', 'regressierte Ebene')
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 2  %%%%%%%%%%%%%%%%%%%%%
 
