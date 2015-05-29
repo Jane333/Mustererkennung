@@ -60,8 +60,13 @@ Z = repmat(Z,maxE,1);
 mesh(Z); % die Ebene
 
 
-bildPunkte = A(:,2:4);
 % die Bildpunkte muessen jetzt noch in das Bild...
+bildPunkte = A(:,2:4);
+hold on
+% plotting the data points into the same figure:
+scatter3(bildPunkte(:,1), bildPunkte(:,2), bildPunkte(:,3), 60, [1 0 0])
+%hold on
+% plotting the lines connecting data points and plane into the same figure:
 
 xlabel('Alter'); 
 ylabel('Wassertemperatur'); 
