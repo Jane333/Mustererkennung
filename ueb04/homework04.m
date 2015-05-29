@@ -50,7 +50,7 @@ EstimatedLength = X*beta;
 % Ebene mit Geschaetzter Laenge
 EstimatedData = horzcat(Z, EstimatedLength);
 % Plot
-scatter3(EstimatedData(:,1), EstimatedData(:,2), EstimatedData(:,3),30,[1 0 0], 'filled');
+scatter3(EstimatedData(:,1), EstimatedData(:,2), EstimatedData(:,3),30,[0 1 0], 'filled');
 
 % Intervalle bestimmen
 min_A = min(A(:,2:4));
@@ -60,7 +60,13 @@ x1 = min_A(1,1):5:max_A(1,1);
 x2 = min_A(1,2):2:max_A(1,2);
 [D1, D2] = meshgrid(x1,x2);
 M = beta(1)+beta(2)*D1+beta(3)*D2;
-mesh(D1,D2,M);
+surf(D1,D2,M);
+colormap autumn;
+
+% Linien von Datenpunkten auf Ebene einzeichnen
+for index = 1:length(A(:,4))
+     plot3([Z(index,1) Z(index,1)]',[Z(index,2) Z(index,2)]',[y(index) EstimatedLength(index)]','-b');
+end
 
 xlabel('Alter'); 
 ylabel('Wassertemperatur'); 
