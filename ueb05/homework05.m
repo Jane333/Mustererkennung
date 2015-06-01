@@ -16,5 +16,5 @@ linclass = fitcdiscr(Koordinaten, Klassen)
 
 % Classify:
 meanmeas = mean(Koordinaten)
-meanclass = predict(linclass,meanmeas)
-meanclass = 'versicolor'
+
+meanclass = predict(linclass,Koordinaten)

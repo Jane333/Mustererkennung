@@ -30,18 +30,17 @@ figure('NumberTitle','off','Name','Aufgabe 2 - Bildpunkte');
 hold on
 X      = Koordinaten(:,1);
 Y      = Koordinaten(:,2);
-Punkte = [X,Y];
 
 % Punkte plotten
 gscatter(X,Y,Klassen,'krb','+x',[],'off');
 
-% Diksriminante erzeugen
-FDK           = fitcdiscr(Punkte,Klassen); % Diskriminantenobjekt
-Koeffizienten = FDK.Coeffs(1,2).Const;     % Koeffizienten
-Linie         = FDK.Coeffs(1,2).Linear;    % Grenzlinie
+% Diskriminante erzeugen
+FDK           = fitcdiscr(Koordinaten,Klassen); % Diskriminantenobjekt - erzeugt Klassifikator
+Koeffizienten = FDK.Coeffs(1,2).Const;     % holt die konstanten Koeffizienten vom Klassifikator, die das LGS beschreiben
+Linie         = FDK.Coeffs(1,2).Linear;    % holt die konstanten Koeffizienten vom Klassifikator, die das LGS beschreiben, also die Grenzlinie
 
 % [x1,x2]*Linie + Koeffizienten = 0
-f = @(x1) Koeffizienten + Linie(1)*x1;
+f = @(x1) Linie(1)*x1 + Koeffizienten % y = mx + n
 
 % Funktion plotten
 Diskriminante = ezplot(f);
