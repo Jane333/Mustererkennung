@@ -1,3 +1,6 @@
+%%%%%%%%%%%%%%  Mustererkennung Uebungszettel 4  %%%%%%%%%%%%%%
+%%%%%%%%%%%%  J. Cavojska, N. Lehmann, R. Toudic  %%%%%%%%%%%%%
+
 % Clean up
 clear all
 close all
@@ -7,20 +10,16 @@ clc
 
 % fish.txt: index; the age of the fish; the water temperature in Celsius; the length of the fish
 A = load('fish.txt');
-A_n   = size(A,2);
-A_m   = size(A,1);
 
 % winequality-red.txt: fixed acidity; volatile acidity; citric acid; residual sugar; chlorides; free sulfur dioxide; total sulfur; dioxide; density; pH; sulphates; alcohol; quality (score between 0 and 10) 
 B = load('winequality-red.txt');
-B_n   = size(B,2);
-B_m   = size(B,1);
 
 
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 1  %%%%%%%%%%%%%%%%%%%%%
 
 %  Schaetzen Sie den Wert fuer length anhand der Parameter age und temperature mit linearer Regression. 
 %  Visualisieren Sie dreidimensional die tatsaechlichen Datenpunkte, die geschaetzten Datenpunkte, die Ebene 
-%  auf die projiziert wurde, sowie die Abstaende der tatsaechlichen Datenpunkte zu dieser Ebene.  
+%  auf die projiziert wurde, sowie die Abstaende der tatsaechlichen Datenpunkte zu dieser Ebene.
 
 y = A(:,4);  % nur die Laengen der Fische
 Z = A(:,2:3);  % alle Datenpunkte, ausser Laenge
@@ -28,7 +27,7 @@ onesVector = ones(size(Z,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge 
 X = horzcat(onesVector, Z);  % Einsen-Vektor an Datenpunkte-Matrix drankleben
 
 % X' ist die transponierte Matrix X
-beta = inv(X'*X) * X' * y;  % beta ist der Vektor mit den Koeffizienten der Regressionsebene
+beta = inv(X'*X) * X' * y;  % beta ist der Vektor, mit dem Eingabedaten multipliziert werden muessen, damit wir an die Klassen-Labels kommen
 % Resultat:
 % beta =
 %     1.0e+03 *
@@ -73,18 +72,18 @@ ylabel('Wassertemperatur');
 zlabel('Laenge');
 legend('Datenpunkte', 'regressierte Datenpunkte', 'regressierte Ebene')
 
+
 %%%%%%%%%%%%%%%%%%%%  AUFGABE 2  %%%%%%%%%%%%%%%%%%%%%
 
-% Schaetzen Sie den Wert fuer quality mit linearer Regression anhand aller moeglichen Kombinationen der anderen Parameter (also jeweils fÃ¼r alle EinerÂ­, ZweierÂ­, Dreierkombinationen, usw.) und berechnen jeweils die Summe der quadratischen Abweichungen zwischen den geschÃ¤tzten und tatsÃ¤chlichen Werten fÃ¼r â€œqualityâ€?.
-% Visualisieren Sie dies als zweidimensionalen Plot. Auf der X­Achse steht dabei die Anzahl der verwendeten Parameter, auf der yÂ­Achse die Summe der quadratischen Abweichungen.
+% Schaetzen Sie den Wert fuer quality mit linearer Regression anhand aller moeglichen Kombinationen der anderen Parameter (also jeweils fuer alle Einer-­, Zweier-­, Dreierkombinationen, usw.) und berechnen jeweils die Summe der quadratischen Abweichungen zwischen den geschaetzten und tatsaechlichen Werten fuer quality.
+% Visualisieren Sie dies als zweidimensionalen Plot. Auf der x-Achse steht dabei die Anzahl der verwendeten Parameter, auf der y-­Achse die Summe der quadratischen Abweichungen.
  
 y = B(:,12);  % Spalte mit Weinqualitaet
 Result = [];  % Ergebnismatrix
 
 featureIndices = [1 2 3 4 5 6 7 8 9 10 11];
 for numFeatures = 1:11  % es gibt 11 features, anhand welcher man klassifizieren kann
-    combinations = combnk(featureIndices, numFeatures);
-    % for combination = combinations
+    combinations = combnk(featureIndices, numFeatures); % combnk gibt eine Liste aller n ueber k vielen Kombinationen von featureIndices zurueck (wobei numFeatures unser k ist)
     for line = 1:size(combinations, 1)
         combination = combinations(line,:);
         X = B(:, combination);
