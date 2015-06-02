@@ -1,0 +1,125 @@
+\documentclass[12pt]{article}
+
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb} % to display symbols for real numbers, integers etc. Usage: \mathbb{R}
+\usepackage{graphicx}
+\usepackage{listings} % to display programming code
+%\usepackage[ngerman]{babel}
+\usepackage{color}
+\usepackage{relsize} % to display scaled math symbols (big summation symbol etc.)
+\usepackage{textcomp}
+
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{ % to display programming code in nice colors
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=matlab,
+		basicstyle=\scriptsize, %for extra small font size
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+		frame=single, %draw frame
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+        numbers=left,
+        stepnumber=1,
+        firstnumber=1,
+        numberfirstline=true,
+        linewidth=14cm,
+}
+
+\title{Uebungsblatt 5\\ \glqq Mustererkennung\grqq}
+\author{J. Cavojska, N. Lehmann, R. Toudic}
+\date{01.06.2015}
+\begin{document}
+\maketitle
+%\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+\newpage
+
+\section{Schnitte von zwei Gau\ss kurven}
+
+\begin{align*}
+f_1(x,\mu_1,\sigma_1) &= \frac{1}{\sqrt{2 \pi \sigma_1}} \cdot e^{-\frac{(x-\mu_1)^2}{2 \sigma_1^2}}\\
+f_2(x,\mu_2,\sigma_2) &= \frac{1}{\sqrt{2 \pi \sigma_2}} \cdot e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2}}\\
+\end{align*}
+\underline{Eigenschaften von Dichtfunktionen $f_i$ f\"ur $\sigma_i > 0$ mit $i \in \mathbb{N}$}:
+\begin{itemize}
+\item $f_i$ ist achsensymmeterisch um $\mu_i$
+\item $f_i$ hat zwei Wendepunkte: $\mu_i - \sigma_i$ und $\mu_i + \sigma_i$
+\item $f_i$ hat genau ein Maxima bei $\mu_i$
+\item $f_i$ ist stetig / f\"ur jede reelle Zahl definiert
+\item $f_i(x,\mu_i,\sigma_i) > 0$
+\end{itemize}
+\underline{Eigenschaften von Dichtfunktionen $f_i$ f\"ur $\sigma_i = 0$ mit $i \in \mathbb{N}$}:
+\begin{itemize}
+\item $f_i$ ist nicht definiert
+\item philosophische Betrachtung: $f_i$ ist eine Konstante!?
+\end{itemize}
+\underline{Eigenschaften von Dichtfunktionen $f_i$ f\"ur $\sigma_i < 0$ mit $i \in \mathbb{N}$}:
+\begin{itemize}
+\item $f_i$ ist nicht definiert in $\mathbb{R}$ (, aber in $\mathbb{C}$)
+\end{itemize}
+\newpage
+\underline{Schnittpunkte von $f_1$ und $f_2$ bestimmen durch Gleichsetzung}:
+\begin{align*}
+f_1(x,\mu_1,\sigma_1) &= f_2(x,\mu_2,\sigma_2) &\Leftrightarrow\\
+\frac{1}{\sqrt{2 \pi \sigma_1}} \cdot e^{-\frac{(x-\mu_1)^2}{2\sigma_1^2}} &= \frac{1}{\sqrt{2 \pi \sigma_2}} \cdot e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2}} &\Leftrightarrow\\
+\frac{\sqrt{2 \pi \sigma_2}}{\sqrt{2 \pi \sigma_1}} \cdot e^{-\frac{(x-\mu_1)^2}{2\sigma_1^2}} &= e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2}} &\Leftrightarrow\\
+\frac{\sqrt{2 \pi \sigma_2}}{\sqrt{2 \pi \sigma_1}} &= e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2} + {\frac{(x-\mu_1)^2}{2\sigma_1^2}}} &\Leftrightarrow\\
+\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}} &= e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2} + {\frac{(x-\mu_1)^2}{2\sigma_1^2}}} &\Leftrightarrow\\
+ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\frac{(x-\mu_2)^2}{2 \sigma_2^2} + {\frac{(x-\mu_1)^2}{2\sigma_1^2}} &\Leftrightarrow\\
+2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -(x-\mu_2)^2 + {\frac{2 \sigma_2^2 (x-\mu_1)^2}{2\sigma_1^2}} &\Leftrightarrow\\
+2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -(x-\mu_2)^2 + {\frac{\sigma_2^2 (x-\mu_1)^2}{\sigma_1^2}} &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\sigma_1^2(x-\mu_2)^2 + {\sigma_2^2 (x-\mu_1)^2} &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\sigma_1^2(x^2 -2x\mu_2 + \mu_2^2) + {\sigma_2^2 (x-\mu_1)^2} &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\sigma_1^2(x^2 -2x\mu_2 + \mu_2^2) + {\sigma_2^2 (x^2-2x\mu_1+\mu_1^2)} &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\sigma_1^2x^2 +2x\mu_2\sigma_1^2 - \mu_2^2\sigma_1^2 + \sigma_2^2 (x^2-2x\mu_1+\mu_1^2) &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) &= -\sigma_1^2x^2 +2x\mu_2\sigma_1^2 - \mu_2^2\sigma_1^2 + \sigma_2^2 x^2 -2x\mu_1\sigma_2^2 + \mu_1^2\sigma_2^2 &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 &= -\sigma_1^2x^2 +2x\mu_2\sigma_1^2 + \sigma_2^2 x^2 -2x\mu_1\sigma_2^2 + \mu_1^2\sigma_2^2 &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2&= -\sigma_1^2x^2 +2x\mu_2\sigma_1^2 + \sigma_2^2 x^2 -2x\mu_1\sigma_2^2 &\Leftrightarrow\\
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2&= x^2 (\sigma_2^2-\sigma_1^2) +2x\mu_2\sigma_1^2 -2x\mu_1\sigma_2^2 &\Leftrightarrow\\
+\end{align*}
+\newpage
+\begin{align*}
+2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2&= x^2 (\sigma_2^2-\sigma_1^2) + 2x (\mu_2\sigma_1^2 - \mu_1\sigma_2^2) &\Leftrightarrow\\
+\frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2} &= x^2 + \frac{2x(\mu_2\sigma_1^2 - \mu_1\sigma_2^2)}{\sigma_2^2-\sigma_1^2}\\
+\end{align*}
+Ab hier gibt es zwei M\"oglichkeiten, die Gleichung zu l\"osen...
+\begin{enumerate}
+\item quadratische Erg\"anzung mit dem Term $\left(\frac{2(\mu_2\sigma_1^2 - \mu_1\sigma_2^2)}{\sigma_2^2-\sigma_1^2}\right)^2$ und umformen nach $x$
+\item Term umformen und die P-Q-Formel verwenden
+\end{enumerate}
+Wir haben uns f\"ur die 2. Option entschieden:
+\begin{align*}
+x^2 + \frac{2x(\mu_2\sigma_1^2 - \mu_1\sigma_2^2)}{\sigma_2^2-\sigma_1^2} - \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2} &= 0 &\Leftrightarrow\\
+x^2 + x \cdot \underbrace{\frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{P} - \underbrace{\frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{Q}\\
+\end{align*}
+Nun k\"onnen wir die quadratische Gleichung mit der P-Q-Formel l\"osen.\\
+\textit{Zur Erinnerung: Die P-Q-Formel lautet:} $x_{1/2} = -\frac{P}{2} \pm \sqrt{\left(\frac{P}{2}\right)^2 - Q}$.
+\begin{align*}
+x_1 &= 4 \cdot \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} + \sqrt{\left( \frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}\\
+x_2 &= 4 \cdot \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} - \sqrt{\left( \frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2}}{\sqrt{\sigma_1}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}
+\end{align*}
+\newpage
+
+\section{Klassifikation mit Fisher-Diskriminante}
+\begin{lstlisting}[language=Matlab]
+\end{lstlisting}
+\newpage
+
+
+\end{document}
