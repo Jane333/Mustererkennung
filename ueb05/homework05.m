@@ -60,9 +60,7 @@ f = @(x1,x2) Linie(1)*x1 + Linie(2)*x2 + Koeffizienten; % y = mx + n
 min_x = min(A(:,1));
 max_x = max(A(:,1));
 Diskriminante = ezplot(f, [min_x,max_x]); % dies uebermalt den scatter plot nicht, ist aber als Diskriminante falsch
-
-
-Diskriminante.Color = 'r';
+Diskriminante.Color = 'b';
 
 %  xxx = [0 200]; yyy = [0 150]; plot(xxx, yyy); %meins, funktioniert
 
