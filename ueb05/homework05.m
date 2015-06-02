@@ -53,12 +53,12 @@ Koeffizienten = FDK.Coeffs(1,2).Const;     % holt die konstanten Koeffizienten v
 Linie         = FDK.Coeffs(1,2).Linear;    % holt die linearen Koeffizienten vom Klassifikator, die das LGS beschreiben, also die Grenzlinie
 
 % [x1,x2]*Linie + Koeffizienten = 0
-f = @(x1) Linie(1)*x1 + Koeffizienten % y = mx + n
+f = @(x1,x2) Linie(1)*x1 + Linie(2)*x2 + Koeffizienten; % y = mx + n
 
 % Funktion plotten
 %  Diskriminante = ezplot(f); % dies uebermalt den scatter plot
-min_x = min(A(:,1))
-max_x = max(A(:,1))
+min_x = min(A(:,1));
+max_x = max(A(:,1));
 Diskriminante = ezplot(f, [min_x,max_x]); % dies uebermalt den scatter plot nicht, ist aber als Diskriminante falsch
 
 
