@@ -66,3 +66,25 @@ Diskriminante.Color = 'b';
 
 xlabel('X-Koordinaten');
 ylabel('Y-Koordinaten');
+
+%%%% So. Das war das Plotten. Nun kommt die Berechnung:
+
+% scatter within class 1: S1 = \sum(xi - mean)*(xi - mean)'
+% scatter within: S_w = S1 + S1
+% Gerade w:       w = inv(S_w) * (m1 - m2)
+
+mean1 = mean(Koordinaten0);
+mean2 = mean(Koordinaten1);
+
+S1 = 0;
+for i = 1:size(Koordinaten0, 1)
+    S1 = S1 + (Koordinaten0(i,:) - mean1) * (Koordinaten0(i,:) - mean1)';  % Koordinaten0(i,:). der Punkt sorgt fuer komponentenweise Operation
+end
+
+S2 = 0;
+for i = 1:size(Koordinaten1, 1)
+    S2 = S2 + (Koordinaten1(i,:) - mean2) * (Koordinaten1(i,:) - mean2)';  % Koordinaten0(i,:). der Punkt sorgt fuer komponentenweise Operation
+end
+
+S_w = S1 + S1
+
