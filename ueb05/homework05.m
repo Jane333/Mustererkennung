@@ -34,8 +34,6 @@ Data0_m   = size(Data0,1);
 Data1_n   = size(Data1,2);
 Data1_m   = size(Data1,1);
 
-% Aufgabe 1
-
 % Aufgabe 2
 
 figure('NumberTitle','off','Name','Aufgabe 2 - Bildpunkte');
