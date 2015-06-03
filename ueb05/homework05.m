@@ -65,24 +65,57 @@ Diskriminante.Color = 'b';
 xlabel('X-Koordinaten');
 ylabel('Y-Koordinaten');
 
-%%%% So. Das war das Plotten. Nun kommt die Berechnung:
 
-% scatter within class 1: S1 = \sum(xi - mean)*(xi - mean)'
-% scatter within: S_w = S1 + S1
-% Gerade w:       w = inv(S_w) * (m1 - m2)
+%%%% So. Das war das Plotten. Nun kommt die Berechnung:
 
 mean1 = mean(Koordinaten0);
 mean2 = mean(Koordinaten1);
 
+% scatter within class 1: S1 = \sum(x1i - mean1)*(x1i - mean1)'
 S1 = 0;
 for i = 1:size(Koordinaten0, 1)
     S1 = S1 + (Koordinaten0(i,:) - mean1) * (Koordinaten0(i,:) - mean1)';  % Koordinaten0(i,:). der Punkt sorgt fuer komponentenweise Operation
 end
 
+% scatter within class 2: S2 = \sum(x2i - mean2)*(x2i - mean2)'
 S2 = 0;
 for i = 1:size(Koordinaten1, 1)
-    S2 = S2 + (Koordinaten1(i,:) - mean2) * (Koordinaten1(i,:) - mean2)';  % Koordinaten0(i,:). der Punkt sorgt fuer komponentenweise Operation
+    S2 = S2 + (Koordinaten1(i,:) - mean2) * (Koordinaten1(i,:) - mean2)';
 end
 
+% scatter within: S_w = S1 + S1
 S_w = S1 + S1
 
+% Gerade w, auf die wir projizieren werden: w = inv(S_w) * (m1 - m2)
+w = inv(S_w) * (mean1 - mean2)
+wn = w / norm(w)  % normalisierte Gerade w
+
+% Daten aus Klasse 1 auf die Gerade w projizieren:
+Koordinaten0_p = []  % projizierte Daten aus Klasse 1
+for i = 1:size(Koordinaten0, 1)
+    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * (wn'))
+end
+
+% Daten aus Klasse 2 auf die Gerade w projizieren:
+Koordinaten1_p = []  % projizierte Daten aus Klasse 2
+for i = 1:size(Koordinaten1, 1)
+    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (wn'))
+end
+
+% pdf der projizierten Daten aus Klasse 1:
+mean1_p = mean(Koordinaten0_p)
+std1_p = std(Koordinaten0_p)
+x = min(Koordinaten0_p(1,:)):max(Koordinaten0_p(1,:)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+pdf1_p = pdf('Normal',x,mean1_p, std1_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+
+% pdf der projizierten Daten aus Klasse 2:
+mean2_p = mean(Koordinaten1_p)
+std2_p = std(Koordinaten1_p)
+x = min(Koordinaten1_p(1,:)):max(Koordinaten1_p(1,:)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+pdf2_p = pdf('Normal',x,mean2_p, std2_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+
+% TODO: Schnittpunkt beider pdf-Funktionen:
+%  intersection =  % this has to be a vector with 2 columns and 1 row 
+
+% w0 finden als Projektion des Punktes intersection auf die Gerade w:
+w0 = intersection * (wn')
