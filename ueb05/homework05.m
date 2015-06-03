@@ -67,6 +67,7 @@ ylabel('Y-Koordinaten');
 
 
 %%%% So. Das war das Plotten. Nun kommt die Berechnung:
+% Notiz: Wir nehmen der Einfachheit halber (weil es diese konkrete Aufgabe loest) an, dass sowohl mean1_p und mean2_p als auch std1_p und std2_p jeweils unterschiedlich sind.
 
 mean1 = mean(Koordinaten0);
 mean2 = mean(Koordinaten1);
@@ -93,13 +94,13 @@ wn = w / norm(w)  % normalisierte Gerade w
 % Daten aus Klasse 1 auf die Gerade w projizieren:
 Koordinaten0_p = []  % projizierte Daten aus Klasse 1
 for i = 1:size(Koordinaten0, 1)
-    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * (wn'))
+    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * (wn'));
 end
 
 % Daten aus Klasse 2 auf die Gerade w projizieren:
 Koordinaten1_p = []  % projizierte Daten aus Klasse 2
 for i = 1:size(Koordinaten1, 1)
-    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (wn'))
+    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (wn'));
 end
 
 % pdf der projizierten Daten aus Klasse 1:
@@ -114,8 +115,12 @@ std2_p = std(Koordinaten1_p)
 x = min(Koordinaten1_p(1,:)):max(Koordinaten1_p(1,:)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
 pdf2_p = pdf('Normal',x,mean2_p, std2_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
 
-% TODO: Schnittpunkt beider pdf-Funktionen:
-%  intersection =  % this has to be a vector with 2 columns and 1 row 
+% Schnittpunkt beider pdf-Funktionen mit der p-q-Formel berechnen:
+p = (2 * mean2_p * std1_p^2 - 2 * mean1_p * std2_p^2) / (std2_p^2 - std1_p^2)
+q = (2 * std1_p^2 * std2_p^2 * log(std2_p / std1_p) + mean2_p^2 * std1_p^2 - mean1_p^2 * std2_p^2) / (std2_p^2 - std1_p^2)  % log(X) returns the natural log. of X
+intersection_x = (((-1) * p) / 2) + sqrt((p/2)^2 - q)
+intersection_y = (((-1) * p) / 2) - sqrt((p/2)^2 - q)
+intersection = [intersection_x intersection_y] % this has to be a vector with 2 columns and 1 row 
 
 % w0 finden als Projektion des Punktes intersection auf die Gerade w:
 w0 = intersection * (wn')
