@@ -86,8 +86,8 @@ end
 % scatter within: S_w = S1 + S1
 S_w = S1 + S1
 
-% Gerade w, auf die wir projizieren werden: w = inv(S_w) * (m1 - m2)
-w = inv(S_w) * (mean1 - mean2)
+% Gerade w, auf die wir projizieren werden: w = (S_w^(-1)) * (m1 - m2)
+w = (S_w^(-1)) * (mean1 - mean2)
 wn = w / norm(w)  % normalisierte Gerade w
 
 % Daten aus Klasse 1 auf die Gerade w projizieren:
