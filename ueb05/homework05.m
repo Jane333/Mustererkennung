@@ -107,26 +107,25 @@ Koordinaten_p = vertcat(Koordinaten0_p, Koordinaten1_p);
 % pdf der projizierten Daten aus Klasse 1:
 mean1_p = mean(Koordinaten0_p)
 std1_p = std(Koordinaten0_p)
-xrange1 = min(Koordinaten0_p(:,1)):max(Koordinaten0_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+xrange1 = min(Koordinaten_p(:,1)):max(Koordinaten_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
 pdf1_p = pdf('Normal',xrange1,mean1_p, std1_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
 
 % pdf der projizierten Daten aus Klasse 2:
 mean2_p = mean(Koordinaten1_p)
 std2_p = std(Koordinaten1_p)
-xrange2 = min(Koordinaten1_p(:,1)):max(Koordinaten1_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+xrange2 = min(Koordinaten_p(:,1)):max(Koordinaten_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
 pdf2_p = pdf('Normal',xrange2,mean2_p, std2_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
 
 
 
-% Schnittpunkt beider pdf-Funktionen mit der p-q-Formel berechnen:
-p = (2 * mean2_p * std1_p^2 - 2 * mean1_p * std2_p^2) / (std2_p^2 - std1_p^2)
-q = (2 * std1_p^2 * std2_p^2 * log(std2_p / std1_p) + mean2_p^2 * std1_p^2 - mean1_p^2 * std2_p^2) / (std2_p^2 - std1_p^2)  % log(X) returns the natural log. of X
-intersection_x = (((-1) * p) / 2) + sqrt((p/2)^2 - q) % dies ist natuerlich totaler Quatsch, x1 und x2 sind keine Koordinaten des Schnittpunktes... oder?
-intersection_y = (((-1) * p) / 2) - sqrt((p/2)^2 - q)
-intersection = [intersection_x intersection_y] % this has to be a vector with 2 columns and 1 row 
-
-% w0 finden als Projektion des Punktes intersection auf die Gerade w:
-w0 = intersection * (wn')
+%  % Ein Versuch, den Schnittpunkt beider pdf-Funktionen mit der p-q-Formel berechnen:
+%  p = (2 * mean2_p * std1_p^2 - 2 * mean1_p * std2_p^2) / (std2_p^2 - std1_p^2)
+%  q = (2 * std1_p^2 * std2_p^2 * log(std2_p / std1_p) + mean2_p^2 * std1_p^2 - mean1_p^2 * std2_p^2) / (std2_p^2 - std1_p^2)  % log(X) returns the natural log. of X
+%  intersection_x = (((-1) * p) / 2) + sqrt((p/2)^2 - q) % dies ist natuerlich totaler Quatsch, x1 und x2 sind keine Koordinaten des Schnittpunktes... oder?
+%  intersection_y = (((-1) * p) / 2) - sqrt((p/2)^2 - q)
+%  intersection = [intersection_x intersection_y] % this has to be a vector with 2 columns and 1 row 
+%  % w0 finden als Projektion des Punktes intersection auf die Gerade w:
+%  w0 = intersection * (wn')
 
 
 
@@ -134,7 +133,12 @@ w0 = intersection * (wn')
 %  [xout,yout] = intersections(t,y,t,y2,1);
 [xout,yout] = intersections(xrange1, pdf1_p, xrange2, pdf2_p, 1);
 plot(xrange1, pdf1_p, 'linewidth', 2)
-set(gca,'xlim',[min(xrange1) max(xrange1)],'ylim',[-1.1 1.1])
+set(gca,'xlim',[min(Koordinaten_p) max(Koordinaten_p)],'ylim',[-1.1 1.1])
 hold on
 plot(xrange2, pdf2_p, 'g', 'linewidth', 2)
 plot(xout,yout,'r.','markersize',18)
+
+intersection = [xout yout]
+w0 = intersection * (wn')
+
+% TODO: w und w0 plotten:
