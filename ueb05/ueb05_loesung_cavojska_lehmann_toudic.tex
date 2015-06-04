@@ -112,21 +112,124 @@ Nun k\"onnen wir die quadratische Gleichung mit der P-Q-Formel l\"osen.\\
 \textit{Zur Erinnerung: Die P-Q-Formel lautet:} $x_{1/2} = -\frac{P}{2} \pm \sqrt{\left(\frac{P}{2}\right)^2 - Q}$.
 \begin{align*}
 x_1 &= 4 \cdot \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} + \sqrt{\left( \frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}\\
-\\
-Eigentlich:\\
-\\
-x_1 &= \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} + \sqrt{\left( \frac{\mu_2\sigma_1^2 - \mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}\\
-\\
-\\
 x_2 &= 4 \cdot \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} - \sqrt{\left( \frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}
 \end{align*}
 Sonderfall: Sei $\sigma = \sigma_1 = \sigma_2$, dann gilt $f_1(x,\sigma,\mu_1) = f_2(x,\sigma,\mu_2) = \frac{\mu_1+\mu_2}{2}$.
 \newpage
 
 \section{Klassifikation mit Fisher-Diskriminante}
+
+\subsection{Fisher-Diskriminante berechnen}
 \begin{lstlisting}[language=Matlab]
+% Daten laden und aufbereiten
+Data         = load('fisher.txt');
+Koordinaten  = Data(:,1:2);
+Klassen      = Data(:,3);
+
+% Diskriminante berechnen
+FDK    = fitcdiscr(Koordinaten,Klassen);
+Konst  = FDK.Coeffs(1,2).Const;
+Linear = FDK.Coeffs(1,2).Linear;
+
+% Fisher-Diskriminante berechnen
+fd = @(x1,x2) Linear(1)*x1 + Linear(2)*x2 + Konst;
+\end{lstlisting}
+
+\subsection{Vektor $w$ und Punkt $w_0$ berechnen}
+
+\begin{lstlisting}[language=Matlab]
+% Scatter within berechnen
+mean1 = mean(Koordinaten0);
+mean2 = mean(Koordinaten1);
+S1 = 0;
+for i = 1:size(Koordinaten0, 1)
+    S1 = S1 + (Koordinaten0(i,:) - mean1) * (Koordinaten0(i,:) - mean1)';
+end
+S2 = 0;
+for i = 1:size(Koordinaten1, 1)
+	S2 = S2 + (Koordinaten1(i,:) - mean2) * (Koordinaten1(i,:) - mean2)';
+end
+S_w = S1 + S2;
+  
+% Vektor w berechnen:
+w = inv(S_w) * (mean1 - mean2)
+w_norm = w / norm(w);
+    
+% Gerade durch den Vektor w legen und plotten
+w_gerade_x = w_norm(1) * li;
+w_gerade_y = w_norm(2) * li;
+    
+% Daten auf Vektor w_n projezieren
+Koordinaten0_p = [];
+for i = 1:size(Koordinaten0, 1)
+    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * (w_norm'));
+end
+
+
+
+Koordinaten1_p = [];
+for i = 1:size(Koordinaten1, 1)
+    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (w_norm'));
+end
+Koordinaten_p = vertcat(Koordinaten0_p, Koordinaten1_p);
+
+% pdf der projizierten Daten aus Klasse 1 erzeugen
+mean1_p = mean(Koordinaten0_p);
+std1_p  = std(Koordinaten0_p);
+pdf1_p  = pdf('Normal',li,mean1_p, std1_p);
+
+% pdf der projizierten Daten aus Klasse 2 erzeugen
+mean2_p = mean(Koordinaten1_p);
+std2_p  = std(Koordinaten1_p);
+pdf2_p  = pdf('Normal',li,mean2_p, std2_p);
+
+% Schnittpunkt berechnen
+[ispt_x,ispt_y] = intersections(li, pdf1_p, li, pdf2_p, 1);
+intersec = [ispt_x,ispt_y];
+    
+% w0 berechnen
+spkt = intersec * (w');
+w0 = spkt * -(w_norm')
+\end{lstlisting}
+
+\subsection{Plots}
+
+\begin{lstlisting}[language=Matlab]
+gscatter(X,Y,Klassen,'krb','+x',[],'off');
+Diskriminante = ezplot(fd, [min_x,max_x]);
+plot(w_gerade_y, w_gerade_x);
+plot(w0_x,w0_y,'g.','markersize',20);
 \end{lstlisting}
 \newpage
 
+\subsection{Mehr als 2 Klassen klassifizieren mit Bin\"arbaum}
 
+\underline{Idee}:\\
+\\
+Mit Hilfe der Fisher-Diskriminanten bauen wir einen bin\"aren Entscheidungsbaum auf. In den Bl\"attern stehen die Klassen. Von der Wurzel bis zu den Bl\"attern werden in den Knoten die jeweiligen Diskriminanten gespeichert.\\
+\\
+\textbf{Algorithmus:}
+\begin{enumerate}
+\item w\"ahle zuf\"allige Fisher-Diskriminante und speichere sie in der Wurzel
+\item pr\"ufe, ob eine weitere Diskriminante die aktuelle Diskriminante schneidet
+	\begin{itemize}
+	\item \textbf{nein:}
+		\begin{itemize}
+		\item Klasse -1 liegt im linken Blatt
+		\item Klasse +1 liegt im rechten Blatt
+		\item GOTO: \textit{Punkt 3}
+		\end{itemize}
+	\item \textbf{ja:}
+		\begin{itemize}
+
+		\item speichere die neue Diskriminante mit dem Vermerk -1 der aktuellen Diskriminante im linken Kinderknoten und mit dem Vermerk +1 der aktuellen Diskriminante im rechten Kinderknoten
+		\item markiere aktuelle Diskriminante als bearbeitet
+		\item w\"ahle wie bei der Breitensuche den n\"achsten Kinderknoten aus
+		\item GOTO: \textit{Punkt 2}
+		\end{itemize}
+	\end{itemize}
+\item Algorithmus terminiert
+\end{enumerate}
+
+\textbf{\textit{Klappt der Algorithmus?}}
 \end{document}
