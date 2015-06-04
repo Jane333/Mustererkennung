@@ -235,6 +235,7 @@ x = min(X):max(X); % Abschnitt auf der x-Achse, der geplottet werden soll
 
 % PDFs berechnen
 FM0_pdf = pdf('Normal',x,FM0_mean, FM0_std); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+FM0_pdf
 FM1_pdf = pdf('Normal',x,FM1_mean, FM1_std);
 FM2_pdf = pdf('Normal',x,FM2_mean, FM2_std);
 FM3_pdf = pdf('Normal',x,FM3_mean, FM3_std);

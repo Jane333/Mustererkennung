@@ -35,35 +35,35 @@ Data1_n   = size(Data1,2);
 Data1_m   = size(Data1,1);
 
 % Aufgabe 2
-
-figure('NumberTitle','off','Name','Aufgabe 2 - Bildpunkte');
-hold on
-X      = Koordinaten(:,1);
-Y      = Koordinaten(:,2);
-
-% Punkte plotten
-gscatter(X,Y,Klassen,'krb','+x',[],'off');
-hold on
-
-% Diskriminante erzeugen
-FDK           = fitcdiscr(Koordinaten,Klassen); % Diskriminantenobjekt - erzeugt Klassifikator
-Koeffizienten = FDK.Coeffs(1,2).Const;     % holt die konstanten Koeffizienten vom Klassifikator, die das LGS beschreiben
-Linie         = FDK.Coeffs(1,2).Linear;    % holt die linearen Koeffizienten vom Klassifikator, die das LGS beschreiben, also die Grenzlinie
-
-% [x1,x2]*Linie + Koeffizienten = 0
-f = @(x1,x2) Linie(1)*x1 + Linie(2)*x2 + Koeffizienten; % y = mx + n
-
-% Funktion plotten
-%  Diskriminante = ezplot(f); % dies uebermalt den scatter plot
-min_x = min(A(:,1));
-max_x = max(A(:,1));
-Diskriminante = ezplot(f, [min_x,max_x]); % dies uebermalt den scatter plot nicht, ist aber als Diskriminante falsch
-Diskriminante.Color = 'b';
-
-%  xxx = [0 200]; yyy = [0 150]; plot(xxx, yyy); %meins, funktioniert
-
-xlabel('X-Koordinaten');
-ylabel('Y-Koordinaten');
+%  
+%  figure('NumberTitle','off','Name','Aufgabe 2 - Bildpunkte');
+%  hold on
+%  X      = Koordinaten(:,1);
+%  Y      = Koordinaten(:,2);
+%  
+%  % Punkte plotten
+%  gscatter(X,Y,Klassen,'krb','+x',[],'off');
+%  hold on
+%  
+%  % Diskriminante erzeugen
+%  FDK           = fitcdiscr(Koordinaten,Klassen); % Diskriminantenobjekt - erzeugt Klassifikator
+%  Koeffizienten = FDK.Coeffs(1,2).Const;     % holt die konstanten Koeffizienten vom Klassifikator, die das LGS beschreiben
+%  Linie         = FDK.Coeffs(1,2).Linear;    % holt die linearen Koeffizienten vom Klassifikator, die das LGS beschreiben, also die Grenzlinie
+%  
+%  % [x1,x2]*Linie + Koeffizienten = 0
+%  f = @(x1,x2) Linie(1)*x1 + Linie(2)*x2 + Koeffizienten; % y = mx + n
+%  
+%  % Funktion plotten
+%  %  Diskriminante = ezplot(f); % dies uebermalt den scatter plot
+%  min_x = min(A(:,1));
+%  max_x = max(A(:,1));
+%  Diskriminante = ezplot(f, [min_x,max_x]); % dies uebermalt den scatter plot nicht, ist aber als Diskriminante falsch
+%  Diskriminante.Color = 'b';
+%  
+%  %  xxx = [0 200]; yyy = [0 150]; plot(xxx, yyy); %meins, funktioniert
+%  
+%  xlabel('X-Koordinaten');
+%  ylabel('Y-Koordinaten');
 
 
 %%%% So. Das war das Plotten. Nun kommt die Berechnung:
@@ -102,25 +102,39 @@ Koordinaten1_p = []  % projizierte Daten aus Klasse 2
 for i = 1:size(Koordinaten1, 1)
     Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (wn'));
 end
+Koordinaten_p = vertcat(Koordinaten0_p, Koordinaten1_p);
 
 % pdf der projizierten Daten aus Klasse 1:
 mean1_p = mean(Koordinaten0_p)
 std1_p = std(Koordinaten0_p)
-x = min(Koordinaten0_p(1,:)):max(Koordinaten0_p(1,:)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
-pdf1_p = pdf('Normal',x,mean1_p, std1_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+xrange1 = min(Koordinaten0_p(:,1)):max(Koordinaten0_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+pdf1_p = pdf('Normal',xrange1,mean1_p, std1_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
 
 % pdf der projizierten Daten aus Klasse 2:
 mean2_p = mean(Koordinaten1_p)
 std2_p = std(Koordinaten1_p)
-x = min(Koordinaten1_p(1,:)):max(Koordinaten1_p(1,:)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
-pdf2_p = pdf('Normal',x,mean2_p, std2_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+xrange2 = min(Koordinaten1_p(:,1)):max(Koordinaten1_p(:,1)); % Abschnitt auf der x-Achse, fuer den die pdf berechnet werden soll
+pdf2_p = pdf('Normal',xrange2,mean2_p, std2_p); % pdf(Art von Verteilung, Abschnitt auf x-Achse, mean, std)
+
+
 
 % Schnittpunkt beider pdf-Funktionen mit der p-q-Formel berechnen:
 p = (2 * mean2_p * std1_p^2 - 2 * mean1_p * std2_p^2) / (std2_p^2 - std1_p^2)
 q = (2 * std1_p^2 * std2_p^2 * log(std2_p / std1_p) + mean2_p^2 * std1_p^2 - mean1_p^2 * std2_p^2) / (std2_p^2 - std1_p^2)  % log(X) returns the natural log. of X
-intersection_x = (((-1) * p) / 2) + sqrt((p/2)^2 - q)
+intersection_x = (((-1) * p) / 2) + sqrt((p/2)^2 - q) % dies ist natuerlich totaler Quatsch, x1 und x2 sind keine Koordinaten des Schnittpunktes... oder?
 intersection_y = (((-1) * p) / 2) - sqrt((p/2)^2 - q)
 intersection = [intersection_x intersection_y] % this has to be a vector with 2 columns and 1 row 
 
 % w0 finden als Projektion des Punktes intersection auf die Gerade w:
 w0 = intersection * (wn')
+
+
+
+% Das ganze doch lieber mit intersections berechnen und plotten:
+%  [xout,yout] = intersections(t,y,t,y2,1);
+[xout,yout] = intersections(xrange1, pdf1_p, xrange2, pdf2_p, 1);
+plot(xrange1, pdf1_p, 'linewidth', 2)
+set(gca,'xlim',[min(xrange1) max(xrange1)],'ylim',[-1.1 1.1])
+hold on
+plot(xrange2, pdf2_p, 'g', 'linewidth', 2)
+plot(xout,yout,'r.','markersize',18)
