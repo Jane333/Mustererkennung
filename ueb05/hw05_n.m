@@ -42,42 +42,31 @@ mean1 = mean(Koordinaten0);
 mean2 = mean(Koordinaten1);
 S1 = 0;
 for i = 1:size(Koordinaten0, 1)
-    S1 = S1 + (Koordinaten0(i,:) - mean1) * (Koordinaten0(i,:) - mean1)';
+    S1 = S1 + (Koordinaten0(i,:) - mean1)' * (Koordinaten0(i,:) - mean1);
 end
 S2 = 0;
 for i = 1:size(Koordinaten1, 1)
-	S2 = S2 + (Koordinaten1(i,:) - mean2) * (Koordinaten1(i,:) - mean2)';
+	S2 = S2 + (Koordinaten1(i,:) - mean2)' * (Koordinaten1(i,:) - mean2);
 end
 S_w = S1 + S2;
   
 % Vektor w berechnen:
-w = inv(S_w) * (mean1 - mean2)
-w_norm = w / norm(w);
+w = inv(S_w) * (mean1 - mean2)';
+w_norm = w / norm(w)
     
 % Gerade durch den Vektor w legen und plotten
 w_gerade_x = w_norm(1) * li;
 w_gerade_y = w_norm(2) * li;
-plot(w_gerade_y, w_gerade_x);
+plot(w_gerade_y, w_gerade_x, 'g');    
     
-    % nV = Normalenvektor zu w_norm
-    % nV_a = -w_norm(2);
-    % nV_b = w_norm(1);
-    % nV = [nV_a,nV_b];
-    % nV_norm = nV / norm(nV);
-    
-    % Gerade durch den Normalenvektor legen und plotten
-    % nV_gerade_x = nV_norm(1) * li;
-    % nV_gerade_y = nV_norm(2) * li; 
-    % plot(nV_gerade_x, nV_gerade_y);    
-    
-% Daten auf Vektor w_n projezieren
+% Daten auf Vektor w_norm projezieren
 Koordinaten0_p = [];
 for i = 1:size(Koordinaten0, 1)
-    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * (w_norm'));
+    Koordinaten0_p = vertcat(Koordinaten0_p, Koordinaten0(i, :) * w_norm);
 end
 Koordinaten1_p = [];
 for i = 1:size(Koordinaten1, 1)
-    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * (w_norm'));
+    Koordinaten1_p = vertcat(Koordinaten1_p, Koordinaten1(i, :) * w_norm);
 end
 Koordinaten_p = vertcat(Koordinaten0_p, Koordinaten1_p);
 
@@ -91,18 +80,16 @@ mean2_p = mean(Koordinaten1_p);
 std2_p  = std(Koordinaten1_p);
 pdf2_p  = pdf('Normal',li,mean2_p, std2_p);
 
-% Schnittpunkt berechnen und plotten
+% Schnittpunkt berechnen
 [ispt_x,ispt_y] = intersections(li, pdf1_p, li, pdf2_p, 1);
-intersec = [ispt_x,ispt_y];
-plot(ispt_x,ispt_y,'g.','markersize',20);
     
 % w0 berechnen und plotten
-spkt = intersec * (w');
-w0 = spkt * -(w_norm')
-plot(w0(1),w0(2),'r.','markersize',20);
+w0 = ispt_x * (w_norm')
+plot(w0(1),w0(2),'m.','markersize',20);
     
 % Titel, Bezeichner und Legende der Grafk
 title('Aufgabe 2 - Plot');
 xlabel('X-Koordinaten');
 ylabel('Y-Koordinaten');
-legend('1. Klasse','2. Klasse', 'Diskriminante', 'Gerade durch Vektor w', 'Schnittpunkt der Wahrscheinlichkeitsdichtefunktionen', 'Punkt w_0')
+legend('1. Klasse','2. Klasse', 'Diskriminante', 'Gerade durch Vektor w', 'Punkt w_0')
+axis([-50 300 -50 300])
