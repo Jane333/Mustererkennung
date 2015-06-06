@@ -74,7 +74,26 @@ f_2(x,\mu_2,\sigma_2) &= \frac{1}{\sqrt{2 \pi \sigma_2^2}} \cdot e^{-\frac{(x-\m
 \item $f_i$ ist nicht definiert in $\mathbb{R}$ (, aber in $\mathbb{C}$)
 \end{itemize}
 \newpage
-\underline{Schnittpunkte von $f_1$ und $f_2$ bestimmen durch Gleichsetzung}:
+\underline{Schnittpunkte von $f_1$ und $f_2$ bestimmen durch Gleichsetzung}:\\
+\\
+\textbf{Fall 1:} $\sigma = \sigma_1 = \sigma_2$\\
+\begin{align*}
+f_1(x,\mu_1,\sigma) &= f_2(x,\mu_2,\sigma) &\Leftrightarrow\\
+\frac{1}{\sqrt{2 \pi \sigma^2}} \cdot e^{-\frac{(x-\mu_1)^2}{2\sigma^2}} &= \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot e^{-\frac{(x-\mu_2)^2}{2 \sigma^2}} &\Leftrightarrow\\
+e^{-\frac{(x-\mu_1)^2}{2\sigma^2}} &= e^{-\frac{(x-\mu_2)^2}{2 \sigma^2}} &\Leftrightarrow\\
+log\left(e^{-\frac{(x-\mu_1)^2}{2\sigma^2}}\right) &= log\left(e^{-\frac{(x-\mu_2)^2}{2 \sigma^2}}\right) &\Leftrightarrow\\
+-\frac{(x-\mu_1)^2}{2\sigma^2} \cdot log(e) &= -\frac{(x-\mu_2)^2}{2 \sigma^2} \cdot log(e) &\Leftrightarrow\\
+-\frac{(x-\mu_1)^2}{2\sigma^2} &= -\frac{(x-\mu_2)^2}{2 \sigma^2} &\Leftrightarrow\\
+(x-\mu_1)^2 &= (x-\mu_2)^2 &\Leftrightarrow\\
+x^2 -2x\mu_1 + \mu_1^2 &= x^2 -2x\mu_2 + \mu_2^2 &\Leftrightarrow\\
+2x\mu_1 - 2x\mu_2 + \mu_2^2 - \mu_1^2 &= 0 &\Leftrightarrow\\
+x(2\mu_1 - 2\mu_2) + \mu_2^2 - \mu_1^2 &= 0 &\Leftrightarrow\\
+x(2\mu_1 - 2\mu_2) &= \mu_1^2 - \mu_2^2 &\Leftrightarrow\\
+x &= \dfrac{\mu_1^2 - \mu_2^2}{2\mu_1 - 2\mu_2} &\Leftrightarrow\\
+x &= \dfrac{(\mu_1 + \mu_2) \cdot (\mu_1 - \mu_2)}{2(\mu_1 - \mu_2)} &\Leftrightarrow\\
+x &= \dfrac{(\mu_1 + \mu_2)}{2}\\
+\end{align*}
+\textbf{Fall 2:} $\sigma_1 != \sigma_2$\\
 \begin{align*}
 f_1(x,\mu_1,\sigma_1) &= f_2(x,\mu_2,\sigma_2) &\Leftrightarrow\\
 \frac{1}{\sqrt{2 \pi \sigma_1^2}} \cdot e^{-\frac{(x-\mu_1)^2}{2\sigma_1^2}} &= \frac{1}{\sqrt{2 \pi \sigma_2^2}} \cdot e^{-\frac{(x-\mu_2)^2}{2 \sigma_2^2}} &\Leftrightarrow\\
