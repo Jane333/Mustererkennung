@@ -51,7 +51,7 @@ end
 S_w = S1 + S2;
   
 % Vektor w berechnen:
-w = inv(S_w) * (mean1 - mean2)'
+w = inv(S_w) * (mean1 - mean2)'  %  w = [0.0019 -0.0019]
 w_norm = w / norm(w)
     
 % Gerade durch den Vektor w legen und plotten
@@ -84,7 +84,7 @@ pdf2_p  = pdf('Normal',li,mean2_p, std2_p);
 [ispt_x,ispt_y] = intersections(li, pdf1_p, li, pdf2_p, 1);
     
 % w0 berechnen und plotten
-w0 = ispt_x * (w_norm')
+w0 = ispt_x * (w_norm') %  w0 = [13.6982  -13.8648]
 plot(w0(1),w0(2),'m.','markersize',20);
     
 % Titel, Bezeichner und Legende der Grafk

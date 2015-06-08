@@ -137,6 +137,10 @@ x_2 &= \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} - \sqrt{\
 
 \section{Klassifikation mit Fisher-Diskriminante}
 
+Berechnete Werte fuer die Fisher-Diskriminante:\\
+$w = [0.0019 -0.0019]$\\
+$w0 = [13.6982  -13.8648]$\\
+Details siehe Code:
 \begin{lstlisting}[language=Matlab]
 % Clean up
 clear all
@@ -245,10 +249,10 @@ Sei K die Menge der Klassen, die wir voneinander trennen wollen.
 
 \begin{enumerate}
 \item F\"ur jede Klasse $K_i \in K$ wähle eine zuf\"allige Diskriminante $d_j$ als Wurzelknoten eines neuen Baums und f\"uhre die Punkte 2. und 3. f\"ur diese Klasse aus.
-\item Entscheide, ob die Klasse $K_i$ links (-1) oder rechts (+1) von der Diskriminante $d_j$ liegt und markiere $d_j$ als bearbeitet.
+\item Entscheide, ob die Klasse $K_i$ links (-1) oder rechts (+1) von der Diskriminante $d_j$ liegt. Falls $K_i$ links von $d_j$ liegt, fuege zum $d_j$-Knoten ein linkes Kind hinzu, falls rechts, ein rechtes Kind. Markiere $d_j$ als bearbeitet.
 \item W\"ahle eine Diskriminante $d_{j+1}$, die $d_j$ schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
 \item Da die Reihenfolge, in der wir den Pfad zu einer Klasse durchlaufen, keine Rolle spielt (sondern nur das richtige Abbiegen), vereinigen wir alle Pfade in einen einzigen Bin\"arbaum (in 1. ist f\"ur jede Klasse ein eigener Bin\"arbaum entstanden).
 \end{enumerate}
-Jedes Blatt speichert eine Klasse $K_i$. Von dem Weg durch den Baum bis zu diesem Blatt ist f\"ur jede Diskriminante abzulesen, ob sie die Klasse $K_i$ von links (wir sind im Pfad in den linken Teilbaum reingegangen, um dieses Blatt zu erreichen) oder von rechts (in den rechten Teilbaum rein) abgrenzt.
+Jedes Blatt speichert eine Klasse $K_i$. Von dem Weg durch den Baum bis zu diesem Blatt ist f\"ur jede Diskriminante abzulesen, ob sie links von der Klasse $K_i$ (wir sind im Pfad in den linken Teilbaum reingegangen, um dieses Blatt zu erreichen) oder rechts davon (in den rechten Teilbaum rein) liegt.
 
 \end{document}
