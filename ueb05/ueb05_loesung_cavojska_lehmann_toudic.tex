@@ -240,32 +240,15 @@ legend('1. Klasse','2. Klasse', 'Diskriminante', 'Gerade durch Vektor w', 'Punkt
 
 \subsection{Mehr als 2 Klassen klassifizieren mit Bin\"arbaum}
 
-\underline{Idee}:\\
-\\
-Mit Hilfe der Fisher-Diskriminanten bauen wir einen bin\"aren Entscheidungsbaum auf. In den Bl\"attern stehen die Klassen. Von der Wurzel bis zu den Bl\"attern werden in den Knoten die jeweiligen Diskriminanten gespeichert.\\
-\\
-\textbf{Algorithmus:}
-\begin{enumerate}
-\item w\"ahle zuf\"allige Fisher-Diskriminante und speichere sie in der Wurzel
-\item pr\"ufe, ob eine weitere Diskriminante die aktuelle Diskriminante schneidet
-	\begin{itemize}
-	\item \textbf{nein:}
-		\begin{itemize}
-		\item Klasse -1 liegt im linken Blatt
-		\item Klasse +1 liegt im rechten Blatt
-		\item GOTO: \textit{Punkt 3}
-		\end{itemize}
-	\item \textbf{ja:}
-		\begin{itemize}
+Unser Algorithmus:
 
-		\item speichere die neue Diskriminante mit dem Vermerk -1 der aktuellen Diskriminante im linken Kinderknoten und mit dem Vermerk +1 der aktuellen Diskriminante im rechten Kinderknoten
-		\item markiere aktuelle Diskriminante als bearbeitet
-		\item w\"ahle wie bei der Breitensuche den n\"achsten Kinderknoten aus
-		\item GOTO: \textit{Punkt 2}
-		\end{itemize}
-	\end{itemize}
-\item Algorithmus terminiert
+Sei K die Menge der Klassen, die wir voneinander trennen wollen.
+
+\begin{enumerate}
+\item Für jede Klasse K\_i \in K wähle eine zufällige Diskriminante d\_j als Startknoten und führe die Punkte 2. und 3. für jede Klasse aus.
+\item Entscheide, ob die Klasse K\_i links (-1) oder rechts (+1) von der Diskriminante d\_j liegt und markiere d\_j als bearbeitet.
+\item Wähle eine Diskriminante d_(j+1), die d\_j schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
+\item Da die Reihenfolge, in der wir den Pfad zu einer Klasse durchlaufen, keine Rolle spielt (sondern nur das richtige Abbiegen), vereinigen wir alle Pfade in einen einzigen Binärbaum (in 1. ist für jede Klasse ein eigener Binärbaum entstanden).
 \end{enumerate}
 
-\textbf{\textit{Klappt der Algorithmus?}}
 \end{document}
