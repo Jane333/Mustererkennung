@@ -245,9 +245,9 @@ Unser Algorithmus:
 Sei K die Menge der Klassen, die wir voneinander trennen wollen.
 
 \begin{enumerate}
-\item Für jede Klasse K\_i \in K wähle eine zufällige Diskriminante d\_j als Startknoten und führe die Punkte 2. und 3. für jede Klasse aus.
-\item Entscheide, ob die Klasse K\_i links (-1) oder rechts (+1) von der Diskriminante d\_j liegt und markiere d\_j als bearbeitet.
-\item Wähle eine Diskriminante d_(j+1), die d\_j schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
+\item Für jede Klasse $K_i \in K$ wähle eine zufällige Diskriminante $d_j$ als Startknoten und führe die Punkte 2. und 3. für jede Klasse aus.
+\item Entscheide, ob die Klasse $K_i$ links (-1) oder rechts (+1) von der Diskriminante $d_j$ liegt und markiere $d_j$ als bearbeitet.
+\item Wähle eine Diskriminante $d_{j+1}$, die $d_j$ schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
 \item Da die Reihenfolge, in der wir den Pfad zu einer Klasse durchlaufen, keine Rolle spielt (sondern nur das richtige Abbiegen), vereinigen wir alle Pfade in einen einzigen Binärbaum (in 1. ist für jede Klasse ein eigener Binärbaum entstanden).
 \end{enumerate}
 
