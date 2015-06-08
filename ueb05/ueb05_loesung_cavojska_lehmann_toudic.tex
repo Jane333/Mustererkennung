@@ -43,7 +43,7 @@
 
 \title{Uebungsblatt 5\\ \glqq Mustererkennung\grqq}
 \author{J. Cavojska, N. Lehmann, R. Toudic}
-\date{01.06.2015}
+\date{08.06.2015}
 \begin{document}
 \maketitle
 %\renewcommand{\contentsname}{Table of Contents}
@@ -125,7 +125,7 @@ Ab hier gibt es zwei M\"oglichkeiten, die Gleichung zu l\"osen...
 Wir haben uns f\"ur die 2. Option entschieden:
 \begin{align*}
 x^2 + \frac{2x(\mu_2\sigma_1^2 - \mu_1\sigma_2^2)}{\sigma_2^2-\sigma_1^2} - \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sqrt{\sigma_2^2}}{\sqrt{\sigma_1^2}}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2} &= 0 &\Leftrightarrow\\
-x^2 + x \cdot \underbrace{\frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{P} - \underbrace{\frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{Q}\\
+x^2 + x \cdot \underbrace{\frac{2\mu_2\sigma_1^2 - 2\mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{P} - \underbrace{\frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}_{Q} &= 0\\
 \end{align*}
 Nun k\"onnen wir die quadratische Gleichung mit der P-Q-Formel l\"osen.\\
 \textit{Zur Erinnerung: Die P-Q-Formel lautet:} $x_{1/2} = -\frac{P}{2} \pm \sqrt{\left(\frac{P}{2}\right)^2 - Q}$.
@@ -133,7 +133,6 @@ Nun k\"onnen wir die quadratische Gleichung mit der P-Q-Formel l\"osen.\\
 x_1 &= \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} + \sqrt{\left( \frac{\mu_2\sigma_1^2 - \mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}\\
 x_2 &= \frac{\mu_1\sigma_2^2 - \mu_2\sigma_1^2}{\sigma_1^2-\sigma_2^2} - \sqrt{\left( \frac{\mu_2\sigma_1^2 - \mu_1\sigma_2^2}{\sigma_2^2-\sigma_1^2} \right)^2 + \frac{2 \sigma_1^2 \sigma_2^2 \cdot ln \left(\frac{\sigma_2}{\sigma_1}\right) + \mu_2^2\sigma_1^2 - \mu_1^2\sigma_2^2}{\sigma_2^2-\sigma_1^2}}
 \end{align*}
-Sonderfall: Sei $\sigma = \sigma_1 = \sigma_2$, dann gilt $f_1(x,\sigma,\mu_1) = f_2(x,\sigma,\mu_2) = \frac{\mu_1+\mu_2}{2}$.
 \newpage
 
 \section{Klassifikation mit Fisher-Diskriminante}
@@ -232,8 +231,8 @@ plot(w0(1),w0(2),'m.','markersize',20);
 title('Aufgabe 2 - Plot');
 xlabel('X-Koordinaten');
 ylabel('Y-Koordinaten');
-axis([-50 300 -50 300])
 legend('1. Klasse','2. Klasse', 'Diskriminante', 'Gerade durch Vektor w', 'Punkt w_0')
+axis([-50 300 -50 300])
 \end{lstlisting}
 
 \newpage
@@ -245,10 +244,11 @@ Unser Algorithmus:
 Sei K die Menge der Klassen, die wir voneinander trennen wollen.
 
 \begin{enumerate}
-\item Für jede Klasse $K_i \in K$ wähle eine zufällige Diskriminante $d_j$ als Startknoten und führe die Punkte 2. und 3. für jede Klasse aus.
+\item F\"ur jede Klasse $K_i \in K$ wähle eine zuf\"allige Diskriminante $d_j$ als Wurzelknoten eines neuen Baums und f\"uhre die Punkte 2. und 3. f\"ur diese Klasse aus.
 \item Entscheide, ob die Klasse $K_i$ links (-1) oder rechts (+1) von der Diskriminante $d_j$ liegt und markiere $d_j$ als bearbeitet.
-\item Wähle eine Diskriminante $d_{j+1}$, die $d_j$ schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
-\item Da die Reihenfolge, in der wir den Pfad zu einer Klasse durchlaufen, keine Rolle spielt (sondern nur das richtige Abbiegen), vereinigen wir alle Pfade in einen einzigen Binärbaum (in 1. ist für jede Klasse ein eigener Binärbaum entstanden).
+\item W\"ahle eine Diskriminante $d_{j+1}$, die $d_j$ schneidet (und nicht bearbeitet ist) und gehe zu 2. Wenn diese nicht existiert, haben wir einen Pfad durch unseren Baum gefunden, der beschreibt, auf welcher Seite einer jeden Diskriminante unsere Klasse liegt.
+\item Da die Reihenfolge, in der wir den Pfad zu einer Klasse durchlaufen, keine Rolle spielt (sondern nur das richtige Abbiegen), vereinigen wir alle Pfade in einen einzigen Bin\"arbaum (in 1. ist f\"ur jede Klasse ein eigener Bin\"arbaum entstanden).
 \end{enumerate}
+Jedes Blatt speichert eine Klasse $K_i$. Von dem Weg durch den Baum bis zu diesem Blatt ist f\"ur jede Diskriminante abzulesen, ob sie die Klasse $K_i$ von links (wir sind im Pfad in den linken Teilbaum reingegangen, um dieses Blatt zu erreichen) oder von rechts (in den rechten Teilbaum rein) abgrenzt.
 
 \end{document}
