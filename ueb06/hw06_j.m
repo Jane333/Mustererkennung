@@ -16,23 +16,21 @@ Punkte1      = Data((Data(:,2)==1),:);
 w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
 t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
 limit = 10;  % max. Anzahl von Iterationen
-for i = 1:size(Punkte, 1) % wir laufen einfach alle Punkte durch statt sie zufaellig zu waehlen
-    if i > limit
-        break
-    end
+for i = 1:limit
     w_norm = w / norm(w)  % Einheitsvektor zu w berechnen
-    proj = Data(i, :) * w_norm' % Skalarprojektion des aktuellen Datenpunktes auf w_norm
+    lineNum = mod(i, size(Data,1));
+    proj = Data(lineNum, :) * w_norm' % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
-    if Note(i) == 1  % element aus Klasse 1
+    if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1
-            w = w + Data(i) % Korrektur
+            w = w + Data(lineNum) % Korrektur
         end
     end
-    if Note(i) == 0  % element aus Klasse 1
+    if Note(lineNum) == 0  % element aus Klasse 1
         if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1
-            w = w - Data(i) % Korrektur
+            w = w - Data(lineNum) % Korrektur
         end
     end
 end
