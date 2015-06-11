@@ -14,6 +14,8 @@ li = linspace(0, 1);  % create a row vector of 100 evenly spaced points between 
 
 
 %%%%%%%%%%%%  Aufgabe 1 - Perceptron Learning  %%%%%%%%%%%%
+
+disp('Aufgabe 1 - Perceptron Learning')
 % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
 w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
 t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
@@ -26,48 +28,48 @@ for i = 1:limit
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
-            w = w + Features(lineNum) % Korrektur
+            w = w + Features(lineNum); % Korrektur
             w_y1 = w(1) * li;
             w_y2 = w(2) * li;
-            w_normale = [-w(2) w(1)]
+            w_normale = [-w(2) w(1)];
             w_normale_y = w_normale(2) * li;
             
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
-            plot(w_y1, w_y2, 'g')
+            plot(w_y1, w_y2, 'g');
 %              plot(li, w_y, 'g');
             hold on
-            scatter(Punkte, Note)
+            scatter(Punkte, Note);
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
             plot(li, w_normale_y, 'm');
             legend('Normalenvektor','Datenpunkte','Diskriminate');
-            xlabel('Erreichte Punkte in Prozent')
-            ylabel('Nix')
-            title('Aufgabe 1 - Perceptron Learning, pos. Verschiebung')
-            axis([-1 2 -1 2]) % Achsenskalierung auf den angegebenen Bereich
+            xlabel('Erreichte Punkte in Prozent');
+            ylabel('Nix');
+            title('Aufgabe 1 - Perceptron Learning, pos. Verschiebung');
+            axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
         end
     end
     if Note(lineNum) == 0  % element aus Klasse 1
         if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
-            w = w - Features(lineNum) % Korrektur
+            w = w - Features(lineNum); % Korrektur
             w_y = w(2) * li;
-            w_normale = [-w(2) w(1)]
+            w_normale = [-w(2) w(1)];
             w_normale_y = w_normale(2) * li;
             
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
             hold on
             plot(li, w_y, 'g');
             hold on
-            scatter(Punkte, Note)
+            scatter(Punkte, Note);
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
             plot(li, w_normale_y, 'm');
             legend('Normalenvektor','Datenpunkte','Diskriminate');
-            xlabel('Erreichte Punkte in Prozent')
-            ylabel('Nix')
-            title('Aufgabe 1 - Perceptron Learning, neg. Verschiebung')
-            axis([-1 2 -1 2]) % Achsenskalierung auf den angegebenen Bereich
+            xlabel('Erreichte Punkte in Prozent');
+            ylabel('Nix');
+            title('Aufgabe 1 - Perceptron Learning, neg. Verschiebung');
+            axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
         end
     end
 end
@@ -76,33 +78,36 @@ end
 %%%%%%%%%  Aufgabe 2 a - Schwellwert fuer Aufg. 1  %%%%%%%%%%
 % Bestanden: ab 50 %. Fuer welches x gibt die Geradengleichung fuer den Vektor w ein y = 0.5 zurueck?
 
-schwellwerte = []
+disp('Aufgabe 2 a - Schwellwerte fuer Aufg. 1')
+schwellwerte = [];
 for iter = 1:100
+    randOrder = randperm(size(Features, 1)); % get a line vector consisting of a random permutation of all numbers between 1 and size(Features,1). Ohne zuruecklegen.
+    randFeatures = Features(randOrder');
     % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
-    w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
+    w = [max(Punkte) max(Note)]; % initiales w, per Zufall gesetzt
     t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
     limit = size(Data, 1);  % max. Anzahl von Iterationen
     for i = 1:limit
         w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
-        lineNum = mod(i, size(Features,1))+1;
-        proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
+        lineNum = mod(i, size(randFeatures,1))+1;
+        proj = randFeatures(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
         
         if Note(lineNum) == 1  % element aus Klasse 1
             if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w + Features(lineNum) % Korrektur
+                w = w + randFeatures(lineNum) % Korrektur
                 w_y1 = w(1) * li;
                 w_y2 = w(2) * li;
-                w_normale = [-w(2) w(1)]
+                w_normale = [-w(2) w(1)];
                 w_normale_y = w_normale(2) * li;
             end
         end
         if Note(lineNum) == 0  % element aus Klasse 1
             if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w - Features(lineNum) % Korrektur
+                w = w - randFeatures(lineNum) % Korrektur
                 w_y = w(2) * li;
-                w_normale = [-w(2) w(1)]
+                w_normale = [-w(2) w(1)];
                 w_normale_y = w_normale(2) * li;
             end
         end
@@ -114,6 +119,8 @@ mean_schwellwert = mean(schwellwerte)  % der durchschnitliche Schwellwert
 
 
 %%%%%%%%%  Aufgabe 2 b - lineare Regression  %%%%%%%%%%
+
+disp('Aufgabe 2 b - Lineare Regression')
 
 % Grafik erstellen
 figure('NumberTitle','off','Name','Aufgabe 2 - Lin. Regression');
