@@ -77,7 +77,7 @@ end
 % Bestanden: ab 50 %. Fuer welches x gibt die Geradengleichung fuer den Vektor w ein y = 0.5 zurueck?
 
 schwellwerte = []
-for iter = 1:l00
+for iter = 1:100
     % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
     w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
     t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
