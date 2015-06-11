@@ -18,7 +18,7 @@ li = linspace(0, 1);  % create a row vector of 100 evenly spaced points between 
 w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
 t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
 limit = size(Data, 1);  % max. Anzahl von Iterationen
-for i = 1:limit    
+for i = 1:limit
     w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
     lineNum = mod(i, size(Features,1))+1;
     proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
@@ -75,6 +75,42 @@ end
 
 %%%%%%%%%  Aufgabe 2 a - Schwellwert fuer Aufg. 1  %%%%%%%%%%
 % Bestanden: ab 50 %. Fuer welches x gibt die Geradengleichung fuer den Vektor w ein y = 0.5 zurueck?
+
+schwellwerte = []
+for iter = 1:l00
+    % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
+    w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
+    t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
+    limit = size(Data, 1);  % max. Anzahl von Iterationen
+    for i = 1:limit
+        w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+        lineNum = mod(i, size(Features,1))+1;
+        proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
+        
+        if Note(lineNum) == 1  % element aus Klasse 1
+            if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
+                t = t + 1;
+                w = w + Features(lineNum) % Korrektur
+                w_y1 = w(1) * li;
+                w_y2 = w(2) * li;
+                w_normale = [-w(2) w(1)]
+                w_normale_y = w_normale(2) * li;
+            end
+        end
+        if Note(lineNum) == 0  % element aus Klasse 1
+            if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
+                t = t + 1;
+                w = w - Features(lineNum) % Korrektur
+                w_y = w(2) * li;
+                w_normale = [-w(2) w(1)]
+                w_normale_y = w_normale(2) * li;
+            end
+        end
+    end
+    schwellwerte = vertcat(schwellwerte, w);
+end
+mean_schwellwert = mean(schwellwerte)  % der durchschnitliche Schwellwert
+
 
 
 %%%%%%%%%  Aufgabe 2 b - lineare Regression  %%%%%%%%%%
