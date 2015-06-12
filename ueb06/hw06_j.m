@@ -38,15 +38,16 @@ for i = 1:limit
             diskriminante_x = diskriminante(1) * li
             diskriminante_y = diskriminante_x * coeff_d
             
+            % Plotten:
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
             plot(w_x, w_y, 'g');
 %              plot(li, w_y, 'g');
             hold on
-            scatter(Punkte, Note);
+            gscatter(Punkte, ones(size(Punkte,1), 1), Note,'krb','+x',[],'off');
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
             plot(diskriminante_x, diskriminante_y, 'm');
-            legend('Normalenvektor','Datenpunkte','Diskriminate');
+            legend('Normalenvektor','Nicht bestanden','Bestanden','Diskriminante');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
             title('Aufgabe 1 - Perceptron Learning, pos. Verschiebung');
@@ -66,15 +67,16 @@ for i = 1:limit
             diskriminante_x = diskriminante(1) * li;
             diskriminante_y = diskriminante_x * coeff_d;
             
+            % Plotten:
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
             hold on
             plot(w_x, w_y, 'g');
             hold on
-            scatter(Punkte, Note);
+            gscatter(Punkte, ones(size(Punkte,1), 1), Note,'krb','+x',[],'off');
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
             plot(diskriminante_x, diskriminante_y, 'm');
-            legend('Normalenvektor','Datenpunkte','Diskriminate');
+            legend('Normalenvektor','Nicht bestanden','Bestanden','Diskriminante');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
             title('Aufgabe 1 - Perceptron Learning, neg. Verschiebung');
@@ -106,16 +108,14 @@ for iter = 1:100
             if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
                 w = w + randFeatures(lineNum); % Korrektur
-                diskriminante = [-w(2) w(1)];
-                diskriminante_y = diskriminante(2) * li;
+                diskriminante = [(-1)*w(2) w(1)];
             end
         end
         if Note(lineNum) == 0  % element aus Klasse 1
             if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
                 w = w - randFeatures(lineNum); % Korrektur
-                diskriminante = [-w(2) w(1)];
-                diskriminante_y = diskriminante(2) * li;
+                diskriminante = [(-1)*w(2) w(1)];
             end
         end
     end
