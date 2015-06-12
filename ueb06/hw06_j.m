@@ -28,20 +28,23 @@ for i = 1:limit
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
-            w = w + Features(lineNum); % Korrektur
-            w_y1 = w(1) * li;
-            w_y2 = w(2) * li;
-            w_normale = [-w(2) w(1)];
-            w_normale_y = w_normale(2) * li;
+            w = w + Features(lineNum) % Korrektur
+            coeff_w = w(2) / w(1)  % y = mx  => m = coeff = y/x
+            w_x = w(1) * li
+            w_y = w_x * coeff_w
+            diskriminante = [(-1)*w(2) w(1)]
+            coeff_d = diskriminante(2) / diskriminante(1)
+            diskriminante_x = diskriminante(1) * li
+            diskriminante_y = diskriminante_x * coeff_d
             
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
-            plot(w_y1, w_y2, 'g');
+            plot(w_x, w_y, 'g');
 %              plot(li, w_y, 'g');
             hold on
             scatter(Punkte, Note);
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
-            plot(li, w_normale_y, 'm');
+            plot(diskriminante_x, diskriminante_y, 'm');
             legend('Normalenvektor','Datenpunkte','Diskriminate');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
@@ -53,18 +56,22 @@ for i = 1:limit
         if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
             w = w - Features(lineNum); % Korrektur
-            w_y = w(2) * li;
-            w_normale = [-w(2) w(1)];
-            w_normale_y = w_normale(2) * li;
+            coeff_w = w(2) / w(1);  % y = mx  => m = coeff = y/x
+            w_x = w(1) * li;
+            w_y = w_x * coeff_w;
+            diskriminante = [(-1)*w(2) w(1)];
+            coeff_d = diskriminante(2) / diskriminante(1)
+            diskriminante_x = diskriminante(1) * li;
+            diskriminante_y = diskriminante_x * coeff_d;
             
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
             hold on
-            plot(li, w_y, 'g');
+            plot(w_x, w_y, 'g');
             hold on
             scatter(Punkte, Note);
             hold on
             % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
-            plot(li, w_normale_y, 'm');
+            plot(diskriminante_x, diskriminante_y, 'm');
             legend('Normalenvektor','Datenpunkte','Diskriminate');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
@@ -95,20 +102,17 @@ for iter = 1:100
         if Note(lineNum) == 1  % element aus Klasse 1
             if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w + randFeatures(lineNum) % Korrektur
-                w_y1 = w(1) * li;
-                w_y2 = w(2) * li;
-                w_normale = [-w(2) w(1)];
-                w_normale_y = w_normale(2) * li;
+                w = w + randFeatures(lineNum); % Korrektur
+                diskriminante = [-w(2) w(1)];
+                diskriminante_y = diskriminante(2) * li;
             end
         end
         if Note(lineNum) == 0  % element aus Klasse 1
             if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w - randFeatures(lineNum) % Korrektur
-                w_y = w(2) * li;
-                w_normale = [-w(2) w(1)];
-                w_normale_y = w_normale(2) * li;
+                w = w - randFeatures(lineNum); % Korrektur
+                diskriminante = [-w(2) w(1)];
+                diskriminante_y = diskriminante(2) * li;
             end
         end
     end
