@@ -17,26 +17,29 @@ li = linspace(0, 1);  % create a row vector of 100 evenly spaced points between 
 
 disp('Aufgabe 1 - Perceptron Learning')
 % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
-w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
+w = [1 1] % initiales w, per Zufall gesetzt
 t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
 limit = size(Data, 1);  % max. Anzahl von Iterationen
 for i = 1:limit
-    w_norm = w / norm(w);  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturennur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
+    w_norm = w / norm(w)  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturennur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
     lineNum = mod(i, size(Features,1))+1;
     proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
-            w = w + Features(lineNum) % Korrektur
-            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+            w = w + Features(lineNum, :) % Korrektur
+            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen   1 0
             coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
-            w_x = w_norm(1) * li
-            w_y = w_x * coeff_w
-            diskriminante = [(-1)*w_norm(2) w_norm(1)]
+            w_x = w_norm(1) * li;
+            w_y = w_x * coeff_w;
+            diskriminante = [(-1)*w_norm(2) w_norm(1)]  % 0 1
             coeff_d = diskriminante(2) / diskriminante(1)
-            diskriminante_x = diskriminante(1) * li
-            diskriminante_y = diskriminante_x * coeff_d
+            diskriminante_x = diskriminante(1) * li;
+%              if coeff_d == 0
+%                  
+%              end
+            diskriminante_y = diskriminante_x * coeff_d;
             
             % Plotten:
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
@@ -57,9 +60,9 @@ for i = 1:limit
     if Note(lineNum) == 0  % element aus Klasse 1
         if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
-            w = w - Features(lineNum); % Korrektur
-            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
-            coeff_w = w_norm(2) / w_norm(1);  % y = mx  => m = coeff = y/x
+            w = w - Features(lineNum, :) % Korrektur
+            w_norm = w / norm(w)  % Einheitsvektor zu w berechnen
+            coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
             w_x = w_norm(1) * li;
             w_y = w_x * coeff_w;
             diskriminante = [(-1)*w_norm(2) w_norm(1)];
@@ -107,14 +110,14 @@ for iter = 1:100
         if Note(lineNum) == 1  % element aus Klasse 1
             if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w + randFeatures(lineNum); % Korrektur
+                w = w + randFeatures(lineNum, :); % Korrektur
                 diskriminante = [(-1)*w(2) w(1)];
             end
         end
         if Note(lineNum) == 0  % element aus Klasse 1
             if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
-                w = w - randFeatures(lineNum); % Korrektur
+                w = w - randFeatures(lineNum, :); % Korrektur
                 diskriminante = [(-1)*w(2) w(1)];
             end
         end
