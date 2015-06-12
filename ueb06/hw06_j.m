@@ -21,7 +21,7 @@ w = [max(Punkte) max(Note)] % initiales w, per Zufall gesetzt
 t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
 limit = size(Data, 1);  % max. Anzahl von Iterationen
 for i = 1:limit
-    w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+    w_norm = w / norm(w);  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturennur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
     lineNum = mod(i, size(Features,1))+1;
     proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
@@ -29,10 +29,11 @@ for i = 1:limit
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
             w = w + Features(lineNum) % Korrektur
-            coeff_w = w(2) / w(1)  % y = mx  => m = coeff = y/x
-            w_x = w(1) * li
+            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+            coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
+            w_x = w_norm(1) * li
             w_y = w_x * coeff_w
-            diskriminante = [(-1)*w(2) w(1)]
+            diskriminante = [(-1)*w_norm(2) w_norm(1)]
             coeff_d = diskriminante(2) / diskriminante(1)
             diskriminante_x = diskriminante(1) * li
             diskriminante_y = diskriminante_x * coeff_d
@@ -56,10 +57,11 @@ for i = 1:limit
         if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
             t = t + 1;
             w = w - Features(lineNum); % Korrektur
-            coeff_w = w(2) / w(1);  % y = mx  => m = coeff = y/x
-            w_x = w(1) * li;
+            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+            coeff_w = w_norm(2) / w_norm(1);  % y = mx  => m = coeff = y/x
+            w_x = w_norm(1) * li;
             w_y = w_x * coeff_w;
-            diskriminante = [(-1)*w(2) w(1)];
+            diskriminante = [(-1)*w_norm(2) w_norm(1)];
             coeff_d = diskriminante(2) / diskriminante(1)
             diskriminante_x = diskriminante(1) * li;
             diskriminante_y = diskriminante_x * coeff_d;
@@ -79,6 +81,7 @@ for i = 1:limit
             axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
         end
     end
+    w = w_norm;
 end
 
 
