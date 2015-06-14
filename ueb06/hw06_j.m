@@ -17,28 +17,27 @@ li = linspace(0, 1);  % create a row vector of 100 evenly spaced points between 
 
 disp('Aufgabe 1 - Perceptron Learning')
 % Suche nach der Geraden w (Normale der Trennlinie zwischen den Klassen 0 und 1):
-w = [1 1] % initiales w, per Zufall gesetzt
-t = 0;  % Anzahl Iterationen, in denen eine Korrektur vorgenommen wurde
+w = [0 0] % initiales w, per Zufall gesetzt
 limit = size(Data, 1);  % max. Anzahl von Iterationen
 for i = 1:limit
-    w_norm = w / norm(w)  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturennur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
+    if w(1) == 0 && w(2) == 0
+        w_norm = [0 0]
+    else
+        w_norm = w / norm(w)  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturen nur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
+    end
     lineNum = mod(i, size(Features,1))+1;
     proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
-            t = t + 1;
-            w = w + Features(lineNum, :) % Korrektur
+            w = w + Features(lineNum, :); % Korrektur
             w_norm = w / norm(w);  % Einheitsvektor zu w berechnen   1 0
-            coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
+            coeff_w = w_norm(2) / w_norm(1);  % y = mx  => m = coeff = y/x
             w_x = w_norm(1) * li;
             w_y = w_x * coeff_w;
-            diskriminante = [(-1)*w_norm(2) w_norm(1)]  % 0 1
-            coeff_d = diskriminante(2) / diskriminante(1)
+            diskriminante = [(-1)*w_norm(2) w_norm(1)];  % 0 1
+            coeff_d = diskriminante(2) / diskriminante(1);
             diskriminante_x = diskriminante(1) * li;
-%              if coeff_d == 0
-%                  
-%              end
             diskriminante_y = diskriminante_x * coeff_d;
             
             % Plotten:
@@ -48,18 +47,21 @@ for i = 1:limit
             hold on
             gscatter(Punkte, ones(size(Punkte,1), 1), Note,'krb','+x',[],'off');
             hold on
-            % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
+            % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminante selbst:
             plot(diskriminante_x, diskriminante_y, 'm');
-            legend('Normalenvektor','Nicht bestanden','Bestanden','Diskriminante');
+            legend('Normalenvektor w','Nicht bestanden','Bestanden','Diskriminante');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
             title('Aufgabe 1 - Perceptron Learning, pos. Verschiebung');
             axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
+            xL = xlim; % get x axis limit
+            yL = ylim; % get y axis limit
+            line([0 0], yL);  % draw x-axis
+            line(xL, [0 0]);  % draw y-axis
         end
     end
     if Note(lineNum) == 0  % element aus Klasse 1
-        if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
-            t = t + 1;
+        if proj >= 0 % element aus Klasse 1 wurde falsch klassifiziert
             w = w - Features(lineNum, :) % Korrektur
             w_norm = w / norm(w)  % Einheitsvektor zu w berechnen
             coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
@@ -77,13 +79,17 @@ for i = 1:limit
             hold on
             gscatter(Punkte, ones(size(Punkte,1), 1), Note,'krb','+x',[],'off');
             hold on
-            % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminate selbst:
+            % w ist die Normale zur Diskriminate. Nun berechnen wir die Diskriminante selbst:
             plot(diskriminante_x, diskriminante_y, 'm');
-            legend('Normalenvektor','Nicht bestanden','Bestanden','Diskriminante');
+            legend('Normalenvektor w','Nicht bestanden','Bestanden','Diskriminante');
             xlabel('Erreichte Punkte in Prozent');
             ylabel('Nix');
             title('Aufgabe 1 - Perceptron Learning, neg. Verschiebung');
             axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
+            xL = xlim; % get x axis limit
+            yL = ylim; % get y axis limit
+            line([0 0], yL);  % draw x-axis
+            line(xL, [0 0]);  % draw y-axis
         end
     end
     w = w_norm;
@@ -114,8 +120,8 @@ for iter = 1:100
                 diskriminante = [(-1)*w(2) w(1)];
             end
         end
-        if Note(lineNum) == 0  % element aus Klasse 1
-            if proj > 0 % element aus Klasse 1 wurde falsch klassifiziert
+        if Note(lineNum) == 0  % element aus Klasse 0
+            if proj >= 0 % element aus Klasse 1 wurde falsch klassifiziert
                 t = t + 1;
                 w = w - randFeatures(lineNum, :); % Korrektur
                 diskriminante = [(-1)*w(2) w(1)];
@@ -136,6 +142,7 @@ disp('Aufgabe 2 b - Lineare Regression')
 figure('NumberTitle','off','Name','Aufgabe 2 - Lin. Regression');
 hold on
 scatter(Punkte, Note)
+hold on
 
 y = Note;  % unsere Labels
 onesVector = ones(size(Data,1), 1); % Spaltenvektor mit Einsen der gleichen Laenge wie Data
@@ -143,10 +150,12 @@ X = horzcat(onesVector, Punkte);  % Einsen-Vektor an Datenpunkte-Matrix drankleb
 beta = inv(X'*X) * X' * y;  % beta ist der Vektor, mit dem Eingabedaten multipliziert werden muessen, damit wir an die Klassen-Labels kommen
 % beta = [-0.2736; 1.6104]
 
-%  % plot regression line:
-%  beta_x = beta(1) * li;
-%  beta_y = beta(2) * li;
-%  plot(beta_x, beta_y, 'g');
+% plot regression line:
+beta_norm = beta / norm(beta);
+coeff_l = beta_norm(2) / beta_norm(1);  % theoretically, this could be a 0-division. But, it never happens with our data set, so we decided to just let it be, like the Beatles.
+beta_x = beta_norm(1) * li;
+beta_y = beta_x * coeff_l;
+plot(beta_x, beta_y, 'g');
 
 % example: classify a score of 0.4:
 [0.4 0] * beta
