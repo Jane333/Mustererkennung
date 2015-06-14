@@ -151,12 +151,9 @@ beta = inv(X'*X) * X' * y;  % beta ist der Vektor, mit dem Eingabedaten multipli
 % beta = [-0.2736; 1.6104]
 
 % plot regression line:
-beta_norm = beta / norm(beta);
-coeff_l = beta_norm(2) / beta_norm(1);  % theoretically, this could be a 0-division. But, it never happens with our data set, so we decided to just let it be, like the Beatles.
-beta_x = beta_norm(1) * li;
-beta_y = beta_x * coeff_l;
-plot(beta_x, beta_y, 'g');
+estimatedLine = X * beta;
+estimatedData = horzcat(Data(:,1), estimatedLine);
+plot(estimatedData(:,1), estimatedData(:,2), 'g');
 
 % example: classify a score of 0.4:
-[0.4 0] * beta
-% 
+[0.4 0] * beta;
