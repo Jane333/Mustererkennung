@@ -21,19 +21,19 @@ w = [0 0] % initiales w, per Zufall gesetzt
 limit = size(Data, 1);  % max. Anzahl von Iterationen
 for i = 1:limit
     if w(1) == 0 && w(2) == 0
-        w_norm = [0 0]
+        w_norm = [0 0];
     else
-        w_norm = w / norm(w)  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturen nur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
+        w_norm = w / norm(w);  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturen nur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
     end
     lineNum = mod(i, size(Features,1))+1;
-    proj = Features(lineNum, :) * w_norm' % Skalarprojektion des aktuellen Datenpunktes auf w_norm
+    proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
-            disp('pos. Verschiebung');
-            Features(lineNum, :)
-            w = w + Features(lineNum, :) % Korrektur
-            w_norm = w / norm(w)  % Einheitsvektor zu w berechnen   1 0            
+            %disp('pos. Verschiebung');
+            Features(lineNum, :);
+            w = w + Features(lineNum, :); % Korrektur
+            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen   1 0            
             w_x = w(1) * li;
             
             % Sonderfallbehandlung fuer w = [1 0]:
@@ -44,12 +44,12 @@ for i = 1:limit
                 w_y = w_x * coeff_w;
             end
             
-            diskriminante = [(-1)*w(2) w(1)]
+            diskriminante = [(-1)*w(2) w(1)];
             diskriminante_x = diskriminante(1) * li;
             if diskriminante(1) == 0  % 0 1
-                diskriminante_y = li;
+                diskriminante_y = linspace(0, diskriminante(2));
             else
-                coeff_d = diskriminante(2) / diskriminante(1)
+                coeff_d = diskriminante(2) / diskriminante(1);
                 diskriminante_y = diskriminante_x * coeff_d;
             end
             
@@ -77,14 +77,14 @@ for i = 1:limit
     end
     if Note(lineNum) == 0  % element aus Klasse 1
         if proj >= 0 % element aus Klasse 1 wurde falsch klassifiziert
-            disp('NEG. Verschiebung');
-            w = w - Features(lineNum, :) % Korrektur
-            w_norm = w / norm(w)  % Einheitsvektor zu w berechnen
-            coeff_w = w(2) / w(1)  % y = mx  => m = coeff = y/x
+            %disp('NEG. Verschiebung');
+            w = w - Features(lineNum, :); % Korrektur
+            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen
+            coeff_w = w(2) / w(1);  % y = mx  => m = coeff = y/x
             w_x = w(1) * li;
             w_y = w_x * coeff_w;
-            diskriminante = [(-1)*w(2) w(1)]
-            coeff_d = diskriminante(2) / diskriminante(1)
+            diskriminante = [(-1)*w(2) w(1)];
+            coeff_d = diskriminante(2) / diskriminante(1);
             diskriminante_x = diskriminante(1) * li;
             diskriminante_y = diskriminante_x * coeff_d;
             
