@@ -26,19 +26,32 @@ for i = 1:limit
         w_norm = w / norm(w)  % Einheitsvektor zu w berechnen. Wir nehmen alle Korrekturen nur am Einheitsvektor vor, da der Vektor w sonst immer kuerzer/laenger wird durch die Korrekturen
     end
     lineNum = mod(i, size(Features,1))+1;
-    proj = Features(lineNum, :) * w_norm'; % Skalarprojektion des aktuellen Datenpunktes auf w_norm
+    proj = Features(lineNum, :) * w_norm' % Skalarprojektion des aktuellen Datenpunktes auf w_norm
     
     if Note(lineNum) == 1  % element aus Klasse 1
         if proj < 0 % element aus Klasse 1 wurde falsch klassifiziert
-            w = w + Features(lineNum, :); % Korrektur
-            w_norm = w / norm(w);  % Einheitsvektor zu w berechnen   1 0
-            coeff_w = w_norm(2) / w_norm(1);  % y = mx  => m = coeff = y/x
-            w_x = w_norm(1) * li;
-            w_y = w_x * coeff_w;
-            diskriminante = [(-1)*w_norm(2) w_norm(1)];  % 0 1
-            coeff_d = diskriminante(2) / diskriminante(1);
+            disp('pos. Verschiebung');
+            Features(lineNum, :)
+            w = w + Features(lineNum, :) % Korrektur
+            w_norm = w / norm(w)  % Einheitsvektor zu w berechnen   1 0            
+            w_x = w(1) * li;
+            
+            % Sonderfallbehandlung fuer w = [1 0]:
+            if w(2) == 0
+                w_y = w_x * 0;
+            else
+                coeff_w = w(2) / w(1)  % y = mx  => m = coeff = y/x
+                w_y = w_x * coeff_w;
+            end
+            
+            diskriminante = [(-1)*w(2) w(1)]
             diskriminante_x = diskriminante(1) * li;
-            diskriminante_y = diskriminante_x * coeff_d;
+            if diskriminante(1) == 0  % 0 1
+                diskriminante_y = li;
+            else
+                coeff_d = diskriminante(2) / diskriminante(1)
+                diskriminante_y = diskriminante_x * coeff_d;
+            end
             
             % Plotten:
             figure('NumberTitle','off','Name','Aufgabe 1 - Perceptron Learning');
@@ -56,18 +69,21 @@ for i = 1:limit
             axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
             xL = xlim; % get x axis limit
             yL = ylim; % get y axis limit
-            line([0 0], yL);  % draw x-axis
-            line(xL, [0 0]);  % draw y-axis
+            hold on
+            plot([0 0], yL, ':');  % draw x-axis
+            hold on
+            plot(xL, [0 0], ':');  % draw y-axis
         end
     end
     if Note(lineNum) == 0  % element aus Klasse 1
         if proj >= 0 % element aus Klasse 1 wurde falsch klassifiziert
+            disp('NEG. Verschiebung');
             w = w - Features(lineNum, :) % Korrektur
             w_norm = w / norm(w)  % Einheitsvektor zu w berechnen
-            coeff_w = w_norm(2) / w_norm(1)  % y = mx  => m = coeff = y/x
-            w_x = w_norm(1) * li;
+            coeff_w = w(2) / w(1)  % y = mx  => m = coeff = y/x
+            w_x = w(1) * li;
             w_y = w_x * coeff_w;
-            diskriminante = [(-1)*w_norm(2) w_norm(1)];
+            diskriminante = [(-1)*w(2) w(1)]
             coeff_d = diskriminante(2) / diskriminante(1)
             diskriminante_x = diskriminante(1) * li;
             diskriminante_y = diskriminante_x * coeff_d;
@@ -88,11 +104,12 @@ for i = 1:limit
             axis([-1 2 -1 2]); % Achsenskalierung auf den angegebenen Bereich
             xL = xlim; % get x axis limit
             yL = ylim; % get y axis limit
-            line([0 0], yL);  % draw x-axis
-            line(xL, [0 0]);  % draw y-axis
+            hold on
+            plot([0 0], yL, ':');  % draw x-axis
+            hold on
+            plot(xL, [0 0], ':');  % draw y-axis
         end
     end
-    w = w_norm;
 end
 
 
