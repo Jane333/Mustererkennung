@@ -1,58 +1,3 @@
-\documentclass[12pt]{article}
-
-\usepackage[german]{babel}
-\usepackage{amsmath}
-\usepackage{amssymb} % to display symbols for real numbers, integers etc. Usage: \mathbb{R}
-\usepackage{graphicx}
-\usepackage{listings} % to display programming code
-%\usepackage[ngerman]{babel}
-\usepackage{color}
-\usepackage{relsize} % to display scaled math symbols (big summation symbol etc.)
-\usepackage{textcomp}
-
-\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\definecolor{listinggray}{gray}{0.9}
-\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
-\lstset{ % to display programming code in nice colors
-	backgroundcolor=\color{lbcolor},
-	tabsize=4,
-	rulecolor=,
-	language=matlab,
-		basicstyle=\scriptsize, %for extra small font size
-        upquote=true,
-        aboveskip={1.5\baselineskip},
-        columns=fixed,
-        showstringspaces=false,
-        extendedchars=true,
-        breaklines=true,
-        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
-		frame=single, %draw frame
-        showtabs=false,
-        showspaces=false,
-        showstringspaces=false,
-        identifierstyle=\ttfamily,
-        keywordstyle=\color[rgb]{0,0,1},
-        commentstyle=\color[rgb]{0.133,0.545,0.133},
-        stringstyle=\color[rgb]{0.627,0.126,0.941},
-        numbers=left,
-        stepnumber=1,
-        firstnumber=1,
-        numberfirstline=true,
-        linewidth=14cm,
-}
-
-\title{\"Ubungsblatt 6\\ \glqq Mustererkennung\grqq}
-\author{J. Cavojska, N. Lehmann, R. Toudic}
-\date{10.06.2015}
-\begin{document}
-\maketitle
-%\renewcommand{\contentsname}{Table of Contents}
-\tableofcontents
-\newpage
-
-\section{Perzeptron Lernalgorithmus}
-
-\begin{lstlisting}[language=Matlab]
 % Clean up
 clear all
 close all
@@ -68,6 +13,7 @@ Punkte1  = Data((Data(:,2)==1),:);
 x1       = linspace(0,1);
 x2       = linspace(-5,5);
 
+%%%%%%%%%%%%  Aufgabe 1 - Perceptron Learning  %%%%%%%%%%%%
 
 w = [0 0]; % random choosen vector w
 limit = size(Data, 1);  % number of iterations | Abbruchkriterium
@@ -117,6 +63,7 @@ for i = 1:limit
             xlabel('Erreichte Punkte in Prozent');
             axis([-0.1 1.1 -0.1 1.1]);
             legend('Normalenvektor w', 'Diskriminante', 'Nicht bestanden','Bestanden');
+            
             xL = xlim;
             yL = ylim;
             plot([0 0], yL, ':');
@@ -148,6 +95,7 @@ for i = 1:limit
             xlabel('Erreichte Punkte in Prozent');
             axis([-0.1 1.1 -0.1 1.1]);
             legend('Normalenvektor w', 'Diskriminante', 'Nicht bestanden', 'Bestanden');
+            
             xL = xlim;
             yL = ylim;
             plot([0 0], yL, ':');
@@ -155,31 +103,10 @@ for i = 1:limit
         end
     end
 end
-\end{lstlisting}
 
-\newpage
-\begin{center}
-\includegraphics[width=10cm]{a1_01.jpg}\\
-\includegraphics[width=10cm]{a1_02.jpg}
-\newpage
-\includegraphics[width=10cm]{a1_03.jpg}\\
-\includegraphics[width=10cm]{a1_04.jpg}
-\newpage
-\includegraphics[width=10cm]{a1_05.jpg}\\
-\includegraphics[width=10cm]{a1_06.jpg}
-\newpage
-\includegraphics[width=10cm]{a1_01.jpg}\\
-\includegraphics[width=10cm]{a1_01.jpg}
-\newpage
-\includegraphics[width=10cm]{a1_01.jpg}\\
-\includegraphics[width=10cm]{a1_01.jpg}
-\end{center}
 
-\section{Schwellwerte}
+%%%%%%%%%  Aufgabe 2a - Schwellwert fuer Aufgabe 1  %%%%%%%%%%
 
-\subsection{Aufgabe 2A}
-
-\begin{lstlisting}[language=Matlab]
 schwellwerte = [];
 for iter = 1:100
     randOrder = randperm(size(Features, 1));
@@ -195,30 +122,25 @@ for iter = 1:100
             if proj < 0
                 t = t + 1;
                 w = w + randFeatures(lineNum, :);
-                diskriminante = [-w(2) w(1)];
+                diskriminante = [(-1)*w(2) w(1)];
             end
         end
         if Noten(lineNum) == 0
             if proj >= 0 % wrong classification
                 t = t + 1;
                 w = w - randFeatures(lineNum, :);
-                diskriminante = [-w(2) w(1)];
+                diskriminante = [(-1)*w(2) w(1)];
             end
         end
     end
     schwellwerte = vertcat(schwellwerte, w);
 end
-
-% output
 schwellwerte
 mean_schwellwert = mean(schwellwerte)
-\end{lstlisting}
 
-\newpage
 
-\subsection{Aufgabe 2B}
+%%%%%%%%%  Aufgabe 2b - Lineare Regression  %%%%%%%%%%
 
-\begin{lstlisting}[language=Matlab]
 figure('NumberTitle','off','Name','Aufgabe 2 - Lin. Regression');
 
 % calculate
@@ -236,11 +158,4 @@ scatter(pkt,0.5, 'o', 'r')
 
 axis([-0.1 1.1 -0.1 1.1]);
 legend('Noten', 'Diskriminante', 'Schwellenwert');
-\end{lstlisting}
-
-\begin{center}
-\includegraphics[width=10cm]{a2b.jpg}
-\end{center}
-
-
-\end{document}
+            
