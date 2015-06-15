@@ -43,7 +43,7 @@
 
 \title{\"Ubungsblatt 6\\ \glqq Mustererkennung\grqq}
 \author{J. Cavojska, N. Lehmann, R. Toudic}
-\date{10.06.2015}
+\date{16.06.2015}
 \begin{document}
 \maketitle
 %\renewcommand{\contentsname}{Table of Contents}
@@ -168,11 +168,10 @@ end
 \includegraphics[width=10cm]{a1_05.jpg}\\
 \includegraphics[width=10cm]{a1_06.jpg}
 \newpage
-\includegraphics[width=10cm]{a1_01.jpg}\\
-\includegraphics[width=10cm]{a1_01.jpg}
+\includegraphics[width=10cm]{a1_07.jpg}\\
+\includegraphics[width=10cm]{a1_08.jpg}
 \newpage
-\includegraphics[width=10cm]{a1_01.jpg}\\
-\includegraphics[width=10cm]{a1_01.jpg}
+\includegraphics[width=10cm]{a1_09.jpg}
 \end{center}
 
 \section{Schwellwerte}
@@ -212,6 +211,7 @@ end
 % output
 schwellwerte
 mean_schwellwert = mean(schwellwerte)
+% mean_schwellwert = [-0.1980 -0.1880]
 \end{lstlisting}
 
 \newpage
@@ -227,6 +227,7 @@ X = horzcat(onesVector, Punkte);
 beta = inv(X'*X) * X' * Noten;
 fx = beta(1) + beta(2)*x2;
 pkt = (0.5-beta(1))/beta(2);
+% pkt = 0.4804
 
 % plot
 hold on

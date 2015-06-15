@@ -137,6 +137,7 @@ for iter = 1:100
 end
 schwellwerte
 mean_schwellwert = mean(schwellwerte)
+% mean_schwellwert = [-0.1980 -0.1880]
 
 
 %%%%%%%%%  Aufgabe 2b - Lineare Regression  %%%%%%%%%%
@@ -148,7 +149,8 @@ onesVector = ones(size(Data,1), 1);
 X = horzcat(onesVector, Punkte);
 beta = inv(X'*X) * X' * Noten;
 fx = beta(1) + beta(2)*x2;
-pkt = (0.5-beta(1))/beta(2);
+pkt = (0.5-beta(1))/beta(2)
+% pkt = 0.4804
 
 % plot
 hold on
