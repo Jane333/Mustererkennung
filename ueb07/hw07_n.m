@@ -4,42 +4,53 @@ close all
 clc
 
 % Datenaufbereitung
-Data        = load('fieldgoal.txt');
-ExtendeData = [Data(:,1), ones(size(Data,1), 1)];
-Distance    = Data(:,1);
-Goal        = Data(:,2);
-%Goal0       = Data((Data(:,2)==0),:);
-%Goal1       = Data((Data(:,2)==1),:);
-x01         = linspace(0,1);
-x0100       = linspace(0,100);
-N           = length(Data);
+Data         = load('fieldgoal.txt');
+ExtendedData = [Data(:,1), ones(size(Data,1), 1)];
+Distance     = Data(:,1);
+Goal         = Data(:,2);
+x01          = linspace(0,1);
+x0100        = linspace(0,100);
+N            = length(Data);
 
 %%% Aufgabe 1 - Logistische Regression %%%
 
-alpha = 10^(-7); % Lernkonstante
-beta  = [0,0];   % initiales beta?
-beta = zeros(1,N+1); % da beta die Dimension R^(N+1)
-Gradient = 0;
+alpha = 10^(-7);
+beta  = [0,0];   % initiales beta Komponente 2 sollte 1 sein
 
-for i = 1:N
+for repeats = 1:100000
     
-    % p(x_i,beta) = beta_0 + beta_1 * x_i
-    p = beta(i) + beta(i+1)*Distance(i);
+    for i = 1:N
     
-    % likelihood(beta) = \sum_1^N x_i * ( y_i - p(x_i,beta) )
-    for j = 1:N
-        Gradient = Gradient + Distance(j) * ( Goal(j) - p );
+        k = beta*ExtendedData(i,:)';
+        p = exp(k)/(1+exp(k));
+    
+        % likelihood(beta) = \sum_1^N x_i * ( y_i - p(x_i,beta) )
+        likelihood = 0;
+        for j = 1:N
+            likelihood = likelihood + Distance(j) * ( Goal(j) - p );
+        end
+    
+        beta = beta + alpha * likelihood;
+        
+        for h = 1:N
+            error = 0.5 * (Goal(h) * - p^2);
+        end
+        
     end
-    
-    % beta_i+1 = beta_i + alpha * likelihood(beta_i)   % likelihood = Gradient
-    beta(i+1) = beta(i) + alpha*Gradient;
+   
+    if (repeats / 25000 == 0)
+        
+        % plot
+        figure('NumberTitle','off','Name','Aufgabe 1 - Logistische Regression');
+        hold on
+        
+        gscatter(Data(:,1), ones(size(Punkte,1), 1), Goal,'krb','+x',[],'off');
+
+        title('Aufgabe 1 - Logistische Regression ' + int2str(error));
+        xlabel('Distanz zum Tor');
+        ylabel('Keine Ahnung')
+        axis([-0.1 1.1 -0.1 1.1]);
+        legend('Normalenvektor w', 'Diskriminante', 'Nicht bestanden','Bestanden');
+        
+    end
 end
-
-% output
-beta
-plot(beta, 'r')
-
-% das stimmt noch nicht, aber morgen mehr...
-
-
-% plotten Sie p(x,beta) fuer Entfernungen zwischen 0 und 100
