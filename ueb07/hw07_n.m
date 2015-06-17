@@ -13,7 +13,6 @@ x0100        = linspace(0,100);
 N            = length(Data);
 limit        = 100000;
 plist        = [];
-%elist        = [];
 
 %%% Aufgabe 1 - Logistische Regression %%%
 
@@ -36,15 +35,14 @@ for repeats = 1:limit
 
     beta = beta + (alpha * likelihood);
     plist = vertcat(plist,p);
-    %elist = vertcat(elist,e-300);
     
-    %if mod(repeats,25000) == 0
-        %e
-    %end
+    if mod(repeats,25000) == 0
+        e
+    end
 end
 
 % Diskriminante
-fx = beta(1) * beta(2)*x0100
+fx = beta(1) * beta(2)*x0100;
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 1 - Logistische Regression');
@@ -53,7 +51,6 @@ hold on
 scatter(Distance, Goal);
 plot(plist, 'g');
 plot(fx);
-%plot(elist, 'r');
 
 title('Aufgabe 1 - Logistische Regression');
 xlabel('Distanz zum Tor');
