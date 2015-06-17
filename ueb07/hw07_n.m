@@ -59,4 +59,4 @@ title('Aufgabe 1 - Logistische Regression');
 xlabel('Distanz zum Tor');
 ylabel('Wahrscheinlichkeit für einen Treffer')
 axis([-0.1 100.1 -0.1 1.1]);
-legend('Datenpunkte','p(x,beta)','Fehlerwerte');
+legend('Datenpunkte','p(x,beta)','Diskriminante');
