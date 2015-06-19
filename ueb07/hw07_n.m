@@ -8,52 +8,47 @@ Data         = load('fieldgoal.txt');
 ExtendedData = [Data(:,1), ones(size(Data,1), 1)];
 Distance     = Data(:,1);
 Goal         = Data(:,2);
-x01          = linspace(0,1);
-x0100        = linspace(0,100);
 N            = length(Data);
 limit        = 100000;
-plist        = [];
+x_range        = linspace(0,100);
+x_print        = [0:100];
 
 %%% Aufgabe 1 - Logistische Regression %%%
 
-alpha = 10^(-7);
-beta  = [0,0];   % initiales beta
+figure('NumberTitle','off','Name','Aufgabe 1 - Logistische Regression');
 
-for repeats = 1:limit
-    
-    likelihood = 0;
-    e          = 0;
-    
-    for i = 1:N
-    
-        k = beta*ExtendedData(i,:)';
-        p = exp(k)/(1+exp(k));
-        likelihood = likelihood + Distance(i) * ( Goal(i) - p );
-        e = e + abs(Goal(i) - p);
+alpha = 10e-7;
+beta  = [0;0];   % initiales beta
 
-    end
+for i = 1:limit
+    
+    t = beta' * ExtendedData';
+    p = exp(t')./(1.+exp(t'));
+    
+    likelihood = ExtendedData' * ( Goal - p );
 
     beta = beta + (alpha * likelihood);
-    plist = vertcat(plist,p);
     
-    if mod(repeats,25000) == 0
-        e
+    if mod(i,25000) == 0
+        
+        % Fehler berechnen
+        e = sum(abs(Goal - p))
+        
+        % Wahrscheinlichkeit für einen Treffer berechnen
+        p_estimate = 1./(1.+exp(-(beta(2)+ beta(1)*x_print)));
+        
+        % plot
+        hold off
+        scatter(Distance, Goal);
+        hold on
+        plot(x_print,p_estimate,'r');
+        
+        title('Aufgabe 1 - Logistische Regression');
+        xlabel('Distanz zum Tor');
+        ylabel('Wahrscheinlichkeit für einen Treffer')
+        axis([-0.1 100.1 -0.1 1.1]);
+        legend('Datenpunkte','p(x,beta)');
+        
+        pause(0.0001) % gib Matlab Zeit zu plotten!
     end
 end
-
-% Diskriminante
-fx = beta(1) * beta(2)*x0100;
-
-% plot
-figure('NumberTitle','off','Name','Aufgabe 1 - Logistische Regression');
-hold on
-  
-scatter(Distance, Goal);
-plot(plist, 'g');
-plot(fx);
-
-title('Aufgabe 1 - Logistische Regression');
-xlabel('Distanz zum Tor');
-ylabel('Wahrscheinlichkeit für einen Treffer')
-axis([-0.1 100.1 -0.1 1.1]);
-legend('Datenpunkte','p(x,beta)','Diskriminante');
