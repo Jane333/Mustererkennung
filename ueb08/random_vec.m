@@ -9,14 +9,18 @@ while i < n
     rfactor = 2.*rand(1,1)-1;
     
     x = 2.*rand(1,1)-1;
-    y = 2.*rand(1,1)-1-x;
-    z = sqrt(1-(x*x)-(y*y));
+    y = 2.*rand(1,1)-1;
+    z = 2.*rand(1,1)-1;
     
     if isreal(z)
         if sign(rfactor) > 0
-            rv = vertcat(rv,[x y z]);
+            uv = [x y z];
+            uv = uv / norm(uv);
+            rv = vertcat(rv,uv);
         else
-            rv = vertcat(rv,[-x -y -z]);
+            uv = [-x -y -z];
+            uv = uv / norm(uv);
+            rv = vertcat(rv,uv);
         end
     else
         n = n+1;
