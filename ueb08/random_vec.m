@@ -1,29 +1,18 @@
 function [rv] = random_vec(n)
 
-i = 0;
 rng(0,'twister');
 rv = [];
 
-while i < n
+for i = 1:n
     
-    rfactor = 2.*rand(1,1)-1;
+    varX = 2*pi*rand();
+    varY = acos(2*rand()-1);
     
-    x = 2.*rand(1,1)-1;
-    y = 2.*rand(1,1)-1;
-    z = 2.*rand(1,1)-1;
-    
-    if isreal(z)
-        if sign(rfactor) > 0
-            uv = [x y z];
-            uv = uv / norm(uv);
-            rv = vertcat(rv,uv);
-        else
-            uv = [-x -y -z];
-            uv = uv / norm(uv);
-            rv = vertcat(rv,uv);
-        end
-    else
-        n = n+1;
-    end
-    i = i + 1;
+    x = cos(varX) * sin(varY);
+    y = sin(varX) * sin(varY);
+    z = 1         * cos(varY);
+   
+    vec = [x y z];
+    rv = vertcat(rv,vec);
+
 end

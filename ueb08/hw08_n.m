@@ -29,6 +29,7 @@ z = [Z(:); Z(:); Z(:)];
 figure('NumberTitle','off','Name','DIE Kugel');
 hold on
 mesh(0.99*X,0.99*Y,0.99*Z)
+
 title('Aufgabe 1b - DIE Kugel');
 xlabel('X Koordinaten');
 ylabel('Y Koordinaten');
@@ -36,7 +37,7 @@ zlabel('Z Koordinaten');
 axis([-1.1 1.1 -1.1 1.1]);
 
 % 10000 random vectors
-rv = random_vec(10000); 
+rv = random_vec(10000);
 
 % plot
 scatter3(rv(:,1), rv(:,2), rv(:,3), '.', 'm');
