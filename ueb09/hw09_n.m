@@ -14,6 +14,13 @@ for index1 = 1:length(Training)
    end
 end
 
+% center test data
+for index1 = 1:length(Testing)
+   for index2 = 1:16
+      cTesting(index1,index2) = Testing(index1,index2) / max(Testing(index1,1:16));
+   end
+end
+
 %%% Aufgabe 1 - XOR-Netzwerk mit Backpropagation trainieren %%%
 W1_init    = rand(3,2);                     % random weights 3x2 from input to layer 1
 W2_init    = rand(3,1);                     % random weights 3x1 from layer 1 to layer 2
