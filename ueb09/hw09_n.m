@@ -3,8 +3,16 @@ clear all
 close all
 clc
 
-Training = load('pendigits-training.txt');
-Testing  = load('pendigits-testing.txt');
+% load data
+Training  = load('pendigits-training.txt');
+Testing   = load('pendigits-testing.txt');
+
+% center training data
+for index1 = 1:length(Training)
+   for index2 = 1:16
+      cTraining(index1,index2) = Training(index1,index2) / max(Training(index1,1:16));
+   end
+end
 
 %%% Aufgabe 1 - XOR-Netzwerk mit Backpropagation trainieren %%%
 W1_init    = rand(3,2);                     % random weights 3x2 from input to layer 1

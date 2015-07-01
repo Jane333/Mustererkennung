@@ -22,6 +22,7 @@ function [W1_new,W2_new] = backward_pass(layer0,layer1,layer2,W1,W2,error)
     %W2_new_transpose = -alpha*D2*error*layer2
     %W2_new = W2_new_transpose'
     %W1_new_transpose = -alpha*D1*W2*D2*error*layer0
+    %W1_new = W1_new_transpose'
     
     W1_new = W1;
     W2_new = W2;
