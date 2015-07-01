@@ -1,4 +1,4 @@
-function [W1_new,W2_new] = backward_pass(layer0,layer1,layer2,W1,W2,error)
+function [W1_new,W2_new] = backward_pass(alpha,layer0,layer1,layer2,W1,W2,error)
 
     % netout: forward pass result vector
     % W1:     weight matrix for layer 1
@@ -11,19 +11,29 @@ function [W1_new,W2_new] = backward_pass(layer0,layer1,layer2,W1,W2,error)
     layer1
     layer2
     
+    % klappt noch nicht ! => D1 berechnen
     t1     = layer1*W1_;
-    W1_new = 1/1+exp(-t1);
+    sigmoid = 1/1+exp(-t1);
+    W1_new = (sigmoid*(1-sigmoid))
     D1     = zeros(length(W1_new));
     for d1 = 1:length(W1_new)
         D1(d1,d1) = W1_new(d1);
     end
     D1
     
-    %W2_new_transpose = -alpha*D2*error*layer2
-    %W2_new = W2_new_transpose'
-    %W1_new_transpose = -alpha*D1*W2*D2*error*layer0
-    %W1_new = W1_new_transpose'
+    % klappt noch nicht ! => D2 berechnen
+    t2     = layer2*W2_;
+    sigmoid = 1/1+exp(-t2);
+    W2_new = (sigmoid*(1-sigmoid))
+    D2     = zeros(length(W2_new));
+    for d2 = 1:length(W2_new)
+        D2(d2,d2) = W2_new(d2);
+    end
+    D2
     
-    W1_new = W1;
-    W2_new = W2;
+    W2_new_transpose = -alpha*D2*error*layer2
+    W1_new_transpose = -alpha*D1*W2*D2*error*layer0
+    
+    W1_new = W1_new_transpose'  % hier fehlen noch die weights für den bias
+    W2_new = W2_new_transpose'  % hier fehlen noch die weights für den bias
 end

@@ -35,13 +35,13 @@ alpha      = 0.01;                          % learning rate
 % set initial values
 W1 = W1_init;
 W2 = W2_init;
-L0 = ATD;
+L0 = ATD
 
 % start training
 for runs = 1:iterations
 
     % forward pass:
-    [L1,L2] = forward_pass(L0,W1,W2);
+    [L1,L2] = forward_pass(L0,W1,W2)
     FPH = horzcat(FPH,L2);   % recording the learn process
 
     % error calculation
@@ -49,7 +49,7 @@ for runs = 1:iterations
     EH = horzcat(EH,e);      % recording the learn process
 
     % backward pass
-    [W1,W2] = backward_pass(L0,L1,L2,W1,W2,e);
+    [W1,W2] = backward_pass(alpha,L0,L1,L2,W1,W2,e);
 
 end
 
