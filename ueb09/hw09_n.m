@@ -24,37 +24,55 @@ end
 %%% Aufgabe 1 - XOR-Netzwerk mit Backpropagation trainieren %%%
 W1_init    = rand(3,2);                     % random weights 3x2 from input to layer 1
 W2_init    = rand(3,1);                     % random weights 3x1 from layer 1 to layer 2
-FPH        = [];                            % forward pass history (memory)
-EH         = [];                            % error history (memory)
 LTD        = [1 1 0; 1 0 1; 0 1 1; 0 0 0];  % labeled training data
 L          = [0; 1; 1; 0];                  % labels
 ATD        = [1 1 1; 1 0 1; 0 1 1; 0 0 1];  % augmented data without labels
-iterations = 2;                             % number of iterations
+iterations = 1000000;                         % number of iterations
 alpha      = 0.01;                          % learning rate
 
 % set initial values
 W1 = W1_init;
 W2 = W2_init;
-L0 = ATD
+random = randi(4);
+L0 = ATD(random,:);
+label = L(random,:);
 
 % start training
 for runs = 1:iterations
 
-    % forward pass:
-    [L1,L2] = forward_pass(L0,W1,W2)
-    FPH = horzcat(FPH,L2);   % recording the learn process
-
+    % forward pass
+    t                  = L0 * W1;
+    perceptron1_layer1 = 1 / 1 + exp(-t(:,1));
+    derivate_p1        = perceptron1_layer1*(1-perceptron1_layer1);
+    perceptron2_layer1 = 1 / 1 + exp(-t(:,2));
+    derivate_p2        = perceptron2_layer1*(1-perceptron2_layer1);
+    out_layer1         = [perceptron1_layer1, perceptron2_layer1];
+    perceptron1_layer2 = 1 / 1 + exp(-([perceptron1_layer1, perceptron2_layer1, 1]*W2));
+    out_layer2         = perceptron1_layer2;
+    
     % error calculation
-    e = error_calculation(L2,L);
-    EH = horzcat(EH,e);      % recording the learn process
-
+    e                  = perceptron1_layer2 - label;
+    
     % backward pass
-    [W1,W2] = backward_pass(alpha,L0,L1,L2,W1,W2,e);
+    t1                 = L0 * W1;
+    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
+    s12 = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
+    D1  = [s11, 0; 0, s12];
+    
+    t2 = [out_layer1, 1] * W2;
+    s2 = (1 / 1+exp(-t2))*(1-(1 / 1+exp(-t2)));
+    D2 = s2;
+    
+    W2_ = W2(1:2,:);
+    
+    dW1 = -alpha*D1*W2_*D2*e*L0;
+    dW2 = -alpha*D2*e*[out_layer1, 1];
+    W1 = W1 + dW1';
+    W2 = W2 + dW2';
 
 end
 
-FPH
-EH
+quality = abs(label - e)
 
 
 
