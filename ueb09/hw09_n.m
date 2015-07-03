@@ -27,56 +27,57 @@ W2_init    = rand(3,1);                     % random weights 3x1 from layer 1 to
 LTD        = [1 1 0; 1 0 1; 0 1 1; 0 0 0];  % labeled training data
 L          = [0; 1; 1; 0];                  % labels
 ATD        = [1 1 1; 1 0 1; 0 1 1; 0 0 1];  % augmented data without labels
-iterations = 100000;                       % number of iterations
+iterations = 1000;                       % number of iterations
 alpha      = 0.01;                          % learning rate
 
 % set initial values
 W1                     = W1_init;
 W2                     = W2_init;
-random                 = randi(4);
-L0                     = ATD(random,:);
-label                  = L(random,:);
 
-% start training
-for runs = 1:iterations
+for rc=1:1000
+    % start training
+    random                 = randi(4);
+    L0                     = ATD(random,:);
+    label                  = L(random,:);
+    for runs = 1:iterations
 
-    % forward pass
-    % layer 1
-    t                  = L0 * W1;
-    perceptron1_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron2_layer1 = 1 / 1 + exp(-t(:,2));
-    out_layer1         = [perceptron1_layer1, perceptron2_layer1];
-    
-    % layer 2
-    t                  = [perceptron1_layer1, perceptron2_layer1, 1]*W2;
-    perceptron1_layer2 = 1 / 1 + exp(-t);
-    out_layer2         = perceptron1_layer2;
-    
-    % error calculation
-    e                  = perceptron1_layer2 - label;
-    
-    % backward pass
-    t1                 = L0 * W1;
-    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
-    D1                 = [s11, 0; 0, s12];
-    
-    t2                 = [out_layer1, 1] * W2;
-    s2                 = (1 / 1+exp(-t2))*(1-(1 / 1+exp(-t2)));
-    D2                 = s2;
-    
-    W2_                = W2(1:2,:);
-    dW1                = -alpha*D1*W2_*D2*e*L0;
-    dW2                = -alpha*D2*e*[out_layer1, 1];
-    W1                 = W1 + dW1';
-    W2                 = W2 + dW2';
+        % forward pass
+        % layer 1
+        t                  = L0 * W1;
+        perceptron1_layer1 = 1 / 1 + exp(-t(:,1));
+        perceptron2_layer1 = 1 / 1 + exp(-t(:,2));
+        out_layer1         = [perceptron1_layer1, perceptron2_layer1];
+        
+        % layer 2
+        t                  = [perceptron1_layer1, perceptron2_layer1, 1]*W2;
+        perceptron1_layer2 = 1 / 1 + exp(-t);
+        out_layer2         = perceptron1_layer2;
+        
+        % error calculation
+        e                  = perceptron1_layer2 - label;
+        
+        % backward pass
+        t1                 = L0 * W1;
+        s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
+        s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
+        D1                 = [s11, 0; 0, s12];
+        
+        t2                 = [out_layer1, 1] * W2;
+        s2                 = (1 / 1+exp(-t2))*(1-(1 / 1+exp(-t2)));
+        D2                 = s2;
+        
+        W2_                = W2(1:2,:);
+        dW1                = -alpha*D1*W2_*D2*e*L0;
+        dW2                = -alpha*D2*e*[out_layer1, 1];
+        W1                 = W1 + dW1';
+        W2                 = W2 + dW2';
+
+    end
 
 end
-
+quality = 1 - abs(label - e)
 label
 e
-quality = 1 - abs(label - e)
-
 
 %%% Aufgabe 2 - Handgeschriebene Zahlen klasssifizieren %%%
 
