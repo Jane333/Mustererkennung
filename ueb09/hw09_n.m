@@ -137,8 +137,15 @@ for runs = 1:length(ATD)
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
     % error calculation
-    e2                 = out_layer2 - label;
+    labelVector = zeros(1,10);
+    for labelIndex = 1:10
+        if label == labelIndex
+            labelVector(:,labelIndex) = 1;
+        end
+    end
+    e2                 = out_layer2 - labelVector;
     E2                 = horzcat(E2,e2);
+    
     
     % backward pass
     t1                 = L0 * W1;
@@ -230,7 +237,13 @@ for runs = 1:length(ATD)
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
     % error calculation
-    e4                 = out_layer2 - label;
+    labelVector = zeros(1,10);
+    for labelIndex = 1:10
+        if label == labelIndex
+            labelVector(:,labelIndex) = 1;
+        end
+    end
+    e4                 = out_layer2 - labelVector;
     E4                 = horzcat(E4,e4);
     
     % backward pass
@@ -331,8 +344,15 @@ for runs = 1:length(ATD)
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
     % error calculation
-    e8                 = out_layer2 - label;
+    labelVector = zeros(1,10);
+    for labelIndex = 1:10
+        if label == labelIndex
+            labelVector(:,labelIndex) = 1;
+        end
+    end
+    e8                 = out_layer2 - labelVector;
     E8                 = horzcat(E8,e8);
+    
     
     % backward pass
     t1                 = L0 * W1;
@@ -442,7 +462,13 @@ for runs = 1:length(ATD)
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2, perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
     % error calculation
-    e10                = out_layer2 - label;
+    labelVector = zeros(1,10);
+    for labelIndex = 1:10
+        if label == labelIndex
+            labelVector(:,labelIndex) = 1;
+        end
+    end
+    e10                = out_layer2 - labelVector;
     E10                = horzcat(E10,e10);
     
     % backward pass
