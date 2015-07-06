@@ -80,7 +80,7 @@ for runs=1:100000
 
 end
 
-needed_iterations = length(E1)
+needed_iterations = length(E1);
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 1');
@@ -91,19 +91,38 @@ ylabel('Fehlerwert');
 axis([-0.1 needed_iterations -1.5 1.5]);
 legend('Fehlerwerte');
 
+% gelernte Gewichte:
+W1
+%      6.2294    4.2282
+%      6.2397    4.2218
+%     -2.7229   -6.4831
+
+W2
+%      8.6958
+%     -9.4197
+%     -3.9711
+
+
 
 %%% Aufgabe 2 - Handgeschriebene Zahlen klasssifizieren %%%
 
 LTD        = horzcat(cTraining,labelsTraining);  % labeled training data
 ATD        = horzcat(cTraining,ones(7494,1));    % augmented data without labels
 
-% k = 2
+LTDtest    = horzcat(cTesting,labelsTesting);  % labeled test data
+ATDtest    = horzcat(cTesting,ones(3498,1));   % augmented data without labels
+predictedClassk2 = [];
+predictedClassk4 = [];
+predictedClassk8 = [];
+predictedClassk10 = [];
+
+% k = 2, Training
 E2         = [];           % error history for plot
 e2         = 1;            % just for e != 0
 
 % set initial values
-W1         = rand(17,2)   % random weights 17x2 from layer 0 to layer 1
-W2         = rand(3,10)   % random weights 3x10 from layer 1 to layer 2
+W1         = rand(17,2);   % random weights 17x2 from layer 0 to layer 1
+W2         = rand(3,10);   % random weights 3x10 from layer 1 to layer 2
 alpha      = 0.01;         % learning rate
 eq2        = 0.0001;       % error quality
 
@@ -187,10 +206,8 @@ for runs = 1:length(ATD)
     W2                 = W2 + dW2';
 
 end
-W1
-W2
 
-needed_iterations = length(E2)
+needed_iterations = length(E2);
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 2, k=2');
@@ -202,7 +219,58 @@ axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
-% k = 4
+% k = 2, Testing
+
+correctly_predicted = 0;
+for runs = 1:length(ATDtest)
+    
+    L0                = ATDtest(runs,:);
+    label             = labelsTesting(runs);
+        
+    % forward pass
+    % layer 1
+    t                   = L0 * W1;
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    
+    out_layer1         = [perceptron01_layer1,perceptron02_layer1];
+    
+    % layer 2
+    t                  = [out_layer1, 1]*W2;
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
+    
+    out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
+    
+    % prediction calculation
+    prediction = 999;  % initial value
+    predictionVal = max(out_layer2);
+    for index = 1:length(out_layer2)
+        if out_layer2(1, index) == predictionVal
+            prediction = index - 1;
+        end
+    end
+    predictedClassk2 = vertcat(predictedClassk2, prediction);
+    if prediction == label
+        correctly_predicted = correctly_predicted + 1;
+    end
+end
+
+%  confusionMatrix = confusionmat(labelsTesting, predictedClassk2)
+
+klass_guete = correctly_predicted / size(ATDtest, 1)
+
+
+
+% k = 4, Training
 E4         = [];           % error history for plot
 e4         = 1;            % just for e != 0
 
@@ -295,7 +363,7 @@ for runs = 1:length(ATD)
 
 end
 
-needed_iterations = length(E4)
+needed_iterations = length(E4);
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 2, k=4');
@@ -307,7 +375,62 @@ axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
-% k = 8
+% k = 4, Testing
+
+correctly_predicted = 0;
+for runs = 1:length(ATDtest)
+    
+    L0                = ATDtest(runs,:);
+    label             = labelsTesting(runs);
+        
+    % forward pass
+    % layer 1
+    t                   = L0 * W1;
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
+    
+    out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1];
+    
+    % layer 2
+    t                  = [out_layer1, 1]*W2;
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
+    
+    out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
+    
+    % prediction calculation
+    prediction = 999;  % initial value
+    predictionVal = max(out_layer2);
+    for index = 1:length(out_layer2)
+        if out_layer2(1, index) == predictionVal
+            prediction = index - 1;
+        end
+    end
+    predictedClassk4 = vertcat(predictedClassk4, prediction);
+    if prediction == label
+        correctly_predicted = correctly_predicted + 1;
+    end
+end
+
+%  confusionMatrix = confusionmat(labelsTesting, predictedClassk4)
+
+klass_guete = correctly_predicted / size(ATDtest, 1)
+
+
+
+
+
+% k = 8, Training
 E8         = [];           % error history for plot
 e8         = 1;            % just for e != 0
 
@@ -412,7 +535,7 @@ for runs = 1:length(ATD)
 
 end
 
-needed_iterations = length(E8)
+needed_iterations = length(E8);
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 2, k=8');
@@ -424,7 +547,65 @@ axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
-% k = 10
+% k = 8, Testing
+
+correctly_predicted = 0;
+for runs = 1:length(ATDtest)
+    
+    L0     = ATDtest(runs,:);
+    label  = labelsTesting(runs);
+        
+    % forward pass
+    % layer 1
+    t                   = L0 * W1;
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
+    perceptron05_layer1 = 1 / (1 + exp(-t(:,5)));
+    perceptron06_layer1 = 1 / (1 + exp(-t(:,6)));
+    perceptron07_layer1 = 1 / (1 + exp(-t(:,7)));
+    perceptron08_layer1 = 1 / (1 + exp(-t(:,8)));
+    
+    out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1,perceptron05_layer1,perceptron06_layer1,perceptron07_layer1,perceptron08_layer1];
+    
+    % layer 2
+    t                  = [out_layer1, 1]*W2;
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
+    
+    out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
+    
+    % prediction calculation
+    prediction = 999;  % initial value
+    predictionVal = max(out_layer2);
+    for index = 1:length(out_layer2)
+        if out_layer2(1, index) == predictionVal
+            prediction = index - 1;
+        end
+    end
+    predictedClassk8 = vertcat(predictedClassk8, prediction);
+    if prediction == label
+        correctly_predicted = correctly_predicted + 1;
+    end
+
+end
+
+%  confusionMatrix = confusionmat(labelsTesting, predictedClassk8)
+
+klass_guete = correctly_predicted / size(ATDtest, 1)
+
+
+
+% k = 10, Training
 E10        = [];           % error history for plot
 e10        = 1;            % just for e != 0
 
@@ -534,7 +715,7 @@ for runs = 1:length(ATD)
 
 end
 
-needed_iterations = length(E10)
+needed_iterations = length(E10);
 
 % plot
 figure('NumberTitle','off','Name','Aufgabe 2, k=10');
@@ -544,3 +725,60 @@ xlabel('Iterationen');
 ylabel('Fehlerwert');
 axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
+
+
+% k = 10, Testing
+correctly_predicted = 0;
+for runs = 1:length(ATDtest)
+    
+    L0                = ATDtest(runs,:);
+    label             = labelsTesting(runs);
+        
+    % forward pass
+    % layer 1
+    t                   = L0 * W1;
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
+    perceptron05_layer1 = 1 / (1 + exp(-t(:,5)));
+    perceptron06_layer1 = 1 / (1 + exp(-t(:,6)));
+    perceptron07_layer1 = 1 / (1 + exp(-t(:,7)));
+    perceptron08_layer1 = 1 / (1 + exp(-t(:,8)));
+    perceptron09_layer1 = 1 / (1 + exp(-t(:,9)));
+    perceptron10_layer1 = 1 / (1 + exp(-t(:,10)));
+    
+    out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1,perceptron05_layer1,perceptron06_layer1,perceptron07_layer1,perceptron08_layer1,perceptron09_layer1,perceptron10_layer1];
+    
+    % layer 2
+    t                  = [out_layer1, 1]*W2;
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
+    
+    out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2, perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
+    
+    % prediction calculation
+    prediction = 999;  % initial value
+    predictionVal = max(out_layer2);
+    for index = 1:length(out_layer2)
+        if out_layer2(1, index) == predictionVal
+            prediction = index - 1;
+        end
+    end
+    predictedClassk10 = vertcat(predictedClassk10, prediction);
+    if prediction == label
+        correctly_predicted = correctly_predicted + 1;
+    end
+end
+
+%  confusionMatrix = confusionmat(labelsTesting, predictedClassk10)
+
+klass_guete = correctly_predicted / size(ATDtest, 1)
