@@ -143,8 +143,10 @@ for runs = 1:length(ATD)
             labelVector(:,labelIndex) = 1;
         end
     end
+
+
     e2                 = out_layer2 - labelVector;
-    E2                 = horzcat(E2,e2);
+    E2                 = horzcat(E2,sum(e2));
     
     
     % backward pass
@@ -196,6 +198,7 @@ plot(E2, '.')
 title('Fehlerkurven');
 xlabel('Iterationen');
 ylabel('Fehlerwert');
+axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
@@ -246,7 +249,8 @@ for runs = 1:length(ATD)
         end
     end
     e4                 = out_layer2 - labelVector;
-    E4                 = horzcat(E4,e4);
+    E4                 = horzcat(E4,sum(e4));
+    
     
     % backward pass
     t1                 = L0 * W1;
@@ -299,6 +303,7 @@ plot(E4, '.')
 title('Fehlerkurven');
 xlabel('Iterationen');
 ylabel('Fehlerwert');
+axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
@@ -352,9 +357,9 @@ for runs = 1:length(ATD)
             labelVector(:,labelIndex) = 1;
         end
     end
+
     e8                 = out_layer2 - labelVector;
-    E8                 = horzcat(E8,e8);
-    
+    E8                 = horzcat(E8,sum(e8));    
     
     % backward pass
     t1                 = L0 * W1;
@@ -415,6 +420,7 @@ plot(E8, '.')
 title('Fehlerkurven');
 xlabel('Iterationen');
 ylabel('Fehlerwert');
+axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
 
 
@@ -471,7 +477,7 @@ for runs = 1:length(ATD)
         end
     end
     e10                = out_layer2 - labelVector;
-    E10                = horzcat(E10,e10);
+    E10                = horzcat(E10,sum(e10));
     
     % backward pass
     t1                 = L0 * W1;
@@ -536,4 +542,5 @@ plot(E10, '.')
 title('Fehlerkurven');
 xlabel('Iterationen');
 ylabel('Fehlerwert');
+axis([-0.1 needed_iterations -10 10]);
 legend('Fehlerwerte');
