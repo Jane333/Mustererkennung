@@ -102,8 +102,8 @@ E2         = [];           % error history for plot
 e2         = 1;            % just for e != 0
 
 % set initial values
-W1         = rand(17,2);   % random weights 17x2 from layer 0 to layer 1
-W2         = rand(3,10);   % random weights 3x10 from layer 1 to layer 2
+W1         = rand(17,2)   % random weights 17x2 from layer 0 to layer 1
+W2         = rand(3,10)   % random weights 3x10 from layer 1 to layer 2
 alpha      = 0.01;         % learning rate
 eq2        = 0.0001;       % error quality
 
@@ -185,6 +185,8 @@ for runs = 1:length(ATD)
     W2                 = W2 + dW2';
 
 end
+W1
+W2
 
 needed_iterations = length(E2)
 
