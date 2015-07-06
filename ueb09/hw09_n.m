@@ -37,11 +37,11 @@ e1         = 1;                             % just for e != 0
 % set initial values
 W1         = W1_init;
 W2         = W2_init;
-alpha      = 0.01;                          % learning rate
+alpha      = 0.1;                          % learning rate
 eq1        = 0.0001;                        % error quality
 
-% learning until error < error quality
-while e1 > eq1
+% learning
+for runs=1:100000
     random             = randi(4);
     L0                 = ATD(random,:);
     label              = L(random,:);
@@ -49,13 +49,13 @@ while e1 > eq1
     % forward pass
     % layer 1
     t                  = L0 * W1;
-    perceptron1_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron2_layer1 = 1 / 1 + exp(-t(:,2));
+    perceptron1_layer1 = 1.0 / (1.0 + exp(-t(:,1)));
+    perceptron2_layer1 = 1.0 / (1.0 + exp(-t(:,2)));
     out_layer1         = [perceptron1_layer1, perceptron2_layer1];
     
     % layer 2
     t                  = [perceptron1_layer1, perceptron2_layer1, 1]*W2;
-    perceptron1_layer2 = 1 / 1 + exp(-t);
+    perceptron1_layer2 = 1.0 / (1.0 + exp(-t));
     out_layer2         = perceptron1_layer2;
     
     % error calculation
@@ -64,17 +64,17 @@ while e1 > eq1
     
     % backward pass
     t1                 = L0 * W1;
-    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
+    s11                = (1.0 / (1+exp(-t1(:,1))))*(1-(1 / (1+exp(-t1(:,1)))));
+    s12                = (1.0 / (1+exp(-t1(:,2))))*(1-(1 / (1+exp(-t1(:,2)))));
     D1                 = [s11, 0; 0, s12];
     
     t2                 = [out_layer1, 1] * W2;
-    s2                 = (1 / 1+exp(-t2))*(1-(1 / 1+exp(-t2)));
+    s2                 = (1 / (1+exp(-t2)))*(1-(1 / (1+exp(-t2))));
     D2                 = s2;
     
     W2_                = W2(1:2,:);
-    dW1                = -alpha*D1*W2_*D2*e1*L0;
-    dW2                = -alpha*D2*e1*[out_layer1, 1];
+    dW1                = -alpha*D1*W2_*D2*e1'*L0;
+    dW2                = -alpha*D2*e1'*[out_layer1, 1];
     W1                 = W1 + dW1';
     W2                 = W2 + dW2';
 
@@ -88,7 +88,7 @@ plot(E1, '.')
 title('Fehlerkurven');
 xlabel('Iterationen');
 ylabel('Fehlerwert');
-axis([-0.1 needed_iterations -0.1 1.5]);
+axis([-0.1 needed_iterations -1.5 1.5]);
 legend('Fehlerwerte');
 
 
@@ -116,23 +116,23 @@ for runs = 1:length(ATD)
     % forward pass
     % layer 1
     t                   = L0 * W1;
-    perceptron01_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron02_layer1 = 1 / 1 + exp(-t(:,2));
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
     
     out_layer1         = [perceptron01_layer1,perceptron02_layer1];
     
     % layer 2
     t                  = [out_layer1, 1]*W2;
-    perceptron01_layer2 = 1 / 1 + exp(-t(1));
-    perceptron02_layer2 = 1 / 1 + exp(-t(2));
-    perceptron03_layer2 = 1 / 1 + exp(-t(3));
-    perceptron04_layer2 = 1 / 1 + exp(-t(4));
-    perceptron05_layer2 = 1 / 1 + exp(-t(5));
-    perceptron06_layer2 = 1 / 1 + exp(-t(6));
-    perceptron07_layer2 = 1 / 1 + exp(-t(7));
-    perceptron08_layer2 = 1 / 1 + exp(-t(8));
-    perceptron09_layer2 = 1 / 1 + exp(-t(9));
-    perceptron10_layer2 = 1 / 1 + exp(-t(10));
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
     
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
@@ -149,23 +149,23 @@ for runs = 1:length(ATD)
     
     % backward pass
     t1                 = L0 * W1;
-    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
+    s11                = (1 / (1+exp(-t1(:,1))))*(1-(1 / (1+exp(-t1(:,1)))));
+    s12                = (1 / (1+exp(-t1(:,2))))*(1-(1 / (1+exp(-t1(:,2)))));
        
     D1                 = [s11,0;
                           0,s12];
     
     t2                 = [out_layer1, 1] * W2;
-    s201               = (1 / 1+exp(-t2(1)))*(1-(1 / 1+exp(-t2(1))));
-    s202               = (1 / 1+exp(-t2(2)))*(1-(1 / 1+exp(-t2(2))));
-    s203               = (1 / 1+exp(-t2(3)))*(1-(1 / 1+exp(-t2(3))));
-    s204               = (1 / 1+exp(-t2(4)))*(1-(1 / 1+exp(-t2(4))));
-    s205               = (1 / 1+exp(-t2(5)))*(1-(1 / 1+exp(-t2(5))));
-    s206               = (1 / 1+exp(-t2(6)))*(1-(1 / 1+exp(-t2(6))));
-    s207               = (1 / 1+exp(-t2(7)))*(1-(1 / 1+exp(-t2(7))));
-    s208               = (1 / 1+exp(-t2(8)))*(1-(1 / 1+exp(-t2(8))));
-    s209               = (1 / 1+exp(-t2(9)))*(1-(1 / 1+exp(-t2(9))));
-    s210               = (1 / 1+exp(-t2(10)))*(1-(1 / 1+exp(-t2(10))));
+    s201               = (1 / (1+exp(-t2(1))))*(1-(1 / (1+exp(-t2(1)))));
+    s202               = (1 / (1+exp(-t2(2))))*(1-(1 / (1+exp(-t2(2)))));
+    s203               = (1 / (1+exp(-t2(3))))*(1-(1 / (1+exp(-t2(3)))));
+    s204               = (1 / (1+exp(-t2(4))))*(1-(1 / (1+exp(-t2(4)))));
+    s205               = (1 / (1+exp(-t2(5))))*(1-(1 / (1+exp(-t2(5)))));
+    s206               = (1 / (1+exp(-t2(6))))*(1-(1 / (1+exp(-t2(6)))));
+    s207               = (1 / (1+exp(-t2(7))))*(1-(1 / (1+exp(-t2(7)))));
+    s208               = (1 / (1+exp(-t2(8))))*(1-(1 / (1+exp(-t2(8)))));
+    s209               = (1 / (1+exp(-t2(9))))*(1-(1 / (1+exp(-t2(9)))));
+    s210               = (1 / (1+exp(-t2(10))))*(1-(1 / (1+exp(-t2(10)))));
     
     D2                 = [s201,0,0,0,0,0,0,0,0,0;
                           0,s202,0,0,0,0,0,0,0,0;
@@ -214,25 +214,25 @@ for runs = 1:length(ATD)
     % forward pass
     % layer 1
     t                   = L0 * W1;
-    perceptron01_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron02_layer1 = 1 / 1 + exp(-t(:,2));
-    perceptron03_layer1 = 1 / 1 + exp(-t(:,3));
-    perceptron04_layer1 = 1 / 1 + exp(-t(:,4));
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
     
     out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1];
     
     % layer 2
     t                  = [out_layer1, 1]*W2;
-    perceptron01_layer2 = 1 / 1 + exp(-t(1));
-    perceptron02_layer2 = 1 / 1 + exp(-t(2));
-    perceptron03_layer2 = 1 / 1 + exp(-t(3));
-    perceptron04_layer2 = 1 / 1 + exp(-t(4));
-    perceptron05_layer2 = 1 / 1 + exp(-t(5));
-    perceptron06_layer2 = 1 / 1 + exp(-t(6));
-    perceptron07_layer2 = 1 / 1 + exp(-t(7));
-    perceptron08_layer2 = 1 / 1 + exp(-t(8));
-    perceptron09_layer2 = 1 / 1 + exp(-t(9));
-    perceptron10_layer2 = 1 / 1 + exp(-t(10));
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
     
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
@@ -248,10 +248,10 @@ for runs = 1:length(ATD)
     
     % backward pass
     t1                 = L0 * W1;
-    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
-    s13                = (1 / 1+exp(-t1(:,3)))*(1-(1 / 1+exp(-t1(:,3))));
-    s14                = (1 / 1+exp(-t1(:,4)))*(1-(1 / 1+exp(-t1(:,4))));
+    s11                = (1 / (1+exp(-t1(:,1))))*(1-(1 / (1+exp(-t1(:,1)))));
+    s12                = (1 / (1+exp(-t1(:,2))))*(1-(1 / (1+exp(-t1(:,2)))));
+    s13                = (1 / (1+exp(-t1(:,3))))*(1-(1 / (1+exp(-t1(:,3)))));
+    s14                = (1 / (1+exp(-t1(:,4))))*(1-(1 / (1+exp(-t1(:,4)))));
        
     D1                 = [s11,0,0,0;
                           0,s12,0,0;
@@ -259,16 +259,16 @@ for runs = 1:length(ATD)
                           0,0,0,s14];
     
     t2                 = [out_layer1, 1] * W2;
-    s201               = (1 / 1+exp(-t2(1)))*(1-(1 / 1+exp(-t2(1))));
-    s202               = (1 / 1+exp(-t2(2)))*(1-(1 / 1+exp(-t2(2))));
-    s203               = (1 / 1+exp(-t2(3)))*(1-(1 / 1+exp(-t2(3))));
-    s204               = (1 / 1+exp(-t2(4)))*(1-(1 / 1+exp(-t2(4))));
-    s205               = (1 / 1+exp(-t2(5)))*(1-(1 / 1+exp(-t2(5))));
-    s206               = (1 / 1+exp(-t2(6)))*(1-(1 / 1+exp(-t2(6))));
-    s207               = (1 / 1+exp(-t2(7)))*(1-(1 / 1+exp(-t2(7))));
-    s208               = (1 / 1+exp(-t2(8)))*(1-(1 / 1+exp(-t2(8))));
-    s209               = (1 / 1+exp(-t2(9)))*(1-(1 / 1+exp(-t2(9))));
-    s210               = (1 / 1+exp(-t2(10)))*(1-(1 / 1+exp(-t2(10))));
+    s201               = (1 / (1+exp(-t2(1))))*(1-(1 / (1+exp(-t2(1)))));
+    s202               = (1 / (1+exp(-t2(2))))*(1-(1 / (1+exp(-t2(2)))));
+    s203               = (1 / (1+exp(-t2(3))))*(1-(1 / (1+exp(-t2(3)))));
+    s204               = (1 / (1+exp(-t2(4))))*(1-(1 / (1+exp(-t2(4)))));
+    s205               = (1 / (1+exp(-t2(5))))*(1-(1 / (1+exp(-t2(5)))));
+    s206               = (1 / (1+exp(-t2(6))))*(1-(1 / (1+exp(-t2(6)))));
+    s207               = (1 / (1+exp(-t2(7))))*(1-(1 / (1+exp(-t2(7)))));
+    s208               = (1 / (1+exp(-t2(8))))*(1-(1 / (1+exp(-t2(8)))));
+    s209               = (1 / (1+exp(-t2(9))))*(1-(1 / (1+exp(-t2(9)))));
+    s210               = (1 / (1+exp(-t2(10))))*(1-(1 / (1+exp(-t2(10)))));
     
     D2                 = [s201,0,0,0,0,0,0,0,0,0;
                           0,s202,0,0,0,0,0,0,0,0;
@@ -317,29 +317,29 @@ for runs = 1:length(ATD)
     % forward pass
     % layer 1
     t                   = L0 * W1;
-    perceptron01_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron02_layer1 = 1 / 1 + exp(-t(:,2));
-    perceptron03_layer1 = 1 / 1 + exp(-t(:,3));
-    perceptron04_layer1 = 1 / 1 + exp(-t(:,4));
-    perceptron05_layer1 = 1 / 1 + exp(-t(:,5));
-    perceptron06_layer1 = 1 / 1 + exp(-t(:,6));
-    perceptron07_layer1 = 1 / 1 + exp(-t(:,7));
-    perceptron08_layer1 = 1 / 1 + exp(-t(:,8));
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
+    perceptron05_layer1 = 1 / (1 + exp(-t(:,5)));
+    perceptron06_layer1 = 1 / (1 + exp(-t(:,6)));
+    perceptron07_layer1 = 1 / (1 + exp(-t(:,7)));
+    perceptron08_layer1 = 1 / (1 + exp(-t(:,8)));
     
     out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1,perceptron05_layer1,perceptron06_layer1,perceptron07_layer1,perceptron08_layer1];
     
     % layer 2
     t                  = [out_layer1, 1]*W2;
-    perceptron01_layer2 = 1 / 1 + exp(-t(1));
-    perceptron02_layer2 = 1 / 1 + exp(-t(2));
-    perceptron03_layer2 = 1 / 1 + exp(-t(3));
-    perceptron04_layer2 = 1 / 1 + exp(-t(4));
-    perceptron05_layer2 = 1 / 1 + exp(-t(5));
-    perceptron06_layer2 = 1 / 1 + exp(-t(6));
-    perceptron07_layer2 = 1 / 1 + exp(-t(7));
-    perceptron08_layer2 = 1 / 1 + exp(-t(8));
-    perceptron09_layer2 = 1 / 1 + exp(-t(9));
-    perceptron10_layer2 = 1 / 1 + exp(-t(10));
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
     
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2,perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
@@ -356,14 +356,14 @@ for runs = 1:length(ATD)
     
     % backward pass
     t1                 = L0 * W1;
-    s11                = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s12                = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
-    s13                = (1 / 1+exp(-t1(:,3)))*(1-(1 / 1+exp(-t1(:,3))));
-    s14                = (1 / 1+exp(-t1(:,4)))*(1-(1 / 1+exp(-t1(:,4))));
-    s15                = (1 / 1+exp(-t1(:,5)))*(1-(1 / 1+exp(-t1(:,5))));
-    s16                = (1 / 1+exp(-t1(:,6)))*(1-(1 / 1+exp(-t1(:,6))));
-    s17                = (1 / 1+exp(-t1(:,7)))*(1-(1 / 1+exp(-t1(:,7))));
-    s18                = (1 / 1+exp(-t1(:,8)))*(1-(1 / 1+exp(-t1(:,8))));
+    s11                = (1 / (1+exp(-t1(:,1))))*(1-(1 / (1+exp(-t1(:,1)))));
+    s12                = (1 / (1+exp(-t1(:,2))))*(1-(1 / (1+exp(-t1(:,2)))));
+    s13                = (1 / (1+exp(-t1(:,3))))*(1-(1 / (1+exp(-t1(:,3)))));
+    s14                = (1 / (1+exp(-t1(:,4))))*(1-(1 / (1+exp(-t1(:,4)))));
+    s15                = (1 / (1+exp(-t1(:,5))))*(1-(1 / (1+exp(-t1(:,5)))));
+    s16                = (1 / (1+exp(-t1(:,6))))*(1-(1 / (1+exp(-t1(:,6)))));
+    s17                = (1 / (1+exp(-t1(:,7))))*(1-(1 / (1+exp(-t1(:,7)))));
+    s18                = (1 / (1+exp(-t1(:,8))))*(1-(1 / (1+exp(-t1(:,8)))));
        
     D1                 = [s11,0,0,0,0,0,0,0;
                           0,s12,0,0,0,0,0,0;
@@ -375,16 +375,16 @@ for runs = 1:length(ATD)
                           0,0,0,0,0,0,0,s18];
     
     t2                 = [out_layer1, 1] * W2;
-    s201               = (1 / 1+exp(-t2(1)))*(1-(1 / 1+exp(-t2(1))));
-    s202               = (1 / 1+exp(-t2(2)))*(1-(1 / 1+exp(-t2(2))));
-    s203               = (1 / 1+exp(-t2(3)))*(1-(1 / 1+exp(-t2(3))));
-    s204               = (1 / 1+exp(-t2(4)))*(1-(1 / 1+exp(-t2(4))));
-    s205               = (1 / 1+exp(-t2(5)))*(1-(1 / 1+exp(-t2(5))));
-    s206               = (1 / 1+exp(-t2(6)))*(1-(1 / 1+exp(-t2(6))));
-    s207               = (1 / 1+exp(-t2(7)))*(1-(1 / 1+exp(-t2(7))));
-    s208               = (1 / 1+exp(-t2(8)))*(1-(1 / 1+exp(-t2(8))));
-    s209               = (1 / 1+exp(-t2(9)))*(1-(1 / 1+exp(-t2(9))));
-    s210               = (1 / 1+exp(-t2(10)))*(1-(1 / 1+exp(-t2(10))));
+    s201               = (1 / (1+exp(-t2(1))))*(1-(1 / (1+exp(-t2(1)))));
+    s202               = (1 / (1+exp(-t2(2))))*(1-(1 / (1+exp(-t2(2)))));
+    s203               = (1 / (1+exp(-t2(3))))*(1-(1 / (1+exp(-t2(3)))));
+    s204               = (1 / (1+exp(-t2(4))))*(1-(1 / (1+exp(-t2(4)))));
+    s205               = (1 / (1+exp(-t2(5))))*(1-(1 / (1+exp(-t2(5)))));
+    s206               = (1 / (1+exp(-t2(6))))*(1-(1 / (1+exp(-t2(6)))));
+    s207               = (1 / (1+exp(-t2(7))))*(1-(1 / (1+exp(-t2(7)))));
+    s208               = (1 / (1+exp(-t2(8))))*(1-(1 / (1+exp(-t2(8)))));
+    s209               = (1 / (1+exp(-t2(9))))*(1-(1 / (1+exp(-t2(9)))));
+    s210               = (1 / (1+exp(-t2(10))))*(1-(1 / (1+exp(-t2(10)))));
     
     D2                 = [s201,0,0,0,0,0,0,0,0,0;
                           0,s202,0,0,0,0,0,0,0,0;
@@ -433,31 +433,31 @@ for runs = 1:length(ATD)
     % forward pass
     % layer 1
     t                   = L0 * W1;
-    perceptron01_layer1 = 1 / 1 + exp(-t(:,1));
-    perceptron02_layer1 = 1 / 1 + exp(-t(:,2));
-    perceptron03_layer1 = 1 / 1 + exp(-t(:,3));
-    perceptron04_layer1 = 1 / 1 + exp(-t(:,4));
-    perceptron05_layer1 = 1 / 1 + exp(-t(:,5));
-    perceptron06_layer1 = 1 / 1 + exp(-t(:,6));
-    perceptron07_layer1 = 1 / 1 + exp(-t(:,7));
-    perceptron08_layer1 = 1 / 1 + exp(-t(:,8));
-    perceptron09_layer1 = 1 / 1 + exp(-t(:,9));
-    perceptron10_layer1 = 1 / 1 + exp(-t(:,10));
+    perceptron01_layer1 = 1 / (1 + exp(-t(:,1)));
+    perceptron02_layer1 = 1 / (1 + exp(-t(:,2)));
+    perceptron03_layer1 = 1 / (1 + exp(-t(:,3)));
+    perceptron04_layer1 = 1 / (1 + exp(-t(:,4)));
+    perceptron05_layer1 = 1 / (1 + exp(-t(:,5)));
+    perceptron06_layer1 = 1 / (1 + exp(-t(:,6)));
+    perceptron07_layer1 = 1 / (1 + exp(-t(:,7)));
+    perceptron08_layer1 = 1 / (1 + exp(-t(:,8)));
+    perceptron09_layer1 = 1 / (1 + exp(-t(:,9)));
+    perceptron10_layer1 = 1 / (1 + exp(-t(:,10)));
     
     out_layer1         = [perceptron01_layer1,perceptron02_layer1,perceptron03_layer1,perceptron04_layer1,perceptron05_layer1,perceptron06_layer1,perceptron07_layer1,perceptron08_layer1,perceptron09_layer1,perceptron10_layer1];
     
     % layer 2
     t                  = [out_layer1, 1]*W2;
-    perceptron01_layer2 = 1 / 1 + exp(-t(1));
-    perceptron02_layer2 = 1 / 1 + exp(-t(2));
-    perceptron03_layer2 = 1 / 1 + exp(-t(3));
-    perceptron04_layer2 = 1 / 1 + exp(-t(4));
-    perceptron05_layer2 = 1 / 1 + exp(-t(5));
-    perceptron06_layer2 = 1 / 1 + exp(-t(6));
-    perceptron07_layer2 = 1 / 1 + exp(-t(7));
-    perceptron08_layer2 = 1 / 1 + exp(-t(8));
-    perceptron09_layer2 = 1 / 1 + exp(-t(9));
-    perceptron10_layer2 = 1 / 1 + exp(-t(10));
+    perceptron01_layer2 = 1 / (1 + exp(-t(1)));
+    perceptron02_layer2 = 1 / (1 + exp(-t(2)));
+    perceptron03_layer2 = 1 / (1 + exp(-t(3)));
+    perceptron04_layer2 = 1 / (1 + exp(-t(4)));
+    perceptron05_layer2 = 1 / (1 + exp(-t(5)));
+    perceptron06_layer2 = 1 / (1 + exp(-t(6)));
+    perceptron07_layer2 = 1 / (1 + exp(-t(7)));
+    perceptron08_layer2 = 1 / (1 + exp(-t(8)));
+    perceptron09_layer2 = 1 / (1 + exp(-t(9)));
+    perceptron10_layer2 = 1 / (1 + exp(-t(10)));
     
     out_layer2         = [perceptron01_layer2,perceptron02_layer2,perceptron03_layer2,perceptron04_layer2,perceptron05_layer2, perceptron06_layer2,perceptron07_layer2,perceptron08_layer2,perceptron09_layer2,perceptron10_layer2];
     
@@ -473,16 +473,16 @@ for runs = 1:length(ATD)
     
     % backward pass
     t1                 = L0 * W1;
-    s101               = (1 / 1+exp(-t1(:,1)))*(1-(1 / 1+exp(-t1(:,1))));
-    s102               = (1 / 1+exp(-t1(:,2)))*(1-(1 / 1+exp(-t1(:,2))));
-    s103               = (1 / 1+exp(-t1(:,3)))*(1-(1 / 1+exp(-t1(:,3))));
-    s104               = (1 / 1+exp(-t1(:,4)))*(1-(1 / 1+exp(-t1(:,4))));
-    s105               = (1 / 1+exp(-t1(:,5)))*(1-(1 / 1+exp(-t1(:,5))));
-    s106               = (1 / 1+exp(-t1(:,6)))*(1-(1 / 1+exp(-t1(:,6))));
-    s107               = (1 / 1+exp(-t1(:,7)))*(1-(1 / 1+exp(-t1(:,7))));
-    s108               = (1 / 1+exp(-t1(:,8)))*(1-(1 / 1+exp(-t1(:,8))));
-    s109               = (1 / 1+exp(-t1(:,9)))*(1-(1 / 1+exp(-t1(:,9))));
-    s110               = (1 / 1+exp(-t1(:,10)))*(1-(1 / 1+exp(-t1(:,10))));
+    s101               = (1 / (1+exp(-t1(:,1))))*(1-(1 / (1+exp(-t1(:,1)))));
+    s102               = (1 / (1+exp(-t1(:,2))))*(1-(1 / (1+exp(-t1(:,2)))));
+    s103               = (1 / (1+exp(-t1(:,3))))*(1-(1 / (1+exp(-t1(:,3)))));
+    s104               = (1 / (1+exp(-t1(:,4))))*(1-(1 / (1+exp(-t1(:,4)))));
+    s105               = (1 / (1+exp(-t1(:,5))))*(1-(1 / (1+exp(-t1(:,5)))));
+    s106               = (1 / (1+exp(-t1(:,6))))*(1-(1 / (1+exp(-t1(:,6)))));
+    s107               = (1 / (1+exp(-t1(:,7))))*(1-(1 / (1+exp(-t1(:,7)))));
+    s108               = (1 / (1+exp(-t1(:,8))))*(1-(1 / (1+exp(-t1(:,8)))));
+    s109               = (1 / (1+exp(-t1(:,9))))*(1-(1 / (1+exp(-t1(:,9)))));
+    s110               = (1 / (1+exp(-t1(:,10))))*(1-(1 / (1+exp(-t1(:,10)))));
        
     D1                 = [s101,0,0,0,0,0,0,0,0,0;
                           0,s102,0,0,0,0,0,0,0,0;
@@ -496,16 +496,16 @@ for runs = 1:length(ATD)
                           0,0,0,0,0,0,0,0,0,s110];
     
     t2                 = [out_layer1, 1] * W2;
-    s201               = (1 / 1+exp(-t2(1)))*(1-(1 / 1+exp(-t2(1))));
-    s202               = (1 / 1+exp(-t2(2)))*(1-(1 / 1+exp(-t2(2))));
-    s203               = (1 / 1+exp(-t2(3)))*(1-(1 / 1+exp(-t2(3))));
-    s204               = (1 / 1+exp(-t2(4)))*(1-(1 / 1+exp(-t2(4))));
-    s205               = (1 / 1+exp(-t2(5)))*(1-(1 / 1+exp(-t2(5))));
-    s206               = (1 / 1+exp(-t2(6)))*(1-(1 / 1+exp(-t2(6))));
-    s207               = (1 / 1+exp(-t2(7)))*(1-(1 / 1+exp(-t2(7))));
-    s208               = (1 / 1+exp(-t2(8)))*(1-(1 / 1+exp(-t2(8))));
-    s209               = (1 / 1+exp(-t2(9)))*(1-(1 / 1+exp(-t2(9))));
-    s210               = (1 / 1+exp(-t2(10)))*(1-(1 / 1+exp(-t2(10))));
+    s201               = (1 / (1+exp(-t2(1))))*(1-(1 / (1+exp(-t2(1)))));
+    s202               = (1 / (1+exp(-t2(2))))*(1-(1 / (1+exp(-t2(2)))));
+    s203               = (1 / (1+exp(-t2(3))))*(1-(1 / (1+exp(-t2(3)))));
+    s204               = (1 / (1+exp(-t2(4))))*(1-(1 / (1+exp(-t2(4)))));
+    s205               = (1 / (1+exp(-t2(5))))*(1-(1 / (1+exp(-t2(5)))));
+    s206               = (1 / (1+exp(-t2(6))))*(1-(1 / (1+exp(-t2(6)))));
+    s207               = (1 / (1+exp(-t2(7))))*(1-(1 / (1+exp(-t2(7)))));
+    s208               = (1 / (1+exp(-t2(8))))*(1-(1 / (1+exp(-t2(8)))));
+    s209               = (1 / (1+exp(-t2(9))))*(1-(1 / (1+exp(-t2(9)))));
+    s210               = (1 / (1+exp(-t2(10))))*(1-(1 / (1+exp(-t2(10)))));
     
     D2                 = [s201,0,0,0,0,0,0,0,0,0;
                           0,s202,0,0,0,0,0,0,0,0;
