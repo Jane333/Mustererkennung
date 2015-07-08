@@ -11,10 +11,13 @@ Testing   = load('pendigits-testing.txt');
 labelsTraining = Training(:,17);
 labelsTesting  = Testing(:,17);
 
+% 0.5786 klassGuete bei teilen durch 100 und 40 iter
+% 0.4405 klassGuete bei teilen durch max und 40 iter
 % center training data
 for index1 = 1:length(Training)
    for index2 = 1:16
       cTraining(index1,index2) = Training(index1,index2) / max(Training(index1,1:16));
+%        cTraining(index1,index2) = Training(index1,index2) / 100;
    end
 end
 
@@ -22,10 +25,9 @@ end
 for index1 = 1:length(Testing)
    for index2 = 1:16
       cTesting(index1,index2) = Testing(index1,index2) / max(Testing(index1,1:16));
+%          cTesting(index1,index2) = Testing(index1,index2) / 100;
    end
 end
-
-
 
 
 %%% Aufgabe 2 - Handgeschriebene Zahlen klasssifizieren %%%
