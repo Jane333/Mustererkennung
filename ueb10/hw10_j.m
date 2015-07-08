@@ -30,18 +30,20 @@ alpha = 1;
 
 
 % training
-for reruns = 1:5000
+for reruns = 1:1000
+    dW1 = zeros(16,17);
+    dW2 = zeros(10,17);
     for i = 1:60
         d = AData1(i,:);
         l = Label1(i,:);
         
         % forward pass - layer 1
-        t = d * W1;
-        out_layer1 = 1 ./ (1 + exp(-t));
+        t1 = d * W1;
+        out_layer1 = 1 ./ (1 + exp(-t1));
         
         % forward pass - layer 2
-        t = [out_layer1, 1]*W2;
-        out_layer2 = 1 ./ (1 + exp(-t));
+        t2 = [out_layer1, 1]*W2;
+        out_layer2 = 1 ./ (1 + exp(-t2));
         
         % error calculation
         lv = zeros(1,10);
@@ -52,27 +54,22 @@ for reruns = 1:5000
         end
         error = (out_layer2 - lv);
         
-        % backward pass - layer 1
-        t = d * W1;
-        
-        s1_der = (1 ./ (1+exp(-t))) .* (1-(1 ./ (1+exp(-t))));
+        % backward pass - layer 1        
+        s1_der = (1 ./ (1+exp(-t1))) .* (1-(1 ./ (1+exp(-t1))));
         D1 = diag(s1_der);
 
         % backward pass - layer 2
-        t = [out_layer1, 1] * W2;
-        
-        s2_der = (1 ./ (1+exp(-t))) .* (1-(1 ./ (1+exp(-t))));
+        s2_der = (1 ./ (1+exp(-t2))) .* (1-(1 ./ (1+exp(-t2))));
         D2 = diag(s2_der);
         
         W2_                = W2(1:16,:);
-        error;
         delta2             = D2*error';
         delta1             = D1*W2_*delta2;
-        dW1                = -alpha*delta1*d;
-        dW2                = -alpha*delta2*[out_layer1, 1];
-        W1                 = W1 + dW1';
-        W2                 = W2 + dW2';
+        dW1                = dW1 + -alpha*delta1*d;
+        dW2                = dW2 + -alpha*delta2*[out_layer1, 1];
     end
+    W1                 = W1 + dW1';
+    W2                 = W2 + dW2';
 end
 
 
