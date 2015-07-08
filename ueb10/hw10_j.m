@@ -7,13 +7,23 @@ clc
 Data   = load('pendigits-training.txt');
 
 % prepare data for network
-LData1 = Data(1:60,:);
-AData1 = horzcat(Data(1:60,1:16),ones(60,1));
+%  LData1 = Data(1:60,:);
+%  AData1 = horzcat(Data(1:60,1:16),ones(60,1));
+%  Label1 = Data(1:60,17);
+%  
+%  LData2 = Data(61:90,:);
+%  AData2 = horzcat(Data(61:90,1:16),ones(30,1));
+%  Label2 = Data(61:90,17);
+
+
+LData1 = horzcat(Data(1:60,1:16)./100, Data(1:60,17));
+AData1 = horzcat(Data(1:60,1:16)./100,ones(60,1));
 Label1 = Data(1:60,17);
 
-LData2 = Data(61:90,:);
-AData2 = horzcat(Data(61:90,1:16),ones(30,1));
+LData2 = horzcat(Data(61:90,1:16)./100, Data(61:90,17));
+AData2 = horzcat(Data(61:90,1:16)./100,ones(30,1));
 Label2 = Data(61:90,17);
+
 
 %%% NETWORK DEFINITION %%%
 
@@ -85,19 +95,19 @@ for runs = 1:length(AData1)
         
     % forward pass
     % layer 1
-    t          = d * W1
-    out_layer1 = 1 ./ (1 + exp(-t))
+    t          = d * W1;
+    out_layer1 = 1 ./ (1 + exp(-t));
     
     % layer 2
-    t          = [out_layer1, 1]*W2
-    out_layer2 = 1 ./ (1 + exp(-t))
+    t          = [out_layer1, 1]*W2;
+    out_layer2 = 1 ./ (1 + exp(-t));
     
     % prediction calculation
     prediction = 999;  % initial value
     predictionVal = max(out_layer2);
     for index = 1:length(out_layer2)
         if out_layer2(1, index) == predictionVal
-            prediction = index - 1
+            prediction = index - 1;
         end
     end
     predictedClass = vertcat(predictedClass, prediction);
