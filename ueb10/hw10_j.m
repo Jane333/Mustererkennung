@@ -29,6 +29,7 @@ W2 = ones(17,10)*(-0.5);
 % learning rate
 alpha = 1;
 
+% Aufgabe 1 a) - trainieren bis quadErrorTesting > quadErrorTraining
 
 % training
 quadErrorTraining = 0;
@@ -128,44 +129,3 @@ while quadErrorTraining >= quadErrorTesting
 end % end of while quadErrorTraining >= quadErrorTesting
 
 
-
-%  % Testing
-%  
-%  correctly_predicted = 0;
-%  predictedClass = [];
-%  for runs = 1:length(AData1)
-%      
-%      d     = AData1(runs,:)
-%      l     = Label1(runs)
-%          
-%      % forward pass
-%      % layer 1
-%      t          = d * W1;
-%      out_layer1 = 1 ./ (1 + exp(-t));
-%      
-%      % layer 2
-%      t          = [out_layer1, 1]*W2;
-%      out_layer2 = 1 ./ (1 + exp(-t));
-%      
-%      % prediction calculation
-%      prediction = 999;  % initial value
-%      predictionVal = max(out_layer2);
-%      for index = 1:length(out_layer2)
-%          if out_layer2(1, index) == predictionVal
-%              prediction = index - 1;
-%          end
-%      end
-%      predictedClass = vertcat(predictedClass, prediction);
-%      if prediction == l
-%          correctly_predicted = correctly_predicted + 1;
-%      end
-%  
-%  end
-%  
-%  confusionMatrix = zeros(10,10);
-%  for i = 1:length(Label1)
-%      confusionMatrix(Label1(i)+1, predictedClass(i)+1) = confusionMatrix(Label1(i)+1, predictedClass(i)+1) + 1;
-%  end
-%  confusionMatrix
-%  
-%  klass_guete = correctly_predicted / length(Label1)
