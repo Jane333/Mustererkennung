@@ -230,3 +230,5 @@ confusionMatrix_k8
 
 klass_guete = correctly_predicted / size(ATDtest, 1)
 
+W1
+W2

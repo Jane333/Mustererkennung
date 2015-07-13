@@ -23,6 +23,7 @@ Label2 = Data(61:90,17);
 % 10 Nodes in Layer2 - Outputlayer
 
 % weights
+disp('original weights:')
 W1 = ones(17,16)*(-0.5);
 W2 = ones(17,10)*(-0.5);
 
@@ -43,19 +44,21 @@ alphasdW2 = ones(10,17) * alpha;
 quadErrorTraining = 0;
 quadErrorTesting = 0;
 numIter = 0
-for reruns = 1:10
-%  while quadErrorTraining >= quadErrorTesting
+%  for reruns = 1:10
+while quadErrorTraining >= quadErrorTesting
     clc
     numIter = numIter + 1
     [quadErrorTraining, quadErrorTesting, quadErrorTesting - quadErrorTraining]
-    alphasdW1
-    alphasdW2
+    alphasdW1;
+    alphasdW2;
     
     % start training
     dW1 = zeros(16,17);
     dW2 = zeros(10,17);
     quadErrorTraining = 0;
     quadErrorTesting = 0;
+    dE1_acc = zeros(16,17); %  16x17 = 16x1 * 1x17
+    dE2_acc = zeros(10,17);  % 10x17 = 10x1 * 1x17
     for i = 1:60
         d = AData1(i,:);
         l = Label1(i,:);
@@ -79,70 +82,72 @@ for reruns = 1:10
         quadErrorTraining = quadErrorTraining + 0.5*(error * error');
         
         % backward pass - layer 1        
-        s1_der = (1 ./ (1+exp(-t1))) .* (1-(1 ./ (1+exp(-t1))));
+        s1_der = out_layer1 .* (1 - out_layer1);
         D1 = diag(s1_der);
 
         % backward pass - layer 2
-        s2_der = (1 ./ (1+exp(-t2))) .* (1-(1 ./ (1+exp(-t2))));
+        s2_der = out_layer2 .* (1 - out_layer2);
         D2 = diag(s2_der);
         
         W2_                = W2(1:16,:);
-        delta2             = D2*error';
-        delta1             = D1*W2_*delta2;
-%          dW1                = dW1 + -alpha*delta1*d;
-%          dW2                = dW2 + -alpha*delta2*[out_layer1, 1];
-        dW1                = dW1 + -alphasdW1 .* sign(delta1*d);
-        dW2                = dW2 + -alphasdW2 .* sign(delta2*[out_layer1, 1]);
+        delta2             = D2*error';      % 10x1
+        delta1             = D1*W2_*delta2;  % 16x1
+        dW1                = dW1 + -alphasdW1 .* sign(delta1*d); % batch
+        dW2                = dW2 + -alphasdW2 .* sign(delta2*[out_layer1, 1]); % batch
+%          dW1                = dW1 + -alpha*delta1*d; % c nst alpha
+%          dW2                = dW2 + -alpha*delta2*[out_layer1, 1]; % const alpha
+%          dW1                = -alphasdW1 .* sign(delta1*d); % online
+%          dW2                = -alphasdW2 .* sign(delta2*[out_layer1, 1]); % online
+%          W1                 = W1 + dW1'; % online
+%          W2                 = W2 + dW2'; % online
+
+        % accumulate the error function gradient to use it for backprop later:
+        dE1_acc = dE1_acc + delta1*d;
+        dE2_acc = dE2_acc + delta2*[out_layer1, 1];
+    end % end of training batch
+    W1                 = W1 + dW1'; % batch
+    W2                 = W2 + dW2'; % batch
+    
         
-        % Lernrate alpha mit Rprop anpassen:
-        if numIter == 1 && i == 1
-            dE1_old            = delta1*d;
-            dE2_old            = delta2*[out_layer1, 1];
-        else
-            dE1                = delta1*d; % dies sollte eine Matrix der partiellen Ableitungen von E1 nach dem i-ten Gewicht sein
-            dE2                = delta2*[out_layer1, 1];
-            dE1_new_old        = dE1 .* dE1_old;
-            dE2_new_old        = dE2 .* dE2_old;
-            dE1_old            = dE1;
-            dE2_old            = dE2;
-            
-            % neue Lernraten fuer die Gewichte der 2. Schicht berechnen:
-            for wi=1:size(dE2, 1)
-                for wj=1:size(dE2, 2)
-%                      disp('[dE2(wi, wj), dE2_old(wi, wj]')
-%                      [dE2(wi, wj), dE2_old(wi, wj)]
-                    if (dE2(wi, wj) * dE2_old(wi, wj)) > 0  % beschleunigen
+    % Lernrate alpha mit Rprop anpassen:
+    if numIter == 1
+        dE1_old            = dE1_acc;
+        dE2_old            = dE2_acc;
+    else
+        dE1                = dE1_acc; % dies sollte eine Matrix der partiellen Ableitungen von E1 nach dem i-ten Gewicht sein
+        dE2                = dE2_acc;
+        dE1_new_old        = dE1 .* dE1_old;
+        dE2_new_old        = dE2 .* dE2_old;
+        dE1_old            = dE1;
+        dE2_old            = dE2;
+        
+        % neue Lernraten fuer die Gewichte der 2. Schicht berechnen:
+        for wi=1:size(dE2, 1)
+            for wj=1:size(dE2, 2)
+                if (dE2(wi, wj) * dE2_old(wi, wj)) > 0  % beschleunigen
 %                          disp('w2 beschleunigen')
-                        alphasdW2(wi, wj) = min(alphasdW2(wi, wj) * up, amax);
-                    elseif (dE2(wi, wj) * dE2_old(wi, wj)) < 0  % bremsen
+                    alphasdW2(wi, wj) = min(alphasdW2(wi, wj) * up, amax);
+                elseif (dE2(wi, wj) * dE2_old(wi, wj)) < 0  % bremsen
 %                          disp('w2 bremsen')
-                        alphasdW2(wi, wj) = max(alphasdW2(wi, wj) * down, amin);
-%                      else
-%                          disp('.....w2 gleich lassen')
-                    end
+                    alphasdW2(wi, wj) = max(alphasdW2(wi, wj) * down, amin);
                 end
             end
-            
-            % neue Lernraten fuer die Gewichte der 1. Schicht berechnen:
-            for wi=1:size(dE1, 1)
-                for wj=1:size(dE1, 2)
-%                      disp('[dE1(wi, wj), dE1_old(wi, w   j]')
-%                      [dE1(wi, wj), dE1_old(wi, wj)]
-                    if dE1(wi, wj) * dE1_old(wi, wj) > 0  % beschleunigen
+        end
+        
+        % neue Lernraten fuer die Gewichte der 1. Schicht berechnen:
+        for wi=1:size(dE1, 1)
+            for wj=1:size(dE1, 2)
+                if dE1(wi, wj) * dE1_old(wi, wj) > 0  % beschleunigen
 %                          disp('  w1 beschleunigen')
-                        alphasdW1(wi, wj) = min(alphasdW1(wi, wj) * up, amax);
-                    elseif dE1(wi, wj) * dE1_old(wi, wj) < 0  % bremsen
+                    alphasdW1(wi, wj) = min(alphasdW1(wi, wj) * up, amax);
+                elseif dE1(wi, wj) * dE1_old(wi, wj) < 0  % bremsen
 %                          disp('  w1 bremsen')
-                        alphasdW1(wi, wj) = max(alphasdW1(wi, wj) * down, amin);
-%                      else
-%                          disp('.....  w1 gleich lassen')
-                    end
+                    alphasdW1(wi, wj) = max(alphasdW1(wi, wj) * down, amin);
                 end
             end
-        end % end of rprop calculations
-    end
-    W1                 = W1 + dW1'
-    W2                 = W2 + dW2'
+        end
+    end % end of rprop calculations
+    
     
     
     % start testing
@@ -156,12 +161,12 @@ for reruns = 1:10
             
         % forward pass
         % layer 1
-        t          = d * W1;
-        out_layer1 = 1 ./ (1 + exp(-t));
+        t1          = d * W1;
+        out_layer1 = 1 ./ (1 + exp(-t1));
         
         % layer 2
-        t          = [out_layer1, 1]*W2;
-        out_layer2 = 1 ./ (1 + exp(-t));
+        t2          = [out_layer1, 1]*W2;
+        out_layer2 = 1 ./ (1 + exp(-t2));
         
         % prediction calculation
         prediction = 999;  % initial value
@@ -187,5 +192,8 @@ for reruns = 1:10
         quadErrorTesting = quadErrorTesting + 0.5*(error * error');
     end
 end % end of while quadErrorTraining >= quadErrorTesting
+disp('final weights: ')
+W1
+W2
 
 

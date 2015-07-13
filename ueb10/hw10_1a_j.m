@@ -68,21 +68,25 @@ while quadErrorTraining >= quadErrorTesting
         quadErrorTraining = quadErrorTraining + 0.5*(error * error');
         
         % backward pass - layer 1        
-        s1_der = (1 ./ (1+exp(-t1))) .* (1-(1 ./ (1+exp(-t1))));
+        s1_der = out_layer1 .* (1 - out_layer1);
         D1 = diag(s1_der);
 
         % backward pass - layer 2
-        s2_der = (1 ./ (1+exp(-t2))) .* (1-(1 ./ (1+exp(-t2))));
+        s2_der = out_layer2 .* (1 - out_layer2);
         D2 = diag(s2_der);
         
         W2_                = W2(1:16,:);
         delta2             = D2*error';
         delta1             = D1*W2_*delta2;
-        dW1                = dW1 + -alpha*delta1*d;
-        dW2                = dW2 + -alpha*delta2*[out_layer1, 1];
+        dW1                = dW1 + -alpha*delta1*d;               % batch
+        dW2                = dW2 + -alpha*delta2*[out_layer1, 1]; % batch
+%          dW1                = -alpha*delta1*d;               % online
+%          dW2                = -alpha*delta2*[out_layer1, 1]; % online
+%          W1                 = W1 + dW1';                     % online
+%          W2                 = W2 + dW2';                     % online
     end
-    W1                 = W1 + dW1';
-    W2                 = W2 + dW2';
+    W1                 = W1 + dW1'; % batch
+    W2                 = W2 + dW2'; % batch
     
     
     % start testing
@@ -96,12 +100,12 @@ while quadErrorTraining >= quadErrorTesting
             
         % forward pass
         % layer 1
-        t          = d * W1;
-        out_layer1 = 1 ./ (1 + exp(-t));
+        t1          = d * W1;
+        out_layer1 = 1 ./ (1 + exp(-t1));
         
         % layer 2
-        t          = [out_layer1, 1]*W2;
-        out_layer2 = 1 ./ (1 + exp(-t));
+        t2          = [out_layer1, 1]*W2;
+        out_layer2 = 1 ./ (1 + exp(-t2));
         
         % prediction calculation
         prediction = 999;  % initial value
@@ -128,4 +132,5 @@ while quadErrorTraining >= quadErrorTesting
     end
 end % end of while quadErrorTraining >= quadErrorTesting
 
-
+W1
+W2
