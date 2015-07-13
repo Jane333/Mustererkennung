@@ -35,9 +35,14 @@ alpha = 1;
 quadErrorTraining = 0;
 quadErrorTesting = 0;
 numIter = 0
-while quadErrorTraining >= quadErrorTesting
+quadErrorTrainingVector = [];
+quadErrorTestingVector = [];
+diffVector = [];
+for numIterations = 1:10000
+%  while quadErrorTraining >= quadErrorTesting
     clc
     [quadErrorTraining,quadErrorTesting, quadErrorTesting - quadErrorTraining]
+    % 17.2718   10.8163   -6.4555
     numIter = numIter + 1
     
     % start training
@@ -45,6 +50,7 @@ while quadErrorTraining >= quadErrorTesting
     dW2 = zeros(10,17);
     quadErrorTraining = 0;
     quadErrorTesting = 0;
+    % start training batch
     for i = 1:60
         d = AData1(i,:);
         l = Label1(i,:);
@@ -85,14 +91,13 @@ while quadErrorTraining >= quadErrorTesting
 %          W1                 = W1 + dW1';                     % online
 %          W2                 = W2 + dW2';                     % online
     end
+    quadErrorTrainingVector = vertcat(quadErrorTrainingVector, quadErrorTraining);
     W1                 = W1 + dW1'; % batch
     W2                 = W2 + dW2'; % batch
     
     
     % start testing
     
-    correctly_predicted = 0;
-    predictedClass = [];
     for runs = 1:length(AData2)
         
         d     = AData2(runs,:);
@@ -107,19 +112,6 @@ while quadErrorTraining >= quadErrorTesting
         t2          = [out_layer1, 1]*W2;
         out_layer2 = 1 ./ (1 + exp(-t2));
         
-        % prediction calculation
-        prediction = 999;  % initial value
-        predictionVal = max(out_layer2);
-        for index = 1:length(out_layer2)
-            if out_layer2(1, index) == predictionVal
-                prediction = index - 1;
-            end
-        end
-        predictedClass = vertcat(predictedClass, prediction);
-        if prediction == l
-            correctly_predicted = correctly_predicted + 1;
-        end
-        
         % error calculation
         lv = zeros(1,10);
         for j = 1:10
@@ -130,7 +122,21 @@ while quadErrorTraining >= quadErrorTesting
         error = (out_layer2 - lv);
         quadErrorTesting = quadErrorTesting + 0.5*(error * error');
     end
+    quadErrorTestingVector = vertcat(quadErrorTestingVector, quadErrorTesting);
+    diffVector = vertcat(diffVector, quadErrorTraining - quadErrorTesting);
 end % end of while quadErrorTraining >= quadErrorTesting
 
 W1
 W2
+
+x = linspace(1,10000,10000);
+figure
+hold on
+plot(x, quadErrorTrainingVector);
+hold on
+plot(x, quadErrorTestingVector);
+hold on
+plot(x, diffVector);
+xlabel('Anzahl Iterationen');
+ylabel('Quadratischer Fehler')
+legend('quadErrorTraining', 'quadErrorTesting', 'diffVector');

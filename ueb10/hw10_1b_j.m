@@ -48,17 +48,16 @@ numIter = 0
 while quadErrorTraining >= quadErrorTesting
     clc
     numIter = numIter + 1
+    disp('[quadErrorTraining, quadErrorTesting, difference]');
     [quadErrorTraining, quadErrorTesting, quadErrorTesting - quadErrorTraining]
-    alphasdW1;
-    alphasdW2;
     
     % start training
     dW1 = zeros(16,17);
     dW2 = zeros(10,17);
     quadErrorTraining = 0;
     quadErrorTesting = 0;
-    dE1_acc = zeros(16,17); %  16x17 = 16x1 * 1x17
-    dE2_acc = zeros(10,17);  % 10x17 = 10x1 * 1x17
+    dE1_acc = zeros(16,17);
+    dE2_acc = zeros(10,17);
     for i = 1:60
         d = AData1(i,:);
         l = Label1(i,:);
@@ -92,14 +91,14 @@ while quadErrorTraining >= quadErrorTesting
         W2_                = W2(1:16,:);
         delta2             = D2*error';      % 10x1
         delta1             = D1*W2_*delta2;  % 16x1
-        dW1                = dW1 + -alphasdW1 .* sign(delta1*d); % batch
+        dW1                = dW1 + -alphasdW1 .* sign(delta1*d);               % batch
         dW2                = dW2 + -alphasdW2 .* sign(delta2*[out_layer1, 1]); % batch
-%          dW1                = dW1 + -alpha*delta1*d; % c nst alpha
+%          dW1                = dW1 + -alpha*delta1*d;               % const alpha
 %          dW2                = dW2 + -alpha*delta2*[out_layer1, 1]; % const alpha
-%          dW1                = -alphasdW1 .* sign(delta1*d); % online
+%          dW1                = -alphasdW1 .* sign(delta1*d);               % online
 %          dW2                = -alphasdW2 .* sign(delta2*[out_layer1, 1]); % online
-%          W1                 = W1 + dW1'; % online
-%          W2                 = W2 + dW2'; % online
+%          W1                 = W1 + dW1';                                  % online
+%          W2                 = W2 + dW2';                                  % online
 
         % accumulate the error function gradient to use it for backprop later:
         dE1_acc = dE1_acc + delta1*d;
@@ -125,10 +124,8 @@ while quadErrorTraining >= quadErrorTesting
         for wi=1:size(dE2, 1)
             for wj=1:size(dE2, 2)
                 if (dE2(wi, wj) * dE2_old(wi, wj)) > 0  % beschleunigen
-%                          disp('w2 beschleunigen')
                     alphasdW2(wi, wj) = min(alphasdW2(wi, wj) * up, amax);
                 elseif (dE2(wi, wj) * dE2_old(wi, wj)) < 0  % bremsen
-%                          disp('w2 bremsen')
                     alphasdW2(wi, wj) = max(alphasdW2(wi, wj) * down, amin);
                 end
             end
@@ -138,10 +135,8 @@ while quadErrorTraining >= quadErrorTesting
         for wi=1:size(dE1, 1)
             for wj=1:size(dE1, 2)
                 if dE1(wi, wj) * dE1_old(wi, wj) > 0  % beschleunigen
-%                          disp('  w1 beschleunigen')
                     alphasdW1(wi, wj) = min(alphasdW1(wi, wj) * up, amax);
                 elseif dE1(wi, wj) * dE1_old(wi, wj) < 0  % bremsen
-%                          disp('  w1 bremsen')
                     alphasdW1(wi, wj) = max(alphasdW1(wi, wj) * down, amin);
                 end
             end
@@ -152,8 +147,6 @@ while quadErrorTraining >= quadErrorTesting
     
     % start testing
     
-    correctly_predicted = 0;
-    predictedClass = [];
     for runs = 1:length(AData2)
         
         d     = AData2(runs,:);
@@ -168,19 +161,6 @@ while quadErrorTraining >= quadErrorTesting
         t2          = [out_layer1, 1]*W2;
         out_layer2 = 1 ./ (1 + exp(-t2));
         
-        % prediction calculation
-        prediction = 999;  % initial value
-        predictionVal = max(out_layer2);
-        for index = 1:length(out_layer2)
-            if out_layer2(1, index) == predictionVal
-                prediction = index - 1;
-            end
-        end
-        predictedClass = vertcat(predictedClass, prediction);
-        if prediction == l
-            correctly_predicted = correctly_predicted + 1;
-        end
-        
         % error calculation
         lv = zeros(1,10);
         for j = 1:10
@@ -192,8 +172,3 @@ while quadErrorTraining >= quadErrorTesting
         quadErrorTesting = quadErrorTesting + 0.5*(error * error');
     end
 end % end of while quadErrorTraining >= quadErrorTesting
-disp('final weights: ')
-W1
-W2
-
-
