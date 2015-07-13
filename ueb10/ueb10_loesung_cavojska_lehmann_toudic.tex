@@ -320,6 +320,11 @@ end % end of while quadErrorTraining >= quadErrorTesting
 \end{lstlisting}
 
 \subsection{Resultate}
-Diese auf der Aufg. 1a basierende Implementierung von Rprop terminiert leider auch nicht.
+Diese auf der Aufg. 1a basierende Implementierung von Rprop terminiert leider auch nicht.\\
+% @Nico: den folgenden Satz entfernen oder behalten?
+Die Gewichte wachsen, bis fuer die Gewichtsmatrix $W1$ Werte erreicht werden, die nach Multiplikation mit dem Input-Vektor $d$ so hohe Eingabewerte $x$ fuer die Sigmoid-Funktion liefern, dass matlab den Ausdruck $\frac{1}{1 + e^{-x}}$ zu $0$ abrundet. Infolgedessen ist dann auch die Matrix $dW1$ zur Anpassung der Gewichtsmatrix $W1$ eine reine Nullmatrix und der Lernprozess kommt bei den folgenden Werten zum Stillstand:\\
+\\
+$quadErrorTraining = 27.0000\\
+quadErrorTesting = 12.5000$
 
 \end{document}
