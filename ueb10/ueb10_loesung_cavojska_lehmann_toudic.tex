@@ -43,7 +43,7 @@
 
 \title{\"Ubungsblatt 9\\ \glqq Mustererkennung\grqq}
 \author{J. Cavojska, N. Lehmann, R. Toudic}
-\date{06.07.2015}
+\date{14.07.2015}
 \begin{document}
 \maketitle
 %\renewcommand{\contentsname}{Table of Contents}
@@ -260,7 +260,7 @@ while quadErrorTraining >= quadErrorTesting
         dE1_old            = dE1_acc;
         dE2_old            = dE2_acc;
     else
-        dE1                = dE1_acc; % Matrix der partiellen Ableitungen von E1 nach dem i-ten Gewicht sein
+        dE1                = dE1_acc; % Matrix der partiellen Ableitungen von E1 nach dem i-ten Gewicht
         dE2                = dE2_acc;
         dE1_new_old        = dE1 .* dE1_old;
         dE2_new_old        = dE2 .* dE2_old;
@@ -318,6 +318,7 @@ while quadErrorTraining >= quadErrorTesting
     end
 end % end of while quadErrorTraining >= quadErrorTesting
 \end{lstlisting}
+\newpage
 
 \subsection{Resultate}
 Diese auf der Aufg. 1a basierende Implementierung von Rprop terminiert leider auch nicht.\\

@@ -42,7 +42,6 @@ diffVector = [];
 while quadErrorTraining >= quadErrorTesting
     clc
     [quadErrorTraining,quadErrorTesting, quadErrorTesting - quadErrorTraining]
-    % 17.2718   10.8163   -6.4555
     numIter = numIter + 1
     
     % start training
@@ -84,16 +83,12 @@ while quadErrorTraining >= quadErrorTesting
         W2_                = W2(1:16,:);
         delta2             = D2*error';
         delta1             = D1*W2_*delta2;
-        dW1                = dW1 + -alpha*delta1*d;               % batch
-        dW2                = dW2 + -alpha*delta2*[out_layer1, 1]; % batch
-%          dW1                = -alpha*delta1*d;               % online
-%          dW2                = -alpha*delta2*[out_layer1, 1]; % online
-%          W1                 = W1 + dW1';                     % online
-%          W2                 = W2 + dW2';                     % online
+        dW1                = dW1 + -alpha*delta1*d;
+        dW2                = dW2 + -alpha*delta2*[out_layer1, 1];
     end
     quadErrorTrainingVector = vertcat(quadErrorTrainingVector, quadErrorTraining);
-    W1                 = W1 + dW1'; % batch
-    W2                 = W2 + dW2'; % batch
+    W1                 = W1 + dW1';
+    W2                 = W2 + dW2';
     
     
     % start testing
